@@ -1,4 +1,4 @@
-/test/
+/test/*.*
 /storage/images/*.*
 /storage/cache/*.*
 /vendor
@@ -6,3 +6,4 @@
 .env
 .env_backup
 .vscode/
+error_log
