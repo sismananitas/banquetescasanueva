@@ -1,6 +1,6 @@
 <?php
 
-require 'App\Core\Environment.php';
+require '.\..\App\Core\Environment.php';
 
 // RUTA BASE Y ABSOLUTA DE LA APLICACIÓN
 define('base_url', getenv('BASE_DIR'));
