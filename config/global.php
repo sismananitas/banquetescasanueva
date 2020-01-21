@@ -6,7 +6,7 @@ $dotenv->load();
 
 // RUTA BASE Y ABSOLUTA DE LA APLICACIÓN
 define('base_url', getenv('BASE_DIR'));
-define('root_dir', getenv('ROOT_DIR'));
+define('root_dir', getenv('SUB_DIR'));
 
 define('TIMEZONE', 'America/Mexico_City');
 
