@@ -5,9 +5,9 @@
 	 */
 
 	session_start();
+	require_once './vendor/autoload.php';
 	require_once './config/global.php';
 	require_once './config/database.php';
-	require_once './vendor/autoload.php';
 	require_once './App/Helpers/Functions.php';
 	require_once './App/Middleware/ApiEventos.php';
 	require_once 'autoload.php';

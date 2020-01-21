@@ -1,9 +1,9 @@
 <?php
 
-define('HOST', 'banqueteslasmananitas.com.mx');
-define('USER', 'banquet2');
-define('PASSWORD', 'I-Gk#05cBtI3n7');
-define('DB', 'banquet2_casanueva');
+define('HOST', getenv('DB_HOST'));
+define('USER', getenv('DB_USER'));
+define('PASSWORD', getenv('DB_PASSWORD'));
+define('DB', getenv('DB_NAME'));
 
 $options = [
     \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
