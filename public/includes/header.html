@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
@@ -22,7 +21,6 @@
 			background: #e4e4e4;
 			color: rgb(36, 36, 36);
 		}
-
 		.btn-login:hover {
 			background: #292929cc;
 			color: #fff;
@@ -30,12 +28,10 @@
 		}
 	</style>
 </head>
-
 <body id="body">
 	<header>
 		<div class="content m-auto row-between">
 			<img src="{$base_url}storage/thumbs/logo-blanco.png" alt="Las Mañanitas">
-
 			<nav>
 				<ul id="navbar">
 					<li>
@@ -46,37 +42,34 @@
 					</li>
 					{if isset($usuario)}
 						{if $usuario.rol != 'Ventas'}
-						<li>
-							<a class="btn-h {if $view_url == 'calendario'}active{/if}" href="{$base_url}calendario">
-								<i class="far fa-calendar-alt"></i> Calendario
-							</a>
-						</li>
+							<li>
+								<a class="btn-h {if $view_url == 'calendario'}active{/if}" href="{$base_url}calendario">
+									<i class="far fa-calendar-alt"></i> Calendario
+								</a>
+							</li>
 						{/if}
-
 						{if $usuario.rol eq 'Ventas' || $usuario.rol eq 'Supervisor' || $usuario.rol eq 'Administrador'}
-						<li>
-							<a class="btn-h {if $view_url == 'eventos'}active{/if}" href="{$base_url}eventos">
-								<i class="far fa-calendar-check"></i> Eventos
-							</a>
-						</li>
+							<li>
+								<a class="btn-h {if $view_url == 'eventos'}active{/if}" href="{$base_url}eventos">
+									<i class="far fa-calendar-check"></i> Eventos
+								</a>
+							</li>
 						{/if}
-						
 						{if $usuario.rol eq 'Administrador'}
-						<li>
-							<a class="btn-h {if $view_url == 'usuarios'}active{/if}" href="{$base_url}usuarios">
-								<i class="fas fa-users-cog"></i> Usuarios
-							</a>
-						</li>
+							<li>
+								<a class="btn-h {if $view_url == 'usuarios'}active{/if}" href="{$base_url}usuarios">
+									<i class="fas fa-users-cog"></i> Usuarios
+								</a>
+							</li>
 						{/if}
 					{/if}
-
 					{if isset($usuario)}
 						<li>
 							<button class="btn-login" onclick="cerrarSesion()">
 								<i class="fas fa-sign-out-alt"></i> Logout
 							</button>
 						</li>
-						{else}
+					{else}
 						<li>
 							<button class="btn-login" onclick="openMSesion()">
 								<i class="fas fa-sign-in-alt"></i> Login

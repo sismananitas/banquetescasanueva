@@ -24,12 +24,15 @@ function printModalCotizacion(dataCot) {
 
 /** PINTA LA TABLA COTIZACIÓN */
 function printTableCotizacion(dataCot) {
-   table_rows = ''
+   let table_rows = ''
+   let color  = 'background: #dbbb2f'
+   let estado = 'PENDIENTE'
 
    for (let i in dataCot) {
-      cot    = dataCot[i];
+      cot  = dataCot[i];
+
       btn_imprimir.dataset.folio = cot.folio;
-      f_formato              = new Date(cot.fecha);
+      f_formato = new Date(cot.fecha);
       fecha = (f_formato.getDate() + 1) + '/' + MESES[f_formato.getMonth()] + '/' + f_formato.getFullYear();
       console.log(cot.estado);
       

@@ -44,12 +44,15 @@ class EventosModel
 			$color = $_POST['color'];
 		}
 
+		if ($_POST['color'] == '#54b33d' && $_POST['id_lugar'] == 4)
+			$color = '#E56285';
+
 		// LIMPIEZA DE DATOS
 		$titulo     = trim($_POST['title']);
 		$evento     = trim($_POST['evento']);
 		$folio      = isset($_POST['folio']) ? trim($_POST['folio']) : '';
 		$contacto   = trim($_POST['contacto']);
-		$cord_resp  =  trim($resp);
+		$cord_resp  = trim($resp);
 		$cord_apoyo = isset($_POST['cord_apoyo']) ? trim($_POST['cord_apoyo']) : '';
 		$desc 		= isset($_POST['description']) ? trim($_POST['description']) : '';
 
