@@ -10,7 +10,7 @@ class SesionController {
         if (empty($_POST['usuario']) || empty($_POST['pass'])) {
             $_SESSION['error']['status'] = true;
             $_SESSION['error']['msg'] = 'Debes llenar todos los campos';
-            return route('/');
+            return route(getenv('BASE_DIR'));
         }
     
         $user = $_POST['usuario'];
@@ -35,12 +35,12 @@ class SesionController {
                 $_SESSION['error']['log'] = $e->getMessage();
             }
         }
-        return route('/');
+        return route(getenv('BASE_DIR'));
     }
 
     public function cerrar() {
         @session_start();
         session_destroy();
-        return route('/');
+        return route(getenv('BASE_DIR'));
     }
 }

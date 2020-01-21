@@ -3,6 +3,7 @@
 /storage/cache/*.*
 /vendor
 /node_modules
+/templates_c/*.*
 .env
 .env_backup
 .vscode/

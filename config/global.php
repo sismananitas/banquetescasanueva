@@ -6,7 +6,7 @@ $dotenv->load();
 
 // RUTA BASE Y ABSOLUTA DE LA APLICACIÓN
 define('base_url', getenv('BASE_DIR'));
-define('root_dir', '');
+define('root_dir', getenv('ROOT_DIR'));
 
 define('TIMEZONE', 'America/Mexico_City');
 
@@ -18,8 +18,7 @@ define('STORAGE_PATH',  'storage/');
 define('IMAGE_PATH',    'storage/images/');
 define('THUMBS_PATH',   'storage/thumbs/');
 define('TEMP_PDF_PATH', 'public/templates/pdf/');
-define('JS_PATH',       base_url .'public/js/');
-define('CONTROLLERS',   './app/controllers');
+define('JS_PATH',       root_dir .'/public/js/');
 
 const CLASS_DIRECTORIES = [
     'App/',

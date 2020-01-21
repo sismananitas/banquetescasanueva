@@ -37,7 +37,7 @@
     function route($request) {
         header('Status: 301 Moved Permanently', false, 301);
         header('Content-Type: text/html');
-        header('location: ' . $request);
+        header('location: ' .$request);
         exit;
     }
 

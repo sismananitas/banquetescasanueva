@@ -7,7 +7,7 @@
 			</div>
 			
 			<div class="modal-body">
-				<form id="form_sesion" class="form" action="sesion/iniciar" method="post">
+				<form id="form_sesion" class="form" action="{getenv('BASE_DIR')|cat:'sesion/iniciar'}" method="post">
 					<label for="usuario">Usuario:</label>
 					<input class="col-xs-12" type="text" name="usuario" required>
 					<label for="password">Contraseña:</label>

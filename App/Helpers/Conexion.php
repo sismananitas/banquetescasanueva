@@ -11,7 +11,12 @@ class Conexion
   public static function init()
   {
     // CREA UN OBJETO PDO
-    $base = new PDO('mysql:dbname='. DB .';host='. HOST .';charset=UTF8', USER, PASSWORD, DB_OPTIONS);
+    $base = new PDO(
+      'mysql:dbname='. getenv('DB_NAME') .';host='. getenv('DB_HOST') .';charset=UTF8',
+      getenv('DB_USER'),
+      getenv('DB_PASSWORD'),
+      DB_OPTIONS
+    );
     $base->exec('SET CHARSET UTF8');
     self::$pdo = $base;
   }
