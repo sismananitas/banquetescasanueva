@@ -1,0 +1,132 @@
+
+<div id="md_orden" class="sub-modal">
+  <div class="flex">
+    <div class="modal-content col-xs-10">
+      <div class="modal-header">
+        <h3>Orden de Servicio</h3>
+        <a class="close">&times;</a>
+      </div>
+      <div class="modal-body">
+
+          <ul class="tabs">
+              <li>
+                 <a href="#tab1" class="tab active">Nombre</a>
+              </li>
+              <li >
+                 <a href="#tab2" class="tab">Apellido</a> 
+              </li>
+              <li >
+                 <a href="#tab3" class="tab">Dirección</a>
+              </li>
+          </ul>
+          
+          <div class="tabs_content">
+              <div id="tab1"class="tab_content show">
+                  <form id="fd_orden" class="form col-xs-12" action="#" method="post">
+
+                      <div class="row-between">
+                        <div class="col-xs-5">
+                          <div class="row-between">
+                            <div class="col-xs-6">
+                              Nombre de la orden:<br>
+                              <input id="o_nombre" class="col-xs-11" type="text" name="evento" value="" required>
+                              No. página:<br>
+                              <input id="no_pagina" class="col-xs-11" type="text" name="titulo" value="" required>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Personas:<br>
+                              <input id="o_personas" class="col-xs-12" type="number" name="personas" value="10">
+                              Lugar: <a id="o_place"></a>
+                              <input id="o_idplace" class="col-xs-12" type="text" name="lugar" value="">
+                            </div>
+                          </div>
+            
+                          <div class="row-between">
+                            <div class="col-xs-6">
+                              Hora inicio:<br>
+                              <input id="o_time" class="col-xs-11 line-block" type="time" name="hora" value="00:00"><br>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Hora final:<br>
+                              <input id="o_time_f" class="col-xs-12" type="time" name="hora" value="10:00"><br>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Garantia:<br>
+                              <input id="o_montaje" class="col-xs-11" type="text" name="garantia" value="" required>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Montaje:<br>
+                              <input id="o_cord_apoyo" class="col-xs-12" type="text" name="montaje" value="" required>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Notas:<br>
+                              <textarea id="o_description" class="col-xs-12" name="notas" rows='3'></textarea>
+                            </div>
+                          </div>
+                        </div>
+            
+                        <div class="col-xs-6">
+                          <div class="row-between scroll-y">
+                            <div class="col-xs-6">
+                              Canapes:<br>
+                              <textarea id="o_canapes" class="col-xs-11" name="canapes" rows="3"></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Entrada:<br>
+                              <textarea id="o_entrada" class="col-xs-12" name="entrada" rows="3"></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Fuerte:<br>
+                              <textarea id="o_fuerte" class="col-xs-11" name="fuerte" rows="3"></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Detalle montaje:<br>
+                              <textarea id="o_fuerte" class="col-xs-12" name="detalle_montaje" rows="3"></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Ama de llaves:<br>
+                              <textarea id="o_garantia" class="col-xs-11" name="ama_llaves" rows="3"></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Chief Steward:<br>
+                              <textarea id="o_description" class="col-xs-12" name="chief" rows='3'></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Mantenimiento:<br>
+                              <textarea id="o_description" class="col-xs-11" name="mantenimiento" rows='3'></textarea>
+                            </div>
+            
+                            <div class="col-xs-6">
+                              Contabilidad:<br>
+                              <textarea id="o_description" class="col-xs-12" name="descrip" rows='3'></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button onclick="addOrden()" class="btn success" type="button" name="button">Actualizar</button>
+                    </form>
+              </div>
+          
+              <div id="tab2" class="tab_content">
+                  <form action="">Apellido:<input type="text"></form>
+              </div>
+          
+              <div id="tab3" class="tab_content">
+                  <form action="">Dirección:<input type="text"></form>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

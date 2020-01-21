@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<meta name="viewport" content="initial-scale=1">
+	<title>Registrarse</title>
+	{include file=$inc|cat:'dependencies.html'}
+</head>
+
+<body>
+	<header>
+		<div class="content m-auto row-between">
+			<img src="storage/thumbs/logo-blanco.png" alt="Las Mañanitas">
+
+			<nav>
+				<ul id="navbar">
+					<li>
+						<a class="btn-h" href="?view=index">
+							<i class="fas fa-home"></i> Inicio</a></li>
+				</ul>
+				<button id="btn_nav" class="btn-menu"><i class="fas fa-bars"></i></button>
+			</nav>
+		</div>
+	</header>
+
+	<main>
+		<div class="content m-auto">
+			<h1>Registrarse</h1>
+
+			<form id="form_registro" class="form col-xs-12 col-md-6" action="#">
+				Nombre de usuario
+				<input class="col-xs-12" type="text" name="usuario"><br>
+				Contraseña
+				<input class="col-xs-12" type="password" name="pass"><br>
+				Repetir contraseña
+				<input class="col-xs-12" type="password" name="pass2"><br><br>
+				<button class="btn success">Registrar</button>
+			</form>
+		</div>
+	</main>
+
+	<script>
+		addEventListener('DOMContentLoaded', () => {
+			form_registro.addEventListener('submit', (e) => {
+				e.preventDefault();
+				let d = new FormData(form_registro);
+				d.append('action', 'auto_agregar');
+
+				ajaxReq(d, 'core/ajax/registrosAjaxController.php')
+					.then(dataJson => {
+						if (dataJson.error) {
+							throw dataJson;
+						}
+						form_registro.reset();
+						popup.alert({ content: 'Se registró el usuario' });
+					})
+					.catch(error => {
+						popup.alert({ content: error.msg });
+					})
+			})
+
+			const ajaxReq = (formData, url) => {
+				return res = fetch(url, {
+					method: 'POST',
+					body: formData
+				}).then(response => response.json());
+			}
+		})
+	</script>
+	{include file=$inc|cat:'footer.html'}

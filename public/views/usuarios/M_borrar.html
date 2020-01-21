@@ -1,0 +1,20 @@
+<div id="modal_borrar" class="sub-modal">
+        <div class="flex">
+            <div class="modal-content col-xs-5 col-md-4">
+                <div class="modal-header">
+                    <h3>Cabezera</h3>
+                    <a onclick="cerrarForm()" class="close">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <h3>¿Está seguro/a?</h3><br>
+                    <form id="from_borrar" class="form col-xs-12" action="core/ajax/logisticaAjaxController.php" method="post">
+                    <input id="id_borrar" type="hidden" name="id" value=""> 
+                    <div class="row-between">
+                        <button id="btn_borrar" class="btn danger" type="button">Eliminar</button>
+                        <button id="btn_cancelar_borrar" class="btn default" type="button">Cancelar</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

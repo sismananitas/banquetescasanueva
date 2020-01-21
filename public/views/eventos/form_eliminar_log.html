@@ -1,0 +1,16 @@
+<div id="f_eliminar_log" class="sub-modal">
+   <div class="flex">
+      <div class="modal-content col-xs-2" style="min-width: 260px; border-radius: 10px">
+         <div class="modal-body" style="padding-top: 20px; text-align:center">
+               <p>¿Está seguro/a?</p><br>
+               <form id="form_eliminar_logistica" class="col-xs-12" action="core/ajax/logisticaAjaxController.php" method="post">
+               <input id="id_elim_log" type="hidden" name="id" value=""> 
+               <div class="row-between">
+                  <button onclick="eliminarLogistica()" class="btn success" type="button">SÍ</button>
+                  <button class="cerrar btn default" type="button">NO</button>
+               </div>
+               </form>
+         </div>
+      </div>
+   </div>
+</div>

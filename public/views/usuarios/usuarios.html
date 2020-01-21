@@ -1,0 +1,31 @@
+{extends file='public/templates/banquetes_temp.html'}
+
+{block name="main"}
+	{include file=$temp|cat:'usuarios/M_usuarios.html'}
+	<div class="content m-auto">
+		<hgroup>
+			<h1>Usuarios</h1>
+			<h2>Control de acceso</h2>
+		</hgroup>
+
+		<div id="tabs_menu">
+
+			<ul class="tabs">
+				<li><a href="#tab1" class="tab active"><i class="fas fa-users"></i></a></li>
+			</ul>
+
+			<div class="tabs_content">
+				<section id="tab1" class="tab_content show">
+					{include file=$temp|cat:'usuarios/TB_usuarios.html'}
+				</section>
+			</div>
+		</div>
+	</div>
+{/block}
+
+{block name="js"}
+<script src="public/js/tabs.js?v={date('s')}"></script>
+<script src="public/js/usuarios/listeners.js?v={date('s')}"></script>
+<script src="public/js/usuarios/functions.js?v={date('s')}"></script>
+<script src="public/js/usuarios/print_functions.js?v={date('s')}"></script>
+{/block}

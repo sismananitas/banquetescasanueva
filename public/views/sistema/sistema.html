@@ -1,0 +1,72 @@
+{include file=$inc|cat:"header.html"}
+<style>
+.panel-container {
+   display: inline-block;
+   background: #a5a5a5;
+   box-shadow: 0px 1px 2px #000, 0px 2px 3px #000;
+   padding: 10px 8px;
+   border-radius: 4px;
+}
+.panel-left li {
+   margin-top: 10px;
+   position: relative;
+   left: 0;
+   box-sizing: border-box;
+}
+.panel-left p {
+   display: block;
+   color: #fff ;
+   width: 100%;
+   text-align: center;
+}
+.fa-lg {
+   display: inline-block;
+   margin-right: 10px;
+}
+.menu-ajustes {
+   display: flex;
+   justify-content: center;
+   margin-bottom: 10px;
+}
+.ma_item {
+   padding: 0 2px;
+}
+.admin-button {
+   transition: 0.2s;
+   box-sizing: border-box;
+}
+.admin-button:hover {
+   background: #c5c5c5;
+   color: #000;
+}
+</style>
+
+<main>
+   <div class="content m-auto-x row-between">
+      <ul class="menu-ajustes tools-bar col-xs-12">
+         <li class="ma_item"><a class="btn-tools" href="">Base de Datos</a></li>
+         <li class="ma_item"><a class="btn-tools" href="">Roles de Usuario</a></li>
+         <li class="ma_item"><a class="btn-tools" href="">Temporadas</a></li>
+         <li class="ma_item"><a class="btn-tools" href="">log</a></li>
+      </ul>
+
+      <div class="panel-container">
+         <ul class="panel-left">
+            <p>Base de datos</p>
+            <li>
+               <a class="admin-button col-xs-12" href="{$base_url}precios">
+                  <i class="fas fa-money-bill fa-lg"></i> Precios</a></li>   
+            <li>
+               <a class="admin-button col-xs-12" href="{$base_url}lugares">
+               <i class="fas fa-map fa-lg"></i> Lugares</a></li>   
+            <li>
+               <a class="admin-button col-xs-12" href="{$base_url}lugares">
+                  <i class="fas fa-user-tag fa-lg"></i> Roles de usuario</a></li>
+            <li>
+               <a class="admin-button col-xs-12" href="{$base_url}tipo-eventos">
+                  <i class="fas fa-calendar-plus fa-lg"></i> Tipos de eventos</a></li>
+         </ul>
+      </div>
+   </div>
+</main>
+{include file=$inc|cat:'footer.html'}

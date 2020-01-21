@@ -1,0 +1,96 @@
+<div id="modal_info" class="win-modal">
+   <div class="m-bg">
+      <div class="m-content" style="min-width: 300px; max-width: 98%;">
+         <div class="m-head">
+            <p>Cotización</p>
+            <button class="m-close">&Cross;</button>
+         </div>
+
+         <div class="m-body">
+            <p>
+               <table class="table_info_cot">
+                  <tr>
+                     <td>
+                        TÍTULO EVENTO
+                     </td>
+                     <td><b><span id="titulo"></span></b></td>
+                  </tr>                  
+                  <tr>
+                     <td>
+                        VENDEDOR
+                     </td>
+                     <td><b><span id="usuario"></span></b> </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        CLIENTE
+                     </td>
+                     <td><b><span id="cliente"></span></b> </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        TIPO EVENTO
+                     </td>
+                     <td><b><span id="tipo"></span></b> </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        INVITADOS
+                     </td>
+                     <td><b><span id="pax"></span></b> </td>
+                  </tr>
+                  <tr>
+                     <td>
+                        LUGAR
+                     </td>
+                     <td><b><span id="lugar"></span></b> </td>
+                  </tr>
+               </table>               
+               <input id="evento_id" type="hidden" name="evento_id">
+            </p><br>
+
+            <div class="tools-bar">
+               <ul class="tools-menu row-right">
+                  {if $usuario.rol == 'Administrador' || $usuario.rol == 'Supervisor'}
+                  <li>
+                     <button id="btn_autorizar" class="btn-tools">
+                        <i class="fas fa-exclamation-circle"></i> Validación
+                     </button>
+                  </li>
+                  {/if}
+                  <li>
+                     <button id="btn_imprimir" class="btn-tools">
+                        <i class="fas fa-print"></i> Imprimir
+                     </button>
+                  </li>
+                  <li>
+                     <button id="send_mail" class="btn-tools">
+                        <i class="far fa-envelope"></i> Enviar
+                     </button>
+                  </li>   
+               </ul>
+            </div><br>
+
+            <h3>Resumen de la Cotización</h3><br>
+
+            <div class="tcontainer col-xs-12" style="overflow: auto;">
+               <table id="table_cotizacion" class="table" style="min-width: 650px">
+                  <thead>
+                     <tr>
+                        <th>Fecha</th>
+                        <th>Renta</th>
+                        <th>Registró</th>
+                        <th>Costo Total</th>
+                        <th>Estado</th>
+                        <th>Detalle</th>
+                     </tr>
+                  </thead>
+                  <tbody id="tbody_cotizaciones">
+                     <!-- javascript -->
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

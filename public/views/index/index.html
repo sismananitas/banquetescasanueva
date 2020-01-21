@@ -1,0 +1,146 @@
+{extends file='public/templates/banquetes_temp.html'}
+
+{block name="css"}
+<style>
+	body {
+		background-image: url('storage/thumbs/copas.jpg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+	h1 {
+		font-family: 'English-Vivace';
+		font-size: 65px;
+	}
+	.pg-inicio h1,
+	h2,
+	h3,
+	.marco-index p {
+		color: #fff;
+		text-shadow: 2px 2px 2px #000;
+	}
+	.marco-index .welcome {
+		padding-top: 10px;
+		text-align: center;
+	}
+	header {
+		background: rgba(0, 0, 0, 0.5);
+	}
+	@media only screen and (max-width: 900px) {
+		nav ul {
+			background: rgba(14, 59, 5, 0.98);
+		}
+	}
+	ul li .btn-h {
+		padding: 10px 12px;
+		box-sizing: border-box;
+		border-bottom: solid 2px rgba(0, 0, 0, 0.0);
+	}
+
+	ul li .btn-h:hover {
+		background: none;
+		border-bottom: solid 2px rgb(108, 143, 51);
+		box-shadow: none;
+	}
+
+	ul li .active {
+		background: rgba(0, 0, 0, 0.8);
+		border-bottom: solid 2px rgb(21, 116, 2);
+		box-shadow: none;
+	}
+
+	.btn-menu {
+		background: rgba(0, 0, 0, 0.8);
+		border-bottom: solid 2px rgb(21, 116, 2);
+	}
+
+	.pg-inicio {
+		display: flex;
+		margin-bottom: 1%;
+		flex-grow: 1;
+	}
+
+	.marco-index {
+		background: rgba(0, 0, 0, 0.5);
+		padding: 20px 15px;
+		border-radius: 4px;
+	}
+
+	.marco-index p {
+		letter-spacing: 0.2mm;
+		text-align: center;
+	}
+	.alert-danger {
+		font-size: 18px;
+		cursor: default;
+		background: #ffa9a9;
+		text-shadow: none !important;
+		border: solid 2px #e9707a;
+		letter-spacing: 0.1mm;
+		margin-bottom: 5px;
+		border-radius: 5px;
+		padding: 10px 15px;
+		display: none;
+		flex-direction: row-reverse;
+		justify-content: space-between;
+		align-items: center;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	.alert-danger p {
+		color: #ab2d38 !important;
+		font-size: 20px;
+		text-shadow: none;
+	}
+	.alert-danger a {
+		color: #b74848 !important;
+		font-weight: 700;
+		font-size: 20px;
+	}
+	.alert-danger a:hover {
+		color: #a1202b !important;
+	}
+	.show-flex {
+		display: flex;
+	}
+	.btn-alert {
+		cursor: pointer;
+		text-decoration: none;
+		font-size: 22px;
+		color: inherit;
+	}
+</style>
+{/block}
+
+{block name="main"}
+	<div class="m-auto marco-index">
+		{if isset($error)}
+			<div id="alert_sesion" class="alert-danger show-flex">
+				<a id="btn_alert_sesion" class="btn-alert" href="#" data-alert="alert_sesion">&Cross;</a>
+				<input type="hidden" value="{$error.log}">
+				<p>{$error.msg}</p>
+			</div>
+		{/if}
+
+		<div class="welcome">
+			<h1>{if isset($titulo)}{$titulo}{else}Banquetes{/if}</h1>
+			<h2>Sistema de Control de Eventos</h2><br>
+
+			<p>USUARIO: <strong>{$usuario.username}</strong></p>
+			<p>ROL: <strong>{$usuario.rol}</strong></p>
+		</div>
+	</div>
+{/block}
+
+{block name="js"}
+<script>
+	if (typeof btn_alert_sesion != 'undefined') {
+		btn_alert_sesion.addEventListener('click', e => {
+		e.preventDefault();
+		let alert = document.getElementById(e.target.dataset.alert);
+		console.log(alert)
+		alert.classList.remove('show-flex')
+	})
+	}
+</script>
+{/block}

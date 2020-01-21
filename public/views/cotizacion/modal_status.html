@@ -1,0 +1,37 @@
+
+<div id="modal_status" class="win-modal">
+   <div class="m-bg">
+      <div class="m-content">
+         <div class="m-head">
+            <p>Cambiar Status</p>
+            <button class="m-close">&Cross;</button>
+         </div>
+         
+         <div class="m-body">
+            <form id="form_status" class="form" action="#">
+               <input type="hidden" name="folio">
+
+               <table style="border:solid 1px grey">
+                  <tr>
+                     <td style="min-width: 140px; text-align: center;background: #c1c1c1">
+                        <label for="status_true">AUTORIZADA</label>
+                     </td>
+                     <td style="min-width: 140px; text-align: center;background: #c1c1c1">
+                        <label for="status_false">RECHAZADA</label>
+                     </td>
+                     <td style="min-width: 140px; text-align: center;background: #c1c1c1">
+                        <label for="status_false">POR AUTORIZAR</label>
+                     </td>
+                  </tr>
+                  <tr>
+                     <td style="text-align: center"><input type="radio" name="status" id="status_true" value="autorizada"></td>
+                     <td style="text-align: center"><input type="radio" name="status" id="status_false" value="rechazada"></td>
+                     <td style="text-align: center"><input type="radio" name="status" id="status_wait" value="pendiente"></td>
+                  </tr>
+               </table><br>
+               <button class="btn primary" type="submit">Actualizar</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>

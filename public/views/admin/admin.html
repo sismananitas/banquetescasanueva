@@ -1,0 +1,55 @@
+{include file=$inc|cat:'header.html'}
+<style>
+	.panel-left li {
+		margin-top: 10px;
+	}
+
+	.fa-lg {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	.panel-control {
+		margin-top: 10px;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+	}
+
+	.panel-control .item a {
+		display: block;
+		width: 300px;
+		margin-bottom: 20px;
+		text-align: center;
+		box-sizing: border-box;
+	}
+</style>
+
+<main>
+	<div class="content m-auto-x">
+		<hgroup style="text-align: center">
+			<h2>Panel de Control</h2>
+		</hgroup>
+
+		<div class="panel-control">
+			<div class="item">
+				<a class="admin-button" href="{$base_url}ventas">
+					<i class="fas fa-chart-line fa-lg"></i> Ventas</a>
+			</div>
+
+			<div class="item">
+				<a class="admin-button" href="{$base_url}r-eventos">
+					<i class="far fa-calendar-check fa-lg"></i> Resumen de Eventos</a>
+			</div>
+
+			<div class="item">
+				<a class="admin-button" href="{$base_url}sistema">
+					<i class="fas fa-cogs fa-lg"></i> Configuracion del sistema</a>
+			</div>
+		</div>
+
+	</div>
+	</div>
+</main>
+
+{include file=$inc|cat:'footer.html'}

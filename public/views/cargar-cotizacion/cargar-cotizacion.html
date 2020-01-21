@@ -1,0 +1,168 @@
+{include file=$inc|cat:'header.html'}
+<style>
+	.tabla-actual {
+		font-family: sans-serif;
+		width: 100%;
+		background: #fff;
+		margin-bottom: 10px;
+		border: solid 1px #555555;
+		box-sizing: border-box;
+	}
+
+	.tabla-actual th {
+		color: #fff;
+		padding: 5px;
+		background: #5c5c5c;
+		text-shadow: 0 1px 2px #000;
+	}
+
+	.tabla-actual td {
+		padding: 8px;
+		text-align: center;
+	}
+
+	.tabla-actual tr:nth-child(even) {
+		transition: background 0.2s;
+		background: #c9c9c9;
+	}
+
+	.tabla-actual tr:hover,
+	.tabla-actual tr:nth-child(even):hover {
+		background: #cfdfff;
+	}
+
+	.tabla-actual button {
+		padding: 0px;
+		margin: auto;
+	}
+
+	.tabla-actual tfoot {
+		border-top: solid 2px #555555;
+	}
+
+	.tabla-actual tfoot td {
+		background: #dcfcce;
+	}
+
+	.tabla-actual tfoot .totales {
+		border-bottom: solid 1px #555555;
+		text-align: right;
+	}
+
+	.tabla-actual .moneda {
+		display: flex;
+		justify-content: space-between;
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+</style>
+
+<main>
+	<div class="content">
+		<h2>Cargar cotización</h2><br>
+
+		<!-- DETALLE DEL EVENTO -->
+		<div class="row-between">
+			<div id="data_evento"></div>
+
+			<div>
+				<label for="folio">Folio</label><br>
+				{if isset($folio)}
+				<input type="text" name="no-valido" disabled value="{$folio}"><br><br>
+				{else}
+				<input type="text" name="folio" id="folio" required placeholder="folio"><br><br>
+				{/if}
+			</div>
+		</div><br><br>
+
+		<!-- TABLA DE ALIMENTOS Y BEBIDAS -->
+		<h4>Alimentos y bebidas</h4>
+		<hr><br>
+		<table class="tabla-actual">
+			<thead>
+				<tr>
+					<th><label for="descripcion[]">Descripción</label></th>
+					<th><label for="precio[]">Precio unitario (MXN)</label></th>
+					<th><label for="cantidad[]">Cantidad</label></th>
+					<th><label for="subtotal[]">Subtotal (MXN)</label></th>
+					<th>Quitar</th>
+				</tr>
+			</thead>
+
+			<tbody id="tbody_detalle_cot">
+			</tbody>
+
+			<tfoot>
+				<tr>
+					<td colspan="2"></td>
+					<td class="totales"><b>Alimentos</b></td>
+					<td id="t_alimentos" class="totales moneda"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td class="totales"><b>Renta</b></td>
+					<td id="t_renta" class="totales moneda"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="2"></td>
+					<td class="totales"><b>TOTAL</b></td>
+					<td id="t_total" class="totales moneda"></td>
+					<td></td>
+				</tr>
+			</tfoot>
+		</table><br><br>
+
+		<!-- FORMULARIO COTIZACIÓN -->
+		<form id="form_carga_cot" class="form-cotizacion" action="#" method="post">
+			<fieldset>
+				<legend>Cargar a la cuenta</legend>
+
+				<table id="table_carga_cot" class="table-form">
+					<thead>
+						<tr>
+							<th><label for="descripcion[]">Descripción</label></th>
+							<th><label for="precio[]">Precio unitario (MXN)</label></th>
+							<th><label for="cantidad[]">Cantidad / PAX</label></th>
+							<th><label for="subtotal[]">Subtotal (MXN)</label></th>
+							<th>
+								<button class="btn primary" type="button"><i class="fas fa-plus-circle"></i></button>
+							</th>
+						</tr>
+					</thead>
+					<tbody id="tbody_cargar_cot">
+						<tr>
+							<td><input type="text" name="descripcion[]" placeholder="Descripción" autofocus required>
+							</td>
+							<td><input class="precio" type="number" name="precio[]" placeholder="0.00" step="0.01"></td>
+							<td><input class="cantidad" type="number" name="cantidad[]" placeholder="0"></td>
+							<td><input class="subtotal" type="text" name="subtotal[]" disabled value="0.00"></td>
+							<td>
+								<button class="btn danger" type="button"><i class="fas fa-times"></i></button>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2"></td>
+							<td style="text-align: center"><b>TOTAL</b></td>
+							<td><input id="total_input" type="text" name="total" disabled value="0.00"></td>
+							<td></td>
+						</tr>
+					</tfoot>
+				</table>
+			</fieldset><br>
+
+			<div class="flex">
+				<button class="btn success" type="submit">Enviar Datos</button>
+				<button class="button" type="reset"><i class="fas fa-eraser"></i> Limpiar</button>
+			</div>
+		</form>
+	</div>
+</main>
+
+<script src="{$base_url}public/js/cargar-cotizacion/onload.js?v={date('s')}"></script>
+<script src="{$base_url}public/js/cargar-cotizacion/functions.js?v={date('s')}"></script>
+<script src="{$base_url}public/js/cargar-cotizacion/print-functions.js?v={date('s')}"></script>
+{include file=$inc|cat:'footer.html'}

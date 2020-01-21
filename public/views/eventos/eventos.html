@@ -1,0 +1,94 @@
+{extends file='public/templates/banquetes_temp.html'}
+
+{block name="css"}
+	<style>
+		@media screen and (max-width: 440px) {
+			.head-bar {
+				justify-content: center;
+				align-items: center;
+			}
+			#e_ingreso {
+				display: none;
+			}
+		}
+		.calendario_container {
+			overflow: auto;
+		}
+		#calendar {
+			min-width: 550px;
+		}
+		.btn-tools {
+			display: block;
+			text-decoration: none;
+			text-align: center;
+			padding: 6px 18px;
+			letter-spacing: 1px;
+		}
+		.tools-bar {
+			margin-bottom: 10px;
+			position: relative;
+		}
+		.tools-bar::before {
+			content: 'Opciones';
+			position: absolute;
+			left: 10px;
+			opacity: 0.8;
+		}
+		td {
+			min-width: 90px;
+		}
+	</style>
+{/block}
+
+{block name="main"}
+	{include file=$temp|cat:'eventos/M_evento.html'}
+	{include file=$temp|cat:'eventos/MD_evento.html'}
+	{include file=$temp|cat:'eventos/MD_logistica.html'}
+	{include file=$temp|cat:'eventos/form_eliminar_log.html'}
+	{include file=$temp|cat:'eventos/MD_orden.html'}
+	{include file=$temp|cat:'eventos/form_eliminar_orden.html'}
+	<div class="content m-auto">
+		<div class="row-between head-bar">
+			<hgroup>
+				<h1>Eventos</h1>
+				<h2>Panel de registro</h2>
+			</hgroup>
+
+			<div class="event-msg">
+				<span class="yellow"
+					style="display: inline-block; width: 15px; height: 15px;background: #ebda49"></span> Evento
+				TENTATIVO <br>
+				<span class="orange" style="display: inline-block; width: 15px; height: 15px;background: orange"></span>
+				Evento APARTADO <br>
+				<span class="red" style="display: inline-block; width: 15px; height: 15px; background: #54b33d"></span>
+				Evento CERRADO
+			</div>
+		</div>
+
+		<div class="tools-bar row-right col-xs-12">
+			<a class="btn-tools" href="{$base_url}cotizacion">
+				<i class="fas fa-list-ul fa-sm"></i> Cotizar
+			</a>
+		</div>
+
+		<!-- Calendario -->
+		<div class="calendario_container">
+			<div id="calendar" class="col-xs-12 col-md-10 col-xlg-9 m-auto-x"></div>
+		</div>
+	</div>
+{/block}
+
+{block name="js"}
+	<script src="public/js/tabs.js?v={date('s')}"></script>
+	<script src="public/js/eventos/main.js?v={date('s')}"></script>
+	<script src="public/js/eventos/event-functions.js?v={date('s')}"></script>
+	<script src="public/js/eventos/print-functions.js?v={date('s')}"></script>
+	<script src="public/js/eventos/print-event-functions.js?v={date('s')}"></script>
+	<script src="public/js/eventos/modal-functions.js?v={date('s')}"></script>
+	<script src="public/js/eventos/M_evento.js?v={date('s')}"></script>
+	<script src="public/js/eventos/MD_evento.js?v={date('s')}"></script>
+	<script src="public/js/eventos/MD_orden.js?v={date('s')}"></script>
+	<script src="public/js/eventos/MD_logistica.js?v={date('s')}"></script>
+	<script src="public/js/eventos/calendario.js?v={date('s')}"></script>
+	<script>tabs('#tabs_ordenes');</script>
+{/block}

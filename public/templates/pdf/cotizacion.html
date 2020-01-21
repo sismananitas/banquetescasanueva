@@ -1,0 +1,109 @@
+
+<style media="screen">
+   page {
+      font-family: arial;
+      font-size: 16px;
+      line-height: 28px;
+      color: #2c2c2c;
+   }
+   table {
+      width: 100%;
+      border-collapse: collapse;
+   }
+   table th {
+      background: #c1c1c1;
+   }
+   table th, td {
+      border: solid 1px #666666;
+      font-family: 'caslon540btroman_9508';
+      width: 135px;
+      margin: 0;
+      text-align: center;
+      padding: 15px 10px;
+      box-sizing: border-box;
+   }
+   table tbody tr:nth-child(even) {
+      background: #c4c4c4;
+   }
+   .container h1 {
+      font-family: 'English111VivaceBT';
+      font-size: 50px;
+      color: #3d7a1a;
+      text-align: center;
+   }
+   .fecha {
+      position: absolute;
+      top: 20px;
+   }
+   .moneda {
+      text-align: right;
+      margin: 0;
+   }
+   .english {
+      font-family: 'English111VivaceBT';
+   }
+</style>
+
+<page backtop="10mm" backbottom="10mm" backleft="5mm" backright="5mm">
+
+   <div class="container">
+      <h1>Casanueva</h1>
+      <p class="fecha">{$fecha}</p><br><br>
+      <b>FOLIO:</b> {$folio} <br>
+
+      <p style="text-align: justify;font-size: 14px; line-height: 24px">
+         <span style="color:#3d7a1a;font-weight: bold;">CasaNueva</span> es una empresa especializada en la realización de banquete y eventos, 
+         mismos que cuentan con el respaldo de los más altos estándares de calidad y servicio. 
+         Nuestro gran equipo de servicio les brindará la tranquilidad  y calidez deseada, ya que 
+         estarán desde el primer momento cuidando cada detalle para que su evento sea como 
+         siempre lo  han soñado.
+      </p>
+
+      <p>{strtoupper($cotizacion.evento)}</p>
+      <b>CLIENTE:</b> {strtoupper($cotizacion.contacto)} <br>
+      <b>VENDEDOR:</b> {$usuario} <br>
+      <b>SALÓN:</b> {strtoupper($cotizacion.lugar)} <br>
+      <b>NO. PERSONAS:</b> {$cotizacion.pax} <br><br>
+      {$total = $cotizacion.renta}
+      
+      <table>
+         <thead>
+            <tr>
+               <th>Descripción</th>
+               <th>P.U.</th>
+               <th>Cantidad</th>
+               <th>Subtotal</th>
+            </tr>
+         </thead>
+      
+         <tbody>
+            {foreach $detalle item=item}
+            {$subtotal = $item.cantidad * $item.precio_unitario}
+            <tr>
+               <td>{$item.descripcion}</td>
+               <td class="moneda">$ {$item.precio_unitario|number_format:2}</td>
+               <td>{$item.cantidad}</td>
+               <td class="moneda">$ {$subtotal|number_format:2}</td>
+            </tr>
+            {$total = $total + $subtotal}
+            {/foreach}
+         </tbody>
+      
+         <tfoot>
+            <tr>
+               <td colspan="2"></td>
+               <td><b>RENTA</b></td>
+               <td class="moneda">$ {$cotizacion.renta|number_format:2}</td>
+            </tr>
+            <tr>
+               <td colspan="2"></td>
+               <td><b>TOTAL</b></td>
+               <td class="moneda" style="
+               background: #7bdb7b;
+               border: solid #000;
+               ">$ {$total|number_format:2}</td>
+            </tr>
+         </tfoot>
+      </table>
+   </div>
+</page>

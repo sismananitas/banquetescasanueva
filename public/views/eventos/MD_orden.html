@@ -1,0 +1,43 @@
+<div id="md_orden" class="sub-modal">
+	<div class="flex">
+		<div class="modal-content col-xs-11 col-md-10">
+			<div class="modal-header">
+				<h3>Orden de Servicio</h3>
+				<a class="close">&times;</a>
+			</div>
+
+			<div class="modal-body">
+				<div id="tabs_ordenes" style="margin-bottom: 15px">
+					<ul class="tabs">
+						<li>
+							<a href="#tab1" class="tab active">Grupo</a></li>
+						<li>
+							<a href="#tab2" class="tab">Ceremonia</a></li>
+						<li>
+							<a href="#tab3" class="tab">Coctel</a></li>
+						<li>
+							<a href="#tab4" class="tab">Banquete</a></li>
+					</ul>
+
+					<div class="tabs_content">
+						<section id="tab1" class="tab_content show">
+							{include file=$temp|cat:'eventos/tab_grupo.html'}
+						</section>
+
+						<section id="tab2" class="tab_content">
+							{include file=$temp|cat:'eventos/tab_ceremonia.html'}
+						</section>
+
+						<section id="tab3" class="tab_content">
+							{include file=$temp|cat:'eventos/tab_coctel.html'}
+						</section>
+
+						<section id="tab4" class="tab_content">
+							{include file=$temp|cat:'eventos/tab_banquete.html'}
+						</section>
+					</div>
+				</div>
+			</div> <!-- Fin del modal-body -->
+		</div>
+	</div>
+</div>

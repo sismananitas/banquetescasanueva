@@ -1,0 +1,58 @@
+<form id="form_cotizacion" class="form-cotizacion col-xs-11 col-sm-6 col-md-4 m-auto-x" action="javascript:void(0)">
+   <div class="col-xs-12 row-between">
+      <caption>Verificar disponibilidad</caption>
+      <button class="button" onclick="history.back()" type="button"><i class="fas fa-arrow-left"></i> Volver</button>
+   </div>
+
+   <input id="renta" type="hidden" name="renta">
+
+   <!-- GUARDA EL NOMBRE DEL USUARIO QUE ESTÁ EN SESIÓN -->
+   Cliente
+   <div class="row-between">
+      <input id="c_nombre" class="col-xs-12 col-sm-5" type="text" minlength="3" maxlength="20" name="nombre" placeholder="Nombre" required>
+   
+      <input id="c_apellido" class="col-xs-12 col-sm-6" type="text" minlength="4" maxlength="20" name="apellido" placeholder="Apellidos" required>
+   </div>
+
+   Telefono
+   <input class="col-xs-12" type="text" required minlength="10" maxlength="13" name="telefono">
+   Correo
+   <input class="col-xs-12" type="text" maxlength="50" name="email" placeholder="correo@email.com">
+
+   <div class="row-between">
+      <div class="col-xs-6" style="display:inline-block">
+         No. Personas
+         <input class="col-xs-11" type="number" name="pax" min="1" max="900" placeholder="0">
+      </div>
+
+      <div class="col-xs-6" style="display:inline-block">
+         Tipo de Evento
+         <select id="select_evento" class="col-xs-12" name="tipo_evento">
+            <option value="1">- Elegir -</option>
+         </select>
+      </div>
+   </div>
+
+   Lugar / Salón
+   <select id="select_lugar" class="col-xs-12" name="id_lugar">
+      <!-- <option value="1">- Elegir -</option> -->
+   </select>
+
+   <div class="row-between"><br>
+      <label class="col-xs-12" for="d_init">Inicio (Fecha / Hora)</label><br>
+      <input id="d_init" class="col-xs-5" min="2000-01-02" type="date" name="fecha_inicio">
+      <input id="t_init" class="col-xs-5" type="time" name="tiempo_inicio" value="00:00">
+   </div>
+
+   <div class="row-between">
+      <label class="col-xs-12" for="d_end">Final (Fecha / Hora)</label><br>
+      <input id="d_end" class="col-xs-5" min="2000-01-02" type="date" name="fecha_final">
+      <input id="t_end" class="col-xs-5" type="time" name="tiempo_final" value="23:00">
+   </div><br>
+
+   <!-- BOTONES DEL FORMULARIO -->
+   <div class="row-left">
+      <button class="btn success" type="submit"><i class="fas fa-share-square"></i> Comprobar</button>
+      <button class="button" type="reset"><i class="fas fa-eraser"></i> Limpiar</button>
+   </div>
+</form>

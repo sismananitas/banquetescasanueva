@@ -1,0 +1,44 @@
+
+<div id="modal_add_cot" class="win-modal">
+    <div class="m-bg" style="z-index: 910">
+        <div class="m-content">
+            <div class="m-head">
+                <p>Cargar cotización</p>
+                <button class="m-close">&Cross;</button>
+            </div>
+
+            <div class="m-body">
+                <form id="form_add_cot" class="form-cotizacion" action="javascript:void(0)">
+                    
+                    <!-- GUARDA EL NOMBRE DEL USUARIO QUE ESTÁ EN SESIÓN -->
+                    Cliente
+                    <div class="row-between">
+                        <input class="col-xs-12 col-sm-5" type="text" required minlength="3" maxlength="20" name="nombre" placeholder="Nombre">
+                    
+                        <input class="col-xs-12 col-sm-6" type="text" required minlength="4" maxlength="20" name="apellido" placeholder="Apellidos">
+                    </div>
+                    
+                    Telefono
+                    <input class="col-xs-12" type="text" required minlength="10" maxlength="13" name="telefono" placeholder="">
+                    Correo
+                    <input class="col-xs-12" type="text" maxlength="50" name="email" placeholder="correo@email.com">
+                    
+                    <div class="row-between">                    
+                        <div class="col-xs-6" style="display:inline-block">
+                            Tipo de Evento
+                            <select id="select_evento_2" class="col-xs-12" name="tipo_evento">
+                                <option value="1">- Elegir -</option>
+                            </select>
+                        </div>
+                    </div><br>
+                    
+                    <!-- BOTONES DEL FORMULARIO -->
+                    <div class="row-left">
+                        <button class="btn success" type="submit"><i class="fas fa-share-square"></i> Crear</button>
+                        <button class="button" type="reset"><i class="fas fa-eraser"></i> Limpiar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

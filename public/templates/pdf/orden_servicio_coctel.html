@@ -1,0 +1,390 @@
+<style media="screen">
+	h1,
+	h3 {
+		text-align: center;
+		font-size: 16;
+	}
+
+	pre {
+		font-family: 'arial';
+		font-size: 9px;
+		letter-spacing: 2px;
+		line-height: 3mm;
+		padding-left: 1mm;
+		padding-top: -5px;
+		padding-bottom: -20px;
+	}
+
+	p {
+		padding-left: 4mm;
+		padding: 0;
+	}
+
+	ul {
+		line-height: 0;
+		padding: 0;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+
+	.tabla1 th,
+	.tabla1 td,
+	.tabla2 th,
+	.tabla2 td,
+	tr,
+	th,
+	td {
+		padding: 0px;
+		box-sizing: border-box;
+		margin: 0;
+	}
+
+	.tabla {
+		text-align: center;
+		font-size: 9;
+	}
+
+	.tabla tr,
+	.tabla td,
+	.tabla th {
+		border: solid 1 #3b3b3b;
+	}
+
+	.tabla td {
+		padding: 0;
+		width: 20%;
+	}
+
+	.tabla2 {
+		margin: auto;
+		font-size: 8;
+	}
+
+	.tabla2 tr,
+	.tabla2 td,
+	th {
+		border: solid 1 #3b3b3b;
+	}
+
+	.tabla2 td {
+		margin: 0;
+		width: 13%;
+	}
+
+	.thead td,
+	th {
+		text-align: center;
+		background: #dadada;
+		font-size: 2.5mm;
+		font-weight: bold;
+		height: 1mm;
+	}
+
+	.th,
+	th {
+		text-align: center;
+		font-weight: bold;
+		background: #dadada;
+		font-size: 2mm;
+	}
+
+	.content {
+		width: 85%;
+		margin: auto;
+	}
+</style>
+
+<page format="297x210" backtop="0mm" backbottom="2mm" backleft="2mm" backright="2mm">
+	<page_footer>
+		[[page_cu]]/[[page_nb]]
+	</page_footer>
+	<table class="content page_header">
+		<tr>
+			<td>
+				<h1>ORDEN DE SERVICIO</h1>
+			</td>
+		</tr>
+	</table>
+
+	<table class="content tabla" style="padding-top:10mm;margin-bottom: 4mm">
+		<tr>
+			<th rowspan="2" style="background: #fff; border-top:0;border-bottom:0;border-left:0">
+				<img src="storage/thumbs/lms.png" style="width: 25mm;margin-right:8mm">
+			</th>
+			<th style="line-height:0mm;padding-top:-4mm" colspan="4">
+				<h3 style="margin: auto;">{$fecha}</h3>
+			</th>
+			<th rowspan="2" style="background:#fff; border-top:0;border-bottom:0;border-right:0">
+				<img src="storage/thumbs/lms.png" style="width:25mm;margin-left:8mm">
+			</th>
+		</tr>
+
+		<tr>
+			<td>
+				<b>TITULO:</b> <br>
+				<b>CONTACTO:</b> <br>
+				<b>EVENTO:</b> <br>
+				<b>NOTA:</b>
+			</td>
+			<td>
+				{$data.title} <br>
+				{$data.contacto} <br>
+				{$data.evento}<br>
+				{$data.orden}
+			</td>
+			<td>
+				<b>FOLIO:</b> <br>
+				<b>CORDINADORA RESP:</b> <br>
+				<b>CORDINADORA APOYO:</b> <br>
+				<b>VENDEDOR:</b> <br>
+			</td>
+			<td>
+				{$data.id_orden} <br>
+				{$data.cord_resp} <br>
+				{$data.cord_apoyo} <br>
+				{$data.cord_resp} <br>
+			</td>
+		</tr>
+	</table>
+
+	<table class="tabla2">
+		<tr class="thead">
+			<td>HORARIO</td>
+			<td>SALÓN</td>
+			<td>EVENTO</td>
+			<td>MONTAJE</td>
+			<td>GARANTIA</td>
+			<td>FRONT 2 GO</td>
+			<td></td>
+		</tr>
+		<tr class="thead">
+			<td>{$hora}</td>
+			<td>{$data.lugar}</td>
+			<td>{$data.orden}</td>
+			<td>{$data.montaje}</td>
+			<td>{$data.garantia}</td>
+			<td>PENDIENTE</td>
+			<td></td>
+		</tr>
+
+		<tr class="thead">
+			<td colspan="3">ALIMENTOS Y BEBIDAS</td>
+			<td colspan="4">COORDINACIÓN OPERATIVA</td>
+		</tr>
+		<tr>
+			<th colspan="3">CANAPES</th>
+			<th colspan="4">MONTAJE</th>
+		</tr>
+
+		<tr>
+			<td id="alimentos_bebidas" colspan="3">
+				<pre>
+{if $data.canapes != ''}
+{$data.canapes}
+{else}
+N/A
+{/if}
+      			</pre>
+			</td>
+
+			<td id="montaje" colspan="4">
+				<pre>
+{if $data.detalle_montaje eq ''}
+N/A
+{else}
+{$data.detalle_montaje}
+{/if}
+      			</pre>
+			</td>
+		</tr>
+
+		<tr>
+			<th colspan="3">AGUAS FRESCAS</th>
+			<th colspan="4">AMA DE LLAVES</th>
+		</tr>
+
+		<tr>
+			<td id="aguas_frescas" colspan="3">
+				<pre>
+{if $data.aguas_frescas eq ''}
+N/A
+{else}
+{$data.aguas_frescas}  
+{/if}
+          		</pre>
+			</td>
+
+			<td id="ama_llaves" colspan="4">
+				<pre>
+{if $data.ama_llaves eq ''}
+N/A
+{else}
+{$data.ama_llaves}  
+{/if}
+        		</pre>
+			</td>
+		</tr>
+
+		<tr>
+			<th colspan="3">COCTELERIA</th>
+			<th colspan="4">CHIEF STEWARD</th>
+		</tr>
+
+		<tr>
+			<td id="cocteleria" colspan="3">
+				<pre>
+{if $data.cocteleria eq ''}
+N/A
+{else}
+{$data.cocteleria}
+{/if}
+        		</pre>
+			</td>
+
+			<td id="chief_steward" colspan="4">
+				<pre>
+{if $data.chief_steward eq ''}
+N/A
+{else}
+{$data.chief_steward}
+{/if}
+       			</pre>
+			</td>
+		</tr>
+
+		<tr>
+			<th colspan="3">MEZCLADORES</th>
+			<th colspan="4">SEGURIDAD</th>
+		</tr>
+
+		<tr>
+			<td id="mezcladores" colspan="3">
+				<pre>
+{if $data.mezcladores != ''}
+{$data.mezcladores}
+{else}
+N/A
+{/if}
+        		</pre>
+			</td>
+
+			<td id="seguridad" colspan="4">
+				<pre>
+{if $data.seguridad != ''}
+{$data.seguridad}
+{else}
+N/A
+{/if}
+        		</pre>
+			</td>
+		</tr>
+
+		<tr>
+			<th colspan="3">BEBIDAS</th>
+			<th colspan="4">MANTENIMIENTO</th>
+		</tr>
+		<tr>
+			<td id="bebidas" colspan="3">
+				<pre>
+{if $data.bebidas eq ''}
+N/A
+{else}
+{$data.bebidas}
+{/if}
+      </pre>
+			</td>
+			<td id="mantenimiento" colspan="4">
+				<pre>
+{if $data.mantenimiento eq ''}
+N/A
+{else}
+{$data.mantenimiento}
+{/if}
+        		</pre>
+			</td>
+		</tr>
+
+		<tr style="position:relative">
+			<th colspan="3">--- LOGISTICA ---</th>
+
+
+			<th colspan="4">RECURSOS HUMANOS</th>
+		</tr>
+		<tr>
+			<td id="logistica" colspan="3" rowspan="14">
+				<table class="tabla2"
+					style="height: 100mm; margin-top:0; text-align:center;padding: -1px;box-sizing: border-box">
+					<tr>
+						<th style="width: 20mm">FECHA</th>
+						<th style="width: 18mm">HORA</th>
+						<th style="width: 50mm">ACTIVIDAD</th>
+						<th style="width: 36mm">LUGAR</th>
+					</tr>
+					{foreach from=$act item=row}
+						{assign var="inicio" value=" "|explode:$row.start}
+						<tr style="line-height: 0;">
+							<td>{$inicio.0}</td>
+							<td>{$inicio.1}</td>
+							<td>{$row.title|truncate:35:""}</td>
+							<td>{$row.lugar}</td>
+						</tr>
+					{/foreach}
+				</table>
+			</td>
+			<td id="recursos_humanos" colspan="4">
+				<pre>
+{if $data.recursos_humanos eq ''}
+N/A
+{else}
+{$data.recursos_humanos}
+{/if}
+        		</pre>
+			</td>
+		</tr>
+
+		{if $data.proveedores != ''}
+		<tr>
+			<th colspan="4">PROVEEDORES</th>
+		</tr>
+		<tr>
+			<td id="proveedores" colspan="4">
+				<pre>
+{$data.proveedores}
+        		</pre>
+			</td>
+		</tr>
+		{/if}
+
+		<tr>
+			<th colspan="4">CONTABILIDAD</th>
+		</tr>
+		<tr>
+			<td id="contabilidad_restaurante" colspan="4">
+				<pre>
+{if $data.contabilidad eq ''}
+N/A
+{else}
+{$data.contabilidad}
+{/if}
+        		</pre>
+			</td>
+		</tr>
+
+		{if $d_data[0]['tag'] != ''}
+			{foreach from=$d_data item=row}
+			<tr>
+				<th colspan="4">{$row.tag}</th>
+			</tr>
+			<tr>
+				<td colspan="4">
+					<pre>
+{$row.content}
+					</pre>
+				</td>
+			</tr>
+			{/foreach}
+		{/if}
+	</table>
+</page>

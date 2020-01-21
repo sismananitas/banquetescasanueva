@@ -1,0 +1,57 @@
+<div id="MD_evento" class="sub-modal">
+  <div class="flex">
+    <div class="modal-content col-xs-11 col-md-10">
+      <div class="modal-header">
+        <h3>Información</h3>
+        <a class="close">&times;</a>
+      </div>
+      <div class="modal-body row-between">
+        <div class="col-xs-11 col-md-6 m-auto-x">
+          <h3>Logística</h3>
+
+          <div class="t-scroll-y" style="margin-right: 5px">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Actividad</th>
+                  <th>Lugar</th>
+                </tr>
+              </thead>
+              <tbody id="tb_logistica">
+                <!-- Codigo Javascript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col-xs-11 col-md-6 m-auto-x">
+          <h3>Ordenes de servicio</h3>
+
+          <div class="t-scroll-y" style="margin-left: 5px">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="min-width: 30px"># Id</th>
+                  <th>Nombre</th>
+                  <th>Lugar</th>
+                  <th>Fecha</th>
+                  <th>Imprimir</th>
+                </tr>
+              </thead>
+              <tbody id="tbody_orden">
+              <!-- Codigo Javascript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button onclick="cancelarDetalleEvento()" class="btn default" type="button">Cancel</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

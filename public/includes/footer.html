@@ -1,0 +1,38 @@
+<footer>
+	<div class="content m-auto">
+		<div class="row-between">
+			<div class="col-xs-5"></div>
+
+			<!-- BOTONES DEL FOOTER -->
+			<div class="perfil">
+				<ul>
+					{if isset($usuario)}
+					<li>
+						<a class="btn" href="{$base_url}mi_perfil">
+							<i class="far fa-user"></i> Mi Perfil
+						</a>
+					</li>
+						{if $usuario.rol eq 'Administrador'}
+						<li>
+							<a class="btn" href="{$base_url}admin">
+								<i class="fas fa-sliders-h"></i> Panel de control
+							</a>
+						</li>
+						{/if}
+					{/if}
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="legal col-xs-12">
+		<address>
+			<small>Copyright Las Mañanitas {date(Y)} &copy;</small>
+		</address>
+	</div>
+</footer>
+
+{include file=$inc|cat:'M_sesion.html'}
+</body>
+{include file=$inc|cat:'sources.html'}
+
+</html>

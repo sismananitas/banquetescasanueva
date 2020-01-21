@@ -1,0 +1,37 @@
+
+<div id="md_logistica" class="sub-modal">
+  <div class="flex">
+    <div class="modal-content col-xs-11 col-sm-8 col-md-5 col-lg-4">
+      <div class="modal-header">
+        <h3>Actividad</h3>
+        <a class="close">&times;</a>
+      </div>
+      <div class="modal-body">
+        <form id="form_logistica" class="form col-xs-12" action="core/ajax/logisticaAjaxController.php" method="post">
+          <input id="id_edit_log" type="hidden" name="id" value="">
+          <input id="id_evento" type="hidden" name="id_evento" value="">
+
+          <div class="col-xs-12">
+            Actividad<br>
+            <input id="actividad_log" class="col-xs-12" type="text" name="title" value="">
+            Lugar
+            <input id="lugar_log" class="col-xs-12" type="text" name="lugar" value="">
+            
+            Fecha y Hora<br>
+            <fieldset>
+              <div class="row-between">
+                <input id="fecha_edit_log" class="col-xs-5" type="date" name="date_start">
+
+                <input id="time_start_log" class="col-xs-5" type="time" name="time_start" value="00:00:00">
+              </div>
+            </fieldset>
+            <br>
+            
+            <button id="btn_add" onclick="addLogistica()" class="btn success" type="button">Subir</button>
+            <button id="btn_edit" onclick="editLogistica()" class="btn atention" type="button">Editar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

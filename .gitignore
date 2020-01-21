@@ -1,0 +1,8 @@
+/test/
+/storage/images/*.*
+/storage/cache/*.*
+/vendor
+/node_modules
+.env
+.env_backup
+.vscode/

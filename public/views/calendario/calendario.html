@@ -1,0 +1,58 @@
+{extends file='public/templates/banquetes_temp.html'}
+
+{block name="css"}
+<style>
+	.calendario_container {
+		overflow: auto;
+	}
+	#calendar {
+		min-width: 550px;
+	}
+	td {
+		min-width: 90px;
+	}
+</style>
+{/block}
+
+{block name="main"}
+	{include file=$temp|cat:'calendario/M_evento.html'}
+	{include file=$temp|cat:'calendario/MD_evento.html'}
+	{include file=$temp|cat:'calendario/MD_logistica.html'}
+
+	<div class="content m-auto">
+		<div class="row-between" style="padding-bottom: 10px">
+			<hgroup>
+				<h1>Calendario</h1>
+				<h2>Próximos eventos</h2>
+			</hgroup>
+
+			<div class="event-msg">
+				<span class="yellow" style="display: inline-block;
+				width: 15px; height: 15px;
+				background: #ebda49"></span> Evento
+				TENTATIVO <br>
+
+				<span class="orange" style="display: inline-block;
+				width: 15px;
+				height: 15px;
+				background: orange"></span> Evento APARTADO <br>
+				
+				<span class="red" style="display: inline-block;
+				width: 15px;
+				height: 15px;
+				background: #54b33d"></span> Evento CERRADO
+			</div>
+		</div>
+
+		<div class="calendario_container">
+			<div id="calendar" class="col-xs-12 col-md-10 col-xlg-9 m-auto-x"></div>
+		</div>
+	</div>
+{/block}
+
+{block name="js"}
+<script src="public/js/calendario/funcs_events.js?v={date('s')}"></script>
+<script src="public/js/calendario/M_evento.js?v={date('s')}"></script>
+<script src="public/js/calendario/MD_evento.js?v={date('s')}"></script>
+<script src="public/js/calendario/calendario.js?v={date('s')}"></script>
+{/block}

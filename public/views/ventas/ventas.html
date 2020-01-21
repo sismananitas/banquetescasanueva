@@ -1,0 +1,114 @@
+{include file=$inc|cat:'header.html'}
+<style>
+	.opt {
+		padding: 0;
+	}
+	.graph {
+		display: inline-block;
+		width: 600px;
+		max-width: 100%;
+		height: auto;
+		border-radius: 3px;
+	}
+	.marco {
+		padding: 2px 5px;
+		border-radius: 3px;
+		border: solid 1px #c1c1c1;
+		margin: 10px;
+		background: #e4e4e4;
+		box-sizing: border-box;
+	}
+	.flex {
+		margin-bottom: 10px;
+	}
+	hr {
+		margin: 20px 0;
+	}
+	.table {
+		margin-bottom: 30px;
+	}
+	#grafica {
+		padding: 0;
+		overflow-x: auto;
+	}
+	.marco {
+		min-width: 430px;
+	}
+	.gra {
+		margin-bottom: 20px;
+	}
+</style>
+
+<main>
+	<div class="content m-auto-x">
+		<h3>TOTAL DE VENTAS</h3></BR>
+
+		<div class="tools-bar row-around col-xs-12">
+			<button class="prevyear btn-tools"><i class="fas fa-chevron-left"></i> Anterior</button>
+			<p id="sellYear"></p>
+			<button class="nextyear btn-tools"> Siguiente <i class="fas fa-chevron-right"></i></button>
+		</div><br>
+
+		<div class="row-between">
+			<div id="grafica" class="gra col-xs-12 col-md-6">
+				<div class="marco">
+					<canvas id="semestre1" width="300" height="140"></canvas>
+				</div>
+			</div>
+
+			<div class="gra col-xs-12 col-md-5 flex flex-center">
+				<img class="graph" src="storage/thumbs/temporadas.png" alt="temporadas">
+			</div>
+		</div>
+		<hr /><br>
+
+		<div class="row-between col-xs-12">
+
+			<div class="col-xs-12 col-md-5">
+				<h4>VENTAS POR PERSONA</h4><br>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Nombre</th>
+							<th>NO. VENTAS</th>
+						</tr>
+					</thead>
+					<tbody id="tbody_personal">
+						<!-- <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                  </tr> -->
+					</tbody>
+				</table>
+			</div>
+
+			<div class="col-xs-12 col-md-6">
+				<h4>CLIENTES POTENCIALES</h4><br>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Correo</th>
+							<th>Telefono</th>
+						</tr>
+					</thead>
+					<tbody id="tbody_client">
+						<!-- <tr>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                  </tr> -->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div><br><br>
+</main>
+
+{include file=$inc|cat:'footer.html'}
+<script src="public/lib/chart.js?v={date('s')}"></script>
+<script src="public/js/ventas/charts.js?v={date('s')}"></script>
+<script src="public/js/ventas/loader.js?v={date('s')}"></script>
