@@ -1,6 +1,8 @@
 <?php
 
-include str_replace('/', '\\', str_replace('config', '', __DIR__)) .'App\Core\Environment.php';
+//include str_replace('/', '\\', str_replace('config', '', __DIR__)) .'App\Core\Environment.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ .'/..');
+$dotenv->load();
 
 // RUTA BASE Y ABSOLUTA DE LA APLICACIÓN
 define('base_url', getenv('BASE_DIR'));
