@@ -34,16 +34,29 @@ class EventosModel
 	private function getArrayData()
 	{
 		$autor = !empty($_SESSION['usuario']['nombre']) ? $_SESSION['usuario']['nombre']. ' ' .$_SESSION['usuario']['apellidos'] : $_SESSION['usuario']['username'];
-
 		$resp = !empty($_POST['cord_resp']) ? $_POST['cord_resp'] : $autor;
 
-		if ($_POST['color'] != '#54b33d' && $_POST['color'] != '#f98710') {
-			$color = '#d7c735';
+		/** Elegir el status */
+		$color = '#d7c735';
+		$status = 'tentativo';
 
-		} else {
-			$color = $_POST['color'];
+		switch ($_POST['color']) {
+			case '#54b33d':
+				$status = 'cerrado';
+				break;
+			case '#f98710':
+				$status = 'apartado';
+				break;
 		}
 
+		// if ($_POST['color'] != '#54b33d' && $_POST['color'] != '#f98710') {
+		// 	$color = '#d7c735';
+
+		// } else {
+		// 	$color = $_POST['color'];
+		// }
+		
+		/** Si es casa de muñecas el color es rosa */
 		if ($_POST['color'] == '#54b33d' && $_POST['id_lugar'] == 4)
 			$color = '#E56285';
 
@@ -69,13 +82,15 @@ class EventosModel
 			'end'        => trim($_POST['end']),
 			'personas'   => $_POST['personas'],
 			'categoria'  => trim($_POST['categoria']),
-			'color'      => !empty($color) ? $color : '#d7c735'
+			'color'      => !empty($color) ? $color : '#d7c735',
+			'status'	 => $status
 		);
 		// SOLO CIERRAN LOS EVENTOS LOS ADMINS Y SUPERVISORES
-		if ($_POST['color'] != '#d7c735' &&
-			$_SESSION['usuario']['rol'] != 'Administrador' &&
-			$_SESSION['usuario']['rol'] != 'Supervisor') {
+		if ($_POST['color'] != '#d7c735'
+		&& strtolower($_SESSION['usuario']['rol']) != 'administrador'
+		&& strtolower($_SESSION['usuario']['rol']) != 'supervisor') {
 			unset($array['color']);
+			unset($array['status']);
 		}
 		return $array;
 	}
@@ -89,7 +104,7 @@ class EventosModel
 		$sql = "INSERT INTO eventos VALUES (
 		null, :title, :evento, :folio, :contacto, :cord_resp,
 		:cord_apoyo, :des, :lugar, :start, :end, :personas,
-		:categoria, :color, :id_usuario)";
+		:categoria, :color, :id_usuario, :status)";
 
 		\Conexion:: query($sql, $data);
 	}
@@ -120,7 +135,7 @@ class EventosModel
 		categoria = :categoria,";
 
 		if (!empty($data['color'])) {
-			$sql .= " color = :color,";
+			$sql .= " color = :color, status = :status,";
 		}
 		$sql .= " folio = :folio WHERE id_evento = :id";
 		\Conexion::query($sql, $data);
