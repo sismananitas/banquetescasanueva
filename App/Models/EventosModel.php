@@ -42,10 +42,16 @@ class EventosModel
 
 		switch ($_POST['color']) {
 			case '#54b33d':
+				$color =  '#54b33d';
 				$status = 'cerrado';
 				break;
 			case '#f98710':
+				$color =  '#f98710';
 				$status = 'apartado';
+				break;
+			default:
+				$color = '#d7c735';
+				$status = 'tentativo';
 				break;
 		}
 
@@ -82,13 +88,15 @@ class EventosModel
 			'end'        => trim($_POST['end']),
 			'personas'   => $_POST['personas'],
 			'categoria'  => trim($_POST['categoria']),
-			'color'      => !empty($color) ? $color : '#d7c735',
+			'color'      => $color,
 			'status'	 => $status
 		);
 		// SOLO CIERRAN LOS EVENTOS LOS ADMINS Y SUPERVISORES
-		if ($_POST['color'] != '#d7c735'
-		&& strtolower($_SESSION['usuario']['rol']) != 'administrador'
-		&& strtolower($_SESSION['usuario']['rol']) != 'supervisor') {
+		if (
+			$color != '#d7c735'
+			&& strtolower($_SESSION['usuario']['rol']) != 'administrador'
+			&& strtolower($_SESSION['usuario']['rol']) != 'supervisor'
+		) {
 			unset($array['color']);
 			unset($array['status']);
 		}

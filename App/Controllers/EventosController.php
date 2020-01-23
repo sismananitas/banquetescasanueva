@@ -12,9 +12,9 @@ class EventosController {
         \Utils::isVentas();
 
         $evento = new EventosModel;
-        $params = array(
+        $params = [
             'eventos' => $evento->getAll()
-        );
+        ];
         return view('eventos', $params);
     }
 
