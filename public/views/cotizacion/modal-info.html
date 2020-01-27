@@ -5,7 +5,6 @@
             <p>Cotización</p>
             <button class="m-close">&Cross;</button>
          </div>
-
          <div class="m-body">
             <p>
                <table class="table_info_cot">
@@ -48,31 +47,22 @@
                </table>               
                <input id="evento_id" type="hidden" name="evento_id">
             </p><br>
-
             <div class="tools-bar">
                <ul class="tools-menu row-right">
                   {if $usuario.rol == 'Administrador' || $usuario.rol == 'Supervisor'}
-                  <li>
-                     <button id="btn_autorizar" class="btn-tools">
-                        <i class="fas fa-exclamation-circle"></i> Validación
-                     </button>
-                  </li>
+                     <li>
+                        <button id="btn_autorizar" class="btn-tools">
+                           <i class="fas fa-exclamation-circle"></i> Validación
+                        </button>
+                     </li>
                   {/if}
-                  <li>
-                     <button id="btn_imprimir" class="btn-tools">
-                        <i class="fas fa-print"></i> Imprimir
-                     </button>
-                  </li>
-                  <li>
-                     <button id="send_mail" class="btn-tools">
-                        <i class="far fa-envelope"></i> Enviar
-                     </button>
-                  </li>   
+               </ul>
+               <ul id="botones_cotizacion" class="tools-menu row-right" style="margin-top: 4px">
+                  <!-- functions.js -->
                </ul>
             </div><br>
 
             <h3>Resumen de la Cotización</h3><br>
-
             <div class="tcontainer col-xs-12" style="overflow: auto;">
                <table id="table_cotizacion" class="table" style="min-width: 650px">
                   <thead>
@@ -86,7 +76,7 @@
                      </tr>
                   </thead>
                   <tbody id="tbody_cotizaciones">
-                     <!-- javascript -->
+                     <!-- javascript print-functions -->
                   </tbody>
                </table>
             </div>

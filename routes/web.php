@@ -93,7 +93,7 @@ $router->add('/cotizacion/get-by-event/:evento_id', 'App\Controllers\CotizacionC
 
 $router->add('/cotizacion/comprobar-disp', 'App\Controllers\CotizacionController@validar');
 
-$router->add('/cotizacion/add', 'App\Controllers\CotizacionController@insertar');
+$router->add('/cotizacion/add', 'App\Controllers\CotizacionController@store');
 
 $router->add('/cotizacion/add/manual', 'App\Controllers\CotizacionController@insertarManual');
 
@@ -108,6 +108,8 @@ $router->add('/cotizacion/detalle/post/insert', 'App\Controllers\CotizacionContr
 $router->add('/cotizacion/print/:id', 'App\Controllers\CotizacionController@printOne');
 
 $router->add('/cotizacion/detalle/post/delete', 'App\Controllers\CotizacionController@borrarDetalle');
+
+$router->add('/cotizacion/delete/:id', 'App\Controllers\CotizacionController@destroy');
 
 // PRECIOS
 $router->add('/precios', 'App\Controllers\PreciosController@index');

@@ -107,19 +107,19 @@ function getIngreso(event) {
 	dataIng.append('evento_id', event.id_evento);
 
 	ajaxRequest('eventos/get-ingreso', dataIng)
-		.then(totales => {
-			let val = totales.ingreso[0];
+	.then(totales => {
+		let val = totales.ingreso[0];
 
-			if (parseFloat(val.total) > 0)
-				return val.total;
+		if (parseFloat(val.total) > 0)
+			return val.total;
 
-			if (parseFloat(val.renta) > 0)
-				return val.renta;
+		if (parseFloat(val.renta) > 0)
+			return val.renta;
 
-			return 0;
-		})
-		.then(ingreso => {
-			let ingreso_format = parseFloat(ingreso).toLocaleString('es-MX', formato_moneda);
-			e_ingreso.value = '$ ' + ingreso_format;
-		})
+		return 0;
+	})
+	.then(ingreso => {
+		let ingreso_format = parseFloat(ingreso).toLocaleString('es-MX', formato_moneda);
+		e_ingreso.value = '$ ' + ingreso_format;
+	})
 }

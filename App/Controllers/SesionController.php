@@ -17,7 +17,7 @@ class SesionController {
         $pass = sha1($_POST['pass']);
     
         $sesion = new Sesion($user, $pass);
-    
+        
         try {
             $success = $sesion->iniciarSesion();
 

@@ -1,8 +1,8 @@
+/node_modules
+/vendor
 /test/*.*
 /storage/images/*.*
 /storage/cache/*.*
-/vendor
-/node_modules
 /templates_c/*.*
 .env
 .env_backup

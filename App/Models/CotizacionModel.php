@@ -2,8 +2,15 @@
 
 namespace App\Models;
 
-class CotizacionModel
+class CotizacionModel extends Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->table = 'cotizaciones';
+        $this->primaryKey = 'folio';
+    }
+
     /**
      * OBTENER TODAS LA COTIZACIONES
      */
@@ -60,13 +67,12 @@ class CotizacionModel
         foreach ($_POST['descripcion'] as $d) {
             if (empty($d)) { return null; }
         }
-        
+
         for ($i = 0; $i < $count; $i++) {
             $descripcion = $_POST['descripcion'][$i];
             $cantidad    = isset($_POST['cantidad'][$i]) ? (int) $_POST['cantidad'][$i] : 0;
             $precio      = isset($_POST['precio'][$i]) ? (float) $_POST['precio'][$i] : 0;
             $subtotal    = $cantidad * $precio;
-
             array_push($array, array(
                 'descripcion'     => $descripcion,
                 'precio_unitario' => $precio,

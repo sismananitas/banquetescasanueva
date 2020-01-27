@@ -2,7 +2,7 @@
 
 class Conexion
 {
-  private static $pdo;
+  protected static $pdo;
   private static $stmt;
 
   /**
@@ -12,7 +12,7 @@ class Conexion
   {
     // CREA UN OBJETO PDO
     $base = new PDO(
-      'mysql:dbname='. getenv('DB_NAME') .';host='. getenv('DB_HOST') .';charset=UTF8',
+      'mysql:dbname='. getenv('DB_NAME') .'; host='. getenv('DB_HOST') .'; charset=UTF8',
       getenv('DB_USER'),
       getenv('DB_PASSWORD'),
       DB_OPTIONS
@@ -33,9 +33,9 @@ class Conexion
     if ($select) {
       // SI ES SOLO UN RESULTADO
       if ($one) {
-        return $exec->fetch(PDO::FETCH_ASSOC);
+        return $exec->fetchObject(get_called_class());
       }
-      return $exec->fetchAll(PDO::FETCH_ASSOC);
+      return $exec->fetchAll(PDO::FETCH_CLASS, get_called_class());
     }
     return $exec;
   }

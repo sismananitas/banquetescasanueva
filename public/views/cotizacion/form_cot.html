@@ -1,4 +1,9 @@
-<form id="form_cotizacion" class="form-cotizacion col-xs-11 col-sm-6 col-md-4 m-auto-x" action="javascript:void(0)">
+<form
+   id="form_cotizacion"
+   class="form-cotizacion col-xs-11 col-sm-6 col-md-4 m-auto-x"
+   action="javascript:void(0)"
+   onsubmit="sendCrearCotizacion('form_cotizacion')"
+>
    <div class="col-xs-12 row-between">
       <caption>Verificar disponibilidad</caption>
       <button class="button" onclick="history.back()" type="button"><i class="fas fa-arrow-left"></i> Volver</button>
@@ -9,13 +14,12 @@
    <!-- GUARDA EL NOMBRE DEL USUARIO QUE ESTÁ EN SESIÓN -->
    Cliente
    <div class="row-between">
-      <input id="c_nombre" class="col-xs-12 col-sm-5" type="text" minlength="3" maxlength="20" name="nombre" placeholder="Nombre" required>
-   
-      <input id="c_apellido" class="col-xs-12 col-sm-6" type="text" minlength="4" maxlength="20" name="apellido" placeholder="Apellidos" required>
+      <input id="c_nombre" class="col-xs-12 col-sm-5" type="text" minlength="3" maxlength="20" name="nombre" placeholder="Nombre">
+      <input id="c_apellido" class="col-xs-12 col-sm-6" type="text" minlength="4" maxlength="20" name="apellido" placeholder="Apellidos">
    </div>
 
    Telefono
-   <input class="col-xs-12" type="text" required minlength="10" maxlength="13" name="telefono">
+   <input class="col-xs-12" type="text" minlength="10" maxlength="13" name="telefono">
    Correo
    <input class="col-xs-12" type="text" maxlength="50" name="email" placeholder="correo@email.com">
 

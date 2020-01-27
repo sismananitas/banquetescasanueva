@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-class UsuariosModel
+class Usuario extends Model
 {
     private $usuario;
     private $pass;
 
     public function __construct($usuario = '', $pass = '')
     {
+        parent::__construct();
+        $this->primaryKey = 'id_usuario';
         $this->usuario = $usuario;
         $this->pass    = $pass;
     }
@@ -23,19 +25,11 @@ class UsuariosModel
         $this->pass = $pass;
     }
 
-    public function getAll() {
-        $sql = "SELECT u.id_usuario as 'id', u.username, u.nivel, u.estado, d.* FROM usuarios u
-        LEFT JOIN detalle_usuario d ON
-        u.id_usuario = d.id_usuario";
-
-        $res = \Conexion::query($sql, [], true);
-        return $res;
-    }
-
     public function getOne($id) {
-        $sql = "SELECT u.id_usuario as 'id', u.username, u.nivel, u.estado, d.* FROM usuarios u
-        LEFT JOIN detalle_usuario d ON
-        u.id_usuario = d.id_usuario
+        $sql = "SELECT u.id_usuario as 'id', u.username, u.nivel, u.estado, d.*
+        FROM usuarios u
+        LEFT JOIN detalle_usuario d
+        ON u.id_usuario = d.id_usuario
         WHERE u.id_usuario = :id";
 
         $res = \Conexion::query($sql, $id, true);
@@ -92,7 +86,8 @@ class UsuariosModel
             return false;
         }
         
-        $sql = "UPDATE usuarios SET
+        $sql = "UPDATE usuarios
+        SET
         username         = :usuario,
         nivel            = :nivel,
         estado           = :estado
@@ -126,8 +121,9 @@ class UsuariosModel
 
     /**----- CAMBIAR CONTRASEÑA ----------*/
     function cambiarPass($id_usuario, $pass) {
-        $sql = 'UPDATE usuarios SET
-        pass = :pass WHERE id_usuario = :id';
+        $sql = 'UPDATE usuarios
+        SET pass = :pass
+        WHERE id_usuario = :id';
 
         try {
             \Conexion::query($sql, array(
@@ -144,8 +140,10 @@ class UsuariosModel
 
     /**----- VALIDAR AUTENTICIDAD DEL USUARIO -------*/
     function validar($id_usuario, $pass) {
-        $sql = "SELECT id_usuario FROM usuarios
-        WHERE id_usuario = :id_usuario AND pass = :pass";
+        $sql = "SELECT id_usuario
+        FROM usuarios
+        WHERE id_usuario = :id_usuario
+        AND pass = :pass";
         
         try {
             $valid = \Conexion::query($sql, array(

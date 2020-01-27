@@ -123,7 +123,7 @@ class CotizacionController {
         return json_response($res);
     }
 
-    public function insertar() {
+    public function store() {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
@@ -365,5 +365,14 @@ class CotizacionController {
             $res['log'] = $e->getMessage();
         }
         return json_response($res);
+    }
+
+    public function destroy($cotizacion_id)
+    {
+        $cot_instance = new CotizacionModel;
+        $cotizacion = $cot_instance->find($cotizacion_id);
+
+        $cotizacion->delete();
+        return json_response(['message' => 'Cotización eliminada correctamente', 'cotizacion' => $cotizacion]);
     }
 }

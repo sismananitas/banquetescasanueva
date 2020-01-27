@@ -1,45 +1,12 @@
-
-/**--------------------- CLICK EN LA TABLA COTIZACION -------------*/
-table_cotizacion.addEventListener('click', e => {
-   let btnClass = e.target.className
-
-   if (btnClass == 'btn primary') {
-      modal_add_cot.style.display = 'block';
-   }
-
-   if (btnClass == 'btn atention') {
-      let btnId = e.target.parentElement.parentElement.dataset.item
-      location.href = 'cotizacion/detalle/' + btnId
-   }
-
-   if (btnClass == 'btn danger') {
-      popup.confirm({
-         content: '¿Está seguro de eliminar?',
-         default_btns: {
-            ok: 'SÍ', cancel: 'NO'
-         }
-      },
-      (clck) => {
-         if (clck.proceed) {
-            alert('Eliminaste')
-         }
-      })
-   }
-})
+"use strict"
 
 /**----------------------- BOTÓN IMPRIMIR ----------------*/
 // TODO: REPARAR EL FORMATO DE LA COTIZACIÓN */
-btn_imprimir.addEventListener('click', e => {
-   e.preventDefault()
-   let folio = e.target.dataset.folio
-   open('cotizacion/print/' + folio);
-})
-
-/**----------------------- BOTÓN ENVIAR -----------------*/
-
-send_mail.addEventListener('click', () => {
-   modal_correo.style.display = 'block'
-})
+// btn_imprimir.addEventListener('click', e => {
+//    e.preventDefault()
+//    let folio = e.target.dataset.folio
+//    open('cotizacion/print/' + folio);
+// })
 
 /**----------------------- BOTÓN AUTORIZAR -----------------*/
 if (typeof btn_autorizar !== 'undefined') {
@@ -70,7 +37,6 @@ if (typeof btn_autorizar !== 'undefined') {
       })
    })
 }
-
 
 /*-------------------- MODAL INFO ----------------------*/
 
@@ -139,37 +105,4 @@ form_email.addEventListener('submit', e => {
       }
       console.log(dataJson)
    })
-})
-
-/**------------ MODAL ADD COT -------------*/
-
-modal_add_cot.addEventListener('click', e => {
-   const m_bg = modal_add_cot.querySelector('.m-bg'),
-      m_close = modal_add_cot.querySelector('.m-close');
-
-   if (e.target == m_bg || e.target == m_close) {
-      modal_add_cot.style.display = 'none';
-      form_add_cot.reset();
-   }
-})
-
-form_add_cot.addEventListener('submit', e => {
-   e.stopPropagation();
-
-   let dataCot = new FormData(form_add_cot);
-   dataCot.append('evento_id', evento_id.value);
-
-   ajaxRequest('cotizacion/add/manual', dataCot)
-   .then(dataJson => {
-      if (dataJson.error) {
-         popup.alert({content: dataJson.msg});
-
-      } else {
-         popup.alert({content: 'Se registró la cotización'});
-         body.removeAttribute('style');
-         modal_add_cot.style.display = 'none';
-         modal_info.style.display = 'none';
-         form_add_cot.reset();
-      }
-   });
 })

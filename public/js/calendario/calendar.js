@@ -15,13 +15,6 @@ $('#calendar').fullCalendar({
 	allDaySlot: false,
 	showNonCurrentDates: false,
 	events: 'eventos/get-all',
-	eventClick: function (calEvent, jsEvent, view) {
-
-		if (calEvent.evento != null && view.name == 'month') {
-			openLoading();
-			extraerDatosEvento(calEvent);
-			abrirEvent();
-		}
-	}
+	eventClick: handleEventClick
 })
 

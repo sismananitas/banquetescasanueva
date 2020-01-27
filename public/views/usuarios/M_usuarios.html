@@ -1,51 +1,48 @@
 <div id="modal_usuarios" class="modal">
-  <div class="flex">
-    <div class="modal-content col-xs-10 col-sm-7 col-md-4">
-      <div class="modal-header">
-        <h3>Personal</h3>
-        <a class="close">&times;</a>
-      </div>
-      <div class="modal-body">
-        <form id="form_usuario" class="form col-xs-12" action="usuarios/edit" method="post">
-          <input type="hidden" name="id" value="">
-
-          Nombre de usuario:<br>
-          <input type="text" class="col-xs-12" name="usuario"><br>
-          <div class="div-pass">
-            Contraseña:<br>
-            <input type="password" class="col-xs-12" name="pass"><br>
-            Repetir contraseña:<br>
-            <input type="password" class="col-xs-12" name="pass2"><br>
-          </div>
-          <div class="row-between">
-            <div class="col-xs-6">
-              Rol:<br>
-              <select class="col-xs-11" name="nivel">
-                <option value="Consulta">- Elegir -</option>
-                <option value="Administrador">Administrador</option>
-                <option value="Supervisor">Supervisor</option>
-                <option value="Ventas">Ventas</option>
-                <option value="Consulta">Consulta</option>
-              </select>
-            </div>
-
-            <div class="col-xs-6">
-              Estado: <br>
-              <select class="col-xs-12" name="estado">
-                <option value="0">- Elegir -</option>
-                <option value="0">Inactivo</option>
-                <option value="1">Activo</option>
-              </select>
-            </div>              
-          </div>
-          
-          <br>
-          <div class="row-left">
-            <button id="btn_reg" type="submit" class="btn success">Registrar</button>
-            <button id="btn_act" type="button" class="btn atention">Actualizar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+	<div class="flex">
+		<div class="modal-content col-xs-10 col-sm-7 col-md-4">
+			<div class="modal-header">
+				<h3>Personal</h3>
+				<a class="close">&times;</a>
+			</div>
+			<div class="modal-body">
+				<form id="form_usuario" class="form col-xs-12" action="usuarios/edit" method="post">
+					<input type="hidden" name="id" value="">
+					Nombre de usuario:<br>
+					<input type="text" class="col-xs-12" name="usuario"><br>
+					<div class="div-pass">
+						Contraseña:<br>
+						<input type="password" class="col-xs-12" name="pass"><br>
+						Repetir contraseña:<br>
+						<input type="password" class="col-xs-12" name="pass2"><br>
+					</div>
+					<div class="row-between">
+						<div class="col-xs-6">
+							Rol:<br>
+							<select class="col-xs-11" name="nivel">
+								<option value="Consulta">- Elegir -</option>
+								<option value="Administrador">Administrador</option>
+								<option value="Supervisor">Supervisor</option>
+								<option value="Ventas">Ventas</option>
+								<option value="Consulta">Consulta</option>
+							</select>
+						</div>
+						<div class="col-xs-6">
+							Estado: <br>
+							<select class="col-xs-12" name="estado">
+								<option value="0">- Elegir -</option>
+								<option value="0">Inactivo</option>
+								<option value="1">Activo</option>
+							</select>
+						</div>              
+					</div>
+					<br>
+					<div class="row-left">
+						<button id="btn_reg" type="submit" class="btn success">Registrar</button>
+						<button id="btn_act" type="button" class="btn atention">Actualizar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

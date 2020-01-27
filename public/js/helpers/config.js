@@ -12,3 +12,7 @@ const MESES = [
 const meses = [
    "Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
 ];
+
+function stopPropagation(e) {
+   e.stopPropagation()
+}

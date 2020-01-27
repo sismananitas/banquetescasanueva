@@ -41,12 +41,6 @@
 {/block}
 
 {block name="main"}
-	{include file=$temp|cat:'eventos/M_evento.html'}
-	{include file=$temp|cat:'eventos/MD_evento.html'}
-	{include file=$temp|cat:'eventos/MD_logistica.html'}
-	{include file=$temp|cat:'eventos/form_eliminar_log.html'}
-	{include file=$temp|cat:'eventos/MD_orden.html'}
-	{include file=$temp|cat:'eventos/form_eliminar_orden.html'}
 	<div class="content m-auto">
 		<div class="row-between head-bar">
 			<hgroup>
@@ -54,15 +48,7 @@
 				<h2>Panel de registro</h2>
 			</hgroup>
 
-			<div class="event-msg">
-				<span class="yellow"
-					style="display: inline-block; width: 15px; height: 15px;background: #ebda49"></span> Evento
-				TENTATIVO <br>
-				<span class="orange" style="display: inline-block; width: 15px; height: 15px;background: orange"></span>
-				Evento APARTADO <br>
-				<span class="red" style="display: inline-block; width: 15px; height: 15px; background: #54b33d"></span>
-				Evento CERRADO
-			</div>
+			{include file=$inc|cat:'event-info.html'}
 		</div>
 
 		<div class="tools-bar row-right col-xs-12">
@@ -76,6 +62,12 @@
 			<div id="calendar" class="col-xs-12 col-md-10 col-xlg-9 m-auto-x"></div>
 		</div>
 	</div>
+	{include file=$temp|cat:'eventos/M_evento.html'}
+	{include file=$temp|cat:'eventos/MD_evento.html'}
+	{include file=$temp|cat:'eventos/MD_logistica.html'}
+	{include file=$temp|cat:'eventos/form_eliminar_log.html'}
+	{include file=$temp|cat:'eventos/MD_orden.html'}
+	{include file=$temp|cat:'eventos/form_eliminar_orden.html'}
 {/block}
 
 {block name="js"}

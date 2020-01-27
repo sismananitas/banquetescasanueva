@@ -26,22 +26,7 @@
 				<h2>Próximos eventos</h2>
 			</hgroup>
 
-			<div class="event-msg">
-				<span class="yellow" style="display: inline-block;
-				width: 15px; height: 15px;
-				background: #ebda49"></span> Evento
-				TENTATIVO <br>
-
-				<span class="orange" style="display: inline-block;
-				width: 15px;
-				height: 15px;
-				background: orange"></span> Evento APARTADO <br>
-				
-				<span class="red" style="display: inline-block;
-				width: 15px;
-				height: 15px;
-				background: #54b33d"></span> Evento CERRADO
-			</div>
+			{include file=$inc|cat:'event-info.html'}
 		</div>
 
 		<div class="calendario_container">
@@ -51,8 +36,6 @@
 {/block}
 
 {block name="js"}
-<script src="public/js/calendario/funcs_events.js?v={date('s')}"></script>
-<script src="public/js/calendario/M_evento.js?v={date('s')}"></script>
-<script src="public/js/calendario/MD_evento.js?v={date('s')}"></script>
-<script src="public/js/calendario/calendario.js?v={date('s')}"></script>
+<script src="public/js/calendario/functions.js?v={date('s')}" defer></script>
+<script src="public/js/calendario/calendar.js?v={date('s')}" defer></script>
 {/block}
