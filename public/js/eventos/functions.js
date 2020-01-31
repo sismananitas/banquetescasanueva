@@ -1,14 +1,10 @@
 "use strict"
-let nuevoEvento;
 // TODO: ELIMINAR JQUERY
-/** ABRE EL MODAL EVENTO */
 
-/**
- * Evitar que se haga click a elementos padres
- */
-function stopPropagation(e) {
-	e.stopPropagation()
-}
+let nuevoEvento
+let errors = {}
+
+/** ABRE EL MODAL EVENTO */
 
 function abrirEvent() {
 	let body = document.getElementById('body');
@@ -94,18 +90,31 @@ function enviarInformacion(accion, objEvento) {
 		url: 'eventos/' + accion,
 		data: objEvento
 		
-	}).done((r) => {
-		closeLoading();
-		if (r.error) {
-			popup.alert({ content: r.msg });
-			return 0;
-		} else {
-			$('#calendar').fullCalendar('refetchEvents')
-			cerrarEvent();
+	})
+	.done((r) => {
+		closeLoading()
+		$('#calendar').fullCalendar('refetchEvents')
+		cerrarEvent()
+	})
+	.fail(err => {
+		closeLoading()
+		if (err.status == 401) {
+			swal.fire({
+				icon: 'error',
+				title: err.responseJSON.data.message
+			})
 		}
-	}).fail(() => {
-		closeLoading();
-		popup.alert({ content: 'No hay conexión a internet' })				
+		if (err.status == 422) {
+			let textHtml = ''
+			for (let i in err.responseJSON.data.errors) {
+				textHtml += err.responseJSON.data.errors[i]
+			}
+			swal.fire({
+				icon: 'error',
+				title: err.responseJSON.data.message,
+				html: textHtml
+			})
+		}
 	})
 }
 
@@ -288,7 +297,10 @@ function deleteLogistica(logisticaId) {
 		.then(() => closeLoading())
 	})
 	.catch(error => {
-		popup.alert({ content: error.msg })
+		swal.fire({
+			type: 'error',
+			title: error.msg
+		})
 	})
 }
 

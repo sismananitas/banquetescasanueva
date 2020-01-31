@@ -56,9 +56,10 @@
         $status = array(
             200 => '200 OK',
             400 => '400 Bad Request',
-            422 => 'Unprocessable Entity',
+            401 => '401 Unauthorized',
+            422 => '422 Unprocessable Entity',
             500 => '500 Internal Server Error'
-            );
+        );
         // ok, validation error, or failure
         header('Status: '.$status[$code]);
         // return the encoded json

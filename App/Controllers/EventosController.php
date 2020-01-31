@@ -82,13 +82,53 @@ class EventosController {
      */
     public function update() {
         // Validar sesión
-        $not_session = \Utils::validate_session();
-        $data = $_POST;
-        $auth = $_SESSION['usuario'];
+        $not_session  = \Utils::validate_session();
+        $auth         = $_SESSION['usuario'];
+        $event        = new Evento();
+        $data         = $_POST;
+        $res['data']  = [];
+        $color        = '';
+        $status       = '';
 
-        if ($not_session) {
-            return $not_session;
+        $editable = $event->find(['id' => $data['id']]);
+        if ($not_session) return $not_session;
+
+        // Autorizar usuario
+        if (
+            $auth['id_usuario'] != $editable->id_usuario
+            || strtolower($auth['rol']) != 'administrador'
+        ) {
+            return json_response([
+                'data' => [
+                    'message' => 'No tiene permiso de editar este evento'
+                ]
+            ], 401);
         }
+
+        if (
+            $data['color'] != '#d7c735'
+            && $editable['color'] == '#d7c735'
+            && $auth['rol'] != 'Administrador'
+        ) {
+            $data['color'] = '#d7c735';
+        }
+
+        // Consigue el status
+        switch ($_POST['color']) {
+			case '#54b33d':
+				$color =  '#54b33d';
+				$status = 'cerrado';
+				break;
+			case '#f98710':
+				$color =  '#f98710';
+				$status = 'apartado';
+				break;
+			case '#d7c735':
+				$color = '#d7c735';
+				$status = 'tentativo';
+				break;
+        }
+        $data['status'] = $status;
 
         // Valido los datos
         $validator = new Validator($data);
@@ -114,21 +154,8 @@ class EventosController {
         if ($result['status'] == 422) {
             return json_response($result, 422);
         }
-
-        $event = new Evento();
-        $res['error'] = true;
-        
-		//$usuario = $_SESSION['usuario'];
         
 		try {
-            // VALIDA LOS DATOS POR POST
-            // \ApiEventos::validaDatosAgregar($_POST);
-			// VALIDAR PERMISO
-			// $permitido = \ApiEventos::permitirCambios($evento_id, $usuario);
-			// if (!$permitido) {
-			// 	throw new \Exception('<h3>Error</h3><br>No tiene permitido editar este evento');
-			// }
-
 			// VALIDAR FECHAS
 			$validacion = $event->validarFechas($data['start'], $data['end']);
 			if (!$validacion) {
@@ -138,7 +165,6 @@ class EventosController {
             $errors = new stdClass;
             $errors->start[] = $e->getMessage();
 
-            $res['error'] = true;
             $res['status'] = 422;
             $res['data'] = [
                 'message' => $e->getMessage(),
@@ -149,13 +175,12 @@ class EventosController {
 		try {
             // ACTUALIZA EL EVENTO
             $event->modificarEvento($data);
-            $res['error'] = false;
+            $res['data'] = ['message' => 'Actualizado correctamente.'];
             return json_response($res);
 
 		} catch (\PDOException $th) {
-			$res['error'] = true;
-            $res['msg'] = 'Hubo un error';
-            $res['log'] = $th->getMessage();
+            $res['status'] = 422;
+            $res['data'] = ['message' => $th->getMessage()];
             return json_response($res, 500);
 		}
     }

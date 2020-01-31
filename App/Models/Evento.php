@@ -4,6 +4,12 @@ namespace App\Models;
 
 class Evento extends Model
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->primaryKey = 'id_evento';
+	}
+
 	public function getAll() {
 		$sql = "SELECT * FROM eventos";
 		$eventos = \Conexion::query($sql, [], true);
