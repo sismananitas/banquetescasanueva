@@ -8,22 +8,16 @@ use Spipu\Html2Pdf\Html2Pdf;
 
 class OrdenesController extends Controller {
 
-    // public function getOne($id) {
-    //     $orden       = new Orden;
-    //     $res['data'] = $orden->getOne($id);
-    //     return $res;
-    // }
+    public function show($request) {
+        $orden = new Orden;
+        $o = $orden->find($request['id']);
+        $res['data'] = $o->showWithEvent();
+        return $res;
+    }
 
     public function getCampos($id) {
         $orden = new Orden;
         $res   = $orden->getExtraInputs($id);
-        return $res;
-    }
-
-    public function show() {
-        $orden = new Orden;
-        $orden->find($_POST['id']);
-        $res = $orden->showWithEvent();
         return $res;
     }
 
@@ -42,19 +36,19 @@ class OrdenesController extends Controller {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
             $orden = new Orden;
-      
+
             /** VALIDA EL AUTOR DEL EVENTO */
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
-      
+
             if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
                 throw new \Exception('No tiene permiso de editar este evento');
             }
-      
+
             /** VALIDA LOS CAMPOS EXTRA */
             if (isset($_POST['tag'])) {
                 $tag     = $_POST['tag'];
                 $content = $_POST['content'];
-        
+
                 for ($i = 0; $i < sizeof($tag); $i++) {
                     if (empty($tag[$i]) || empty($content[$i])) {
                         throw new \Exception('No puede enviar campos extra vacios');
@@ -68,19 +62,19 @@ class OrdenesController extends Controller {
             $res['msg']   = $e->getMessage();
             return $res;
         }
-      
+
           /** INSERTA LOS REGISTROS EN LA BASE DE DATOS */
         try {
             \Conexion::beginTransaction();
-      
+
             /** INSERTA UNA ORDEN DE SERVICIO */
             $orden->agregarOrden();
             $orden_id = \Conexion::lastInsertId();
-            
+
             if (isset($_POST['tag'])) {
                 $tag     = $_POST['tag'];
                 $content = $_POST['content'];
-        
+
                 for ($i = 0; $i < sizeof($tag); $i++) {
                     $orden->agregarCampoExtra($orden_id, $tag[$i], $content[$i]);
                 }
@@ -116,45 +110,45 @@ class OrdenesController extends Controller {
             || empty($_POST['garantia'])) {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
-      
+
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
-      
+
             if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
                 throw new \Exception('No tiene permiso de editar este evento');
             }
-      
+
             /** VALIDA LOS CAMPOS EXTRA */
             if (isset($_POST['tag'])) {
                 $tag     = $_POST['tag'];
                 $content = $_POST['content'];
-            
+
                 for ($i = 0; $i < sizeof($tag); $i++) {
                     if (empty($tag[$i]) || empty($content[$i])) {
                         throw new \Exception('No puede enviar campos extra vacios');
                     }
                 }
-            }    
+            }
         } catch (\Exception $e) {
             $res['error'] = true;
             $res['msg']   = $e->getMessage();
             return $res;
-        }    
-    
+        }
+
         /** MODIFICA LA ORDEN EN LA DB */
         try {
             $orden->modificarOrden($_POST['id']);
-        
+
         if (isset($_POST['id_campo']) && isset($_POST['tag'])) {
             $id_campo = $_POST['id_campo'];
             $tag      = $_POST['tag'];
             $content  = $_POST['content'];
-    
+
             for ($i = 0; $i < sizeof($id_campo); $i++) {
                 $orden->editarCampoExtra($id_campo[$i], $tag[$i], $content[$i]);
             }
         }
         $res['error'] = false;
-    
+
         } catch (\PDOException $e) {
             $res['error'] = true;
             $res['msg']   = 'No se pudo registrar la orden';
@@ -169,29 +163,29 @@ class OrdenesController extends Controller {
         if ($not_session) {
             return $not_session;
         }
-        
+
         try {
             if (empty($_POST['id'])) {
                 throw new \Exception("No se recibió la información");
             }
             $orden = new Orden;
-      
+
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
-      
+
             if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
                 throw new \Exception('No tiene permiso de editar esta orden');
             }
-      
+
         } catch (\Exception $e) {
             $res['error'] = true;
             $res['msg']   = $e->getMessage();
             return $res;
-        }    
-          
+        }
+
         try {
             $orden->eliminarOrden($_POST['id'], $_POST['id_evento']);
             $res['error'] = false;
-    
+
         } catch (\PDOException $e) {
             $res['error'] = true;
             $res['msg']   = 'No se pudo eliminar la orden';
@@ -217,7 +211,7 @@ class OrdenesController extends Controller {
         $fecha_hora  = explode(' ', $data_orden->fecha);
         $formato     = $data_orden->tipo_formato;
         $campos_dinamicos = $orden->getExtraInputs(['id_orden' => $id['id']]);
-        
+
         // Obtener logística
         $actividades = $logistica->getByEvent(['id_evento' => $id_evento]);
 
@@ -275,14 +269,14 @@ class OrdenesController extends Controller {
                 $res['msg'] = 'No se pudo clonar';
             }
         }
-        return json_response($res);        
+        return json_response($res);
     }
 }
 
 
 /**
  * DEVUELVE UNA PLANTILLA HTML
- * 
+ *
  * @param string $formato
  * @return string $template
  */

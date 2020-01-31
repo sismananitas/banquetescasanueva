@@ -8,20 +8,21 @@ class Orden extends Model
 	public function __construct()
 	{
 		parent::__construct();
+		$this->table = 'ordenes_servicio';
 		$this->primaryKey = 'id_orden';
 	}
 
 	public function showWithEvent()
 	{ 
-		$id = $this->primaryKey;
+		$id = $this->id_orden;
 
 		$sql = "SELECT o.*, e.id_evento, e.title, e.evento, e.contacto, e.cord_resp, e.cord_apoyo, e.folio".
 		" FROM ordenes_servicio o".
 		" INNER JOIN eventos e".
 		" ON o.id_evento = e.id_evento".
-		" WHERE o.id_orden = :id";
+		" WHERE o.id_orden = ?";
 
-		$ord = \Conexion::query($sql, $id, true);
+		$ord = $this->query($sql, [$id], true);
 		return $ord;
 	}
 
@@ -33,13 +34,13 @@ class Orden extends Model
 		" ON campos.id_orden = o.id_orden".
 		" WHERE campos.id_orden = :id_orden";
 
-		$ord = \Conexion::query($sql, $id_orden, true);
+		$ord = $this->query($sql, $id_orden, true);
 		return $ord;
 	}
 
 	public function getEventoId($orden_id) {
 		$sql = "SELECT id_evento as evento_id FROM ordenes_servicio WHERE id_orden = ?";
-		$evento = \Conexion::query($sql, [$orden_id], true, true);
+		$evento = $this->query($sql, [$orden_id], true, true);
 		return $evento->evento_id;
 	}
 
@@ -97,14 +98,14 @@ class Orden extends Model
 			:aguas_frescas
 		)";
 
-		\Conexion::query($sql, $this->getArrayData());
+		$this->query($sql, $this->getArrayData());
 	}
 
 	/**--- ELIMINAR ORDEN ---*/
 	public function eliminarOrden($id)
 	{
 		$sql = "DELETE FROM ordenes_servicio WHERE id_orden = :id";
-		\Conexion::query($sql, ['id' => $id]);
+		$this->query($sql, ['id' => $id]);
 	}
 
 	/**--- ACTUALIZAR ORDEN ---*/
@@ -140,7 +141,7 @@ class Orden extends Model
 		tipo_formato     = :tipo_formato,
     	aguas_frescas    = :aguas_frescas WHERE id_orden = :id";
 
-		\Conexion::query($sql, $data);
+		$this->query($sql, $data);
 	}
 
 	/**--- VALIDA EL AUTOR DEL EVENTO ---*/
@@ -154,7 +155,7 @@ class Orden extends Model
 		$sql = "SELECT COUNT(*) as 'num' FROM eventos
     	WHERE id_usuario = :id_usu AND id_evento = :id_evento";
 
-		$v = \Conexion::query($sql, $data, true, true);
+		$v = $this->query($sql, $data, true, true);
 		return $v->num;
 	}
 
@@ -172,7 +173,7 @@ class Orden extends Model
 		VALUES
 		(:id_orden, :tag, :content)";
 
-		\Conexion::query($sql, $data_campo);
+		$this->query($sql, $data_campo);
 	}
 
 	/**--- EDITA LOS CAMPOS EXTRA DE LA ORDEN ---*/
@@ -189,7 +190,7 @@ class Orden extends Model
 		content        = :content
 		WHERE id_campo = :id_campo";
 
-		\Conexion::query($sql, $data_campo);
+		$this->query($sql, $data_campo);
 	}
 
 	public function cloneOrden($orden_id) {
@@ -225,7 +226,7 @@ class Orden extends Model
 		FROM ordenes_servicio
 		WHERE id_orden = ?";
 
-		\Conexion::query($sql, [$orden_id]);
+		$this->query($sql, [$orden_id]);
 		return true;
 	}
 
@@ -236,7 +237,7 @@ class Orden extends Model
 		FROM campos_ordenes
 		WHERE id_orden = :orden_id;";
 
-		\Conexion::query($sql, ['orden_id' => $orden_id, 'new_orden_id' => $new_orden_id]);
+		$this->query($sql, ['orden_id' => $orden_id, 'new_orden_id' => $new_orden_id]);
 		return true;
 	}
 }
