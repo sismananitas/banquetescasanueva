@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
 /*!
  * Font Awesome Free 5.12.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -4454,6 +4455,35 @@ readers do not read off random characters that represent icons */
  */
 body {
   background-color: #000; }
+
+/** Generated @ www.fontreactor.com **/
+@font-face {
+  font-family: 'Caslon-Roman';
+  src: url(../fonts/original_Caslon540-BT-Roman_9508.woff) format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+/** Generated @ www.fontreactor.com **/
+@font-face {
+  font-family: 'English-Vivace';
+  src: url(../fonts/original_E111Viva.woff) format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+.btn-login {
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 32px;
+  font-size: 16px;
+  transition: 0.2s;
+  border: none;
+  background: #e4e4e4;
+  color: #242424; }
+
+.btn-login:hover {
+  background: #292929cc;
+  color: #fff;
+  cursor: pointer; }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
