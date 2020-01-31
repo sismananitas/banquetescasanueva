@@ -7,6 +7,6 @@ class CalendarioController {
     public function index() {
         \Utils::isUser();
         
-        return view('calendario');
+        return view('calendario.calendario');
     }
 }

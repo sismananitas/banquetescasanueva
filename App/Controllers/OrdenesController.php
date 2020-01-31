@@ -81,7 +81,8 @@ class OrdenesController extends Controller {
             /** CONFIRMA LOS CAMBIOS */
             \Conexion::commit();
             $res['error'] = false;
-      
+            $res['message'] = 'Orden registrada correctamente';
+
             /** ATRAPA LOS ERRORES Y REVIERTE LOS CAMBIOS */
         } catch (\PDOException $e) {
             $res['error'] = true;
@@ -205,9 +206,9 @@ class OrdenesController extends Controller {
 
         /**----------- VARIABLES -------------*/
         $data_orden  = $orden->getOne($id)[0];
-        $id_evento   = $data_orden['id_evento'];
-        $fecha_hora  = explode(' ', $data_orden['fecha']);
-        $formato     = $data_orden['tipo_formato'];
+        $id_evento   = $data_orden->id_evento;
+        $fecha_hora  = explode(' ', $data_orden->fecha);
+        $formato     = $data_orden->tipo_formato;
         $campos_dinamicos = $orden->getExtraInputs(['id_orden' => $id['id']]);
         
         // Obtener logística
@@ -234,7 +235,7 @@ class OrdenesController extends Controller {
 
         /**-------------- ESCRIBE Y MUESTRA EL PDF ---------------*/
         $html2pdf->writeHTML($html);
-        $html2pdf->output('Orden_de_servicio_' . date('d-m-Y') . '_' . $data_orden['title'] . '.pdf');
+        $html2pdf->output('Orden_de_servicio_' . date('d-m-Y') . '_' . $data_orden->title . '.pdf');
     }
 
     public function cloneOne() {

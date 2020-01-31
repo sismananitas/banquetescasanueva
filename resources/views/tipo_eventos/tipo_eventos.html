@@ -1,0 +1,30 @@
+<!-- CABECERA DE LA PÁGINA -->
+{include file=$inc|cat:'header.html'}
+<main>
+    {include file=$views|cat:'tipo_eventos/modal_tevento.html'}
+    <div class="col-xs-11 col-md-7 m-auto">
+        <table id="table_teventos" class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th><a class="btn primary" href="#">Agregar</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {foreach $tipo_eventos item=$tev}
+                    <tr data-item="{$tev->id_tipo_evento}">
+                        <td>{$tev->id_tipo_evento}</td>
+                        <td>{$tev->nombre_tevento}</td>
+                        <td><a class="btn danger" href="#">Eliminar</a></td>
+                    </tr>
+                {/foreach}
+            </tbody>
+        </table>
+    </div>
+</main>
+<script src="{$js}Modal.js?v={date('s')}" defer></script>
+<script src="public/js/tipo_eventos/TipoEvento.js?v={date('s')}" defer></script>
+<script src="public/js/tipo_eventos/onload.js?v={date('s')}" defer></script>
+<!-- PIÉ DE PÁGINA -->
+{include file=$inc|cat:'footer.html'}

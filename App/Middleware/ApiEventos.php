@@ -23,9 +23,10 @@ class ApiEventos {
         /**
          * CHECA SI HAY EVENTOS QUE ATRAVIEZAN LAS FECHAS INICIO O FINAL
          */
-        $sql = "SELECT title FROM eventos WHERE ((:inicio BETWEEN start and end) OR
-        (:final BETWEEN start and end)) AND
-        (id_lugar = :id_lugar AND color != :color)";
+        $sql = "SELECT title FROM eventos
+        WHERE ((:inicio BETWEEN start and end)
+        OR (:final BETWEEN start and end))
+        AND (id_lugar = :id_lugar AND color != :color)";
 
         $is_event = \Conexion::query($sql, $data, true);
 
@@ -36,9 +37,10 @@ class ApiEventos {
             /**
              * CHECA SI HAY EVENTOS QUE EMPIECEN O TERMINEN ENTRE DE LAS FECHAS INICIO O FINAL
              */
-            $sql = "SELECT title FROM eventos WHERE ((start between :inicio and :final) OR 
-            (end between :inicio and :final)) AND
-            (id_lugar = :id_lugar AND color != :color)";
+            $sql = "SELECT title FROM eventos
+            WHERE ((start between :inicio and :final)
+            OR (end between :inicio and :final))
+            AND (id_lugar = :id_lugar AND color != :color)";
 
             $is_event = \Conexion::query($sql, $data, true);
             

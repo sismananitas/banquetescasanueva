@@ -1,0 +1,50 @@
+{include file=$inc|cat:'header.html'}
+<style>
+</style>
+
+<main>
+	<div id="m_lugares" class="modal">
+		<div class="flex">
+			<div class="modal-content m-sesion col-xs-10 col-sm-7 col-md-5 col-lg-3">
+				<div class="modal-header">
+					<p class="title">Agregar</p>
+					<a class="close">&times;</a>
+				</div>
+
+				<div class="modal-body">
+					<form id="form_lugares" class="form" action="javascript:void(0)" method="post">
+						Lugar / Salón
+						<input class="col-xs-12" type="text" placeholder="Nombre" name="lugar">
+						<br><br>
+
+						<button class="btn primary" type="submit" name="button">Ingresar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="content m-auto-x">
+
+		<h4>LUGARES</h4><br>
+		<div class="table-container col-xs-12 col-md-6 col-lg-5 m-auto-x">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>LUGAR</th>
+						<th class="opt">
+							<button id="add_lugar" class="primary"><i class="fas fa-plus-circle"></i></button>
+						</th>
+					</tr>
+				</thead>
+				<tbody id="tbody_lugar">
+				<!-- javascript -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+</main>
+<script src="{$js}Modal.js?v={date('s')}"></script>
+<script src="public/js/lugares/loader.js?v={date('s')}"></script>
+{include file=$inc|cat:'footer.html'}

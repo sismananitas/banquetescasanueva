@@ -1,0 +1,54 @@
+<div id="MD_evento" class="sub-modal">
+	<div class="flex" onclick="cerrarModal(event, 'MD_evento')">
+		<div class="modal-content col-xs-11 col-lg-10" onclick="stopPropagation(event)">
+			<div class="modal-header">
+				<h3>Información</h3>
+			</div>
+			<div class="modal-body row-between">
+				<div class="col-xs-11 col-md-6 m-auto-x">
+					<h3>Logística</h3>
+					<div class="t-scroll-y" style="margin-right:5px">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Fecha</th>
+									<th>Hora</th>
+									<th>Actividad</th>
+									<th>Lugar</th>
+									<th>Opciones</th>
+								</tr>
+							</thead>
+							<tbody id="tb_logistica">
+								<!-- Codigo Javascript -->
+							</tbody>
+						</table>
+					</div>
+					<button id="btnAgregarLogistica" class="btn primary" type="button" onclick="abrirAgregarLogistica()">Agregar</button>
+				</div>
+				<div class="col-xs-11 col-md-6  m-auto-x">
+					<h3>Ordenes de servicio</h3>
+					<div class="t-scroll-y" style="margin-left:5px">
+						<table class="table">
+							<thead>
+								<tr>
+									<th style="min-width: 30px">Imprimir</th>
+									<th>Nombre</th>
+									<th>Lugar</th>
+									<th>Fecha</th>
+									<th>Opciones</th>
+								</tr>
+							</thead>
+							<tbody id="tbody_orden">
+								<!-- Codigo Javascript -->
+							</tbody>
+						</table>
+					</div>
+					<button id="btn_agregar_orden" class="btn primary" type="button" onclick="abrirAgregarOrden()">Agregar</button>
+				</div>
+				<div class="modal-footer">
+					<button id="cancelar" class="btn default" type="button" onclick="cerrarModal(event, 'MD_evento')">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

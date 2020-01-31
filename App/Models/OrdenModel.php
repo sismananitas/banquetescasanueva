@@ -31,7 +31,7 @@ class OrdenModel
 	public function getEventoId($orden_id) {
 		$sql = "SELECT id_evento as evento_id FROM ordenes_servicio WHERE id_orden = ?";
 		$evento = \Conexion::query($sql, [$orden_id], true, true);
-		return $evento['evento_id'];
+		return $evento->evento_id;
 	}
 
 	/**--- OBTENER ARRAY DE LA ORDEN ---*/
@@ -69,15 +69,24 @@ class OrdenModel
 	/**--- AGREGAR ORDEN ---*/
 	public function agregarOrden()
 	{
-		$sql = "INSERT INTO ordenes_servicio VALUES (
-		null, :id_evento, :fecha, :orden, :garantia,
-		:lugar, :montaje, null, :canapes,
-		:entrada, :fuerte, :postre, :torna, :bebidas,
-		:cocteleria, :mezcladores, :detalle_montaje,
-		:ama_llaves, :chief_steward, :mantenimiento,
-		:seguridad, :proveedores, :recursos_humanos,
-		:contabilidad, :observaciones, :tipo_formato,
-		:aguas_frescas)";
+		$sql = "INSERT INTO ordenes_servicio
+		VALUES (
+			null, :id_evento, :fecha,
+			:orden, :garantia,
+			:lugar, :montaje,
+			null, :canapes,
+			:entrada, :fuerte, :postre,
+			:torna, :bebidas,
+			:cocteleria, :mezcladores,
+			:detalle_montaje,
+			:ama_llaves, :chief_steward,
+			:mantenimiento,
+			:seguridad, :proveedores,
+			:recursos_humanos,
+			:contabilidad, :observaciones,
+			:tipo_formato,
+			:aguas_frescas
+		)";
 
 		\Conexion::query($sql, $this->getArrayData());
 	}
@@ -86,7 +95,7 @@ class OrdenModel
 	public function eliminarOrden($id)
 	{
 		$sql = "DELETE FROM ordenes_servicio WHERE id_orden = :id";
-		\Conexion::query($sql, array('id' => $id));
+		\Conexion::query($sql, ['id' => $id]);
 	}
 
 	/**--- ACTUALIZAR ORDEN ---*/
@@ -128,26 +137,26 @@ class OrdenModel
 	/**--- VALIDA EL AUTOR DEL EVENTO ---*/
 	public function validaUsuarioEvento($id_evento)
 	{
-		$data = array(
+		$data = [
 			'id_usu'    => $_SESSION['usuario']['id_usuario'],
 			'id_evento' => $id_evento
-		);
+		];
 
 		$sql = "SELECT COUNT(*) as 'num' FROM eventos
     	WHERE id_usuario = :id_usu AND id_evento = :id_evento";
 
 		$v = \Conexion::query($sql, $data, true, true);
-		return $v['num'];
+		return $v->num;
 	}
 
 	/**--- AGREGA CAMPOS ESTRA A LA ORDEN ---*/
 	public function agregarCampoExtra($id_orden, $tag, $cont)
 	{
-		$data_campo = array(
+		$data_campo = [
 			'id_orden' => $id_orden,
 			'tag'      => $tag,
 			'content'  => $cont
-		);
+		];
 
 		$sql = "INSERT INTO campos_ordenes 
 		(id_orden, tag, content)
@@ -160,11 +169,11 @@ class OrdenModel
 	/**--- EDITA LOS CAMPOS EXTRA DE LA ORDEN ---*/
 	public function editarCampoExtra($id_campo, $tag, $cont)
 	{
-		$data_campo = array(
+		$data_campo = [
 			'id_campo' => $id_campo,
 			'tag'      => $tag,
 			'content'  => $cont
-		);
+		];
 
 		$sql = "UPDATE campos_ordenes SET
 		tag            = :tag,
@@ -175,22 +184,45 @@ class OrdenModel
 	}
 
 	public function cloneOrden($orden_id) {
-		$sql = "INSERT INTO ordenes_servicio (`id_evento`, `fecha`, `orden`, `garantia`, `lugar`, `montaje`, `nota`, `canapes`, `entrada`,
-		`fuerte`, `postre`, `torna`, `bebidas`, `cocteleria`, `mezcladores`, `detalle_montaje`, `ama_llaves`,
-		`chief_steward`, `mantenimiento`, `seguridad`, `proveedores`, `recursos_humanos`,
-		`contabilidad`,	`observaciones`, `tipo_formato`, `aguas_frescas`)
-		SELECT `id_evento`, `fecha`, `orden`, `garantia`, `lugar`, `montaje`, `nota`, `canapes`, `entrada`,
-		`fuerte`, `postre`, `bebidas`, `cocteleria`, `mezcladores`, `detalle_montaje`, `ama_llaves`,
-		`chief_steward`, `mantenimiento`, `seguridad`, `proveedores`, `recursos_humanos`,
-		`contabilidad`,	`observaciones`, `tipo_formato`, `aguas_frescas`
+		$sql = "INSERT INTO ordenes_servicio (
+			`id_evento`, `fecha`,
+			`orden`, `garantia`,
+			`lugar`, `montaje`,
+			`nota`, `canapes`,
+			`entrada`, `fuerte`,
+			`postre`, `torna`,
+			`bebidas`, `cocteleria`,
+			`mezcladores`, `detalle_montaje`,
+			`ama_llaves`, `chief_steward`,
+			`mantenimiento`, `seguridad`,
+			`proveedores`, `recursos_humanos`,
+			`contabilidad`, `observaciones`,
+			`tipo_formato`, `aguas_frescas`
+		)
+		SELECT 
+		`id_evento`, `fecha`,
+		`orden`, `garantia`,
+		`lugar`, `montaje`,
+		`nota`, `canapes`,
+		`entrada`, `fuerte`,
+		`postre`, `torna`,
+		`bebidas`, `cocteleria`,
+		`mezcladores`, `detalle_montaje`,
+		`ama_llaves`, `chief_steward`,
+		`mantenimiento`, `seguridad`,
+		`proveedores`, `recursos_humanos`,
+		`contabilidad`, `observaciones`,
+		`tipo_formato`, `aguas_frescas`
 		FROM ordenes_servicio
-		WHERE id_orden = ?;";
+		WHERE id_orden = ?";
 
-		return \Conexion::query($sql, [$orden_id]);
+		\Conexion::query($sql, [$orden_id]);
+		return true;
 	}
 
 	public function cloneCampos($orden_id, $new_orden_id) {
-		$sql = "INSERT INTO campos_ordenes (id_orden, tag, content)
+		$sql = "INSERT INTO campos_ordenes
+		(id_orden, tag, content)
 		SELECT :new_orden_id, tag, content
 		FROM campos_ordenes
 		WHERE id_orden = :orden_id;";

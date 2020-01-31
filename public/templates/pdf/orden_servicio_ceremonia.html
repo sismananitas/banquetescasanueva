@@ -99,10 +99,10 @@
       <b>NOTA:</b>
    </td>
    <td>
-      {$data.title} <br>
-      {$data.contacto} <br>
-      {$data.evento}<br>
-      {$data.orden}
+      {$data->title} <br>
+      {$data->contacto} <br>
+      {$data->evento}<br>
+      {$data->orden}
    </td>
    <td>
       <b>FOLIO:</b> <br>
@@ -111,10 +111,10 @@
       <b>VENDEDOR:</b> <br>
    </td>
    <td>
-      {$data.id_orden} <br>
-      {$data.cord_resp} <br>
-      {$data.cord_apoyo} <br>
-      {$data.cord_resp} <br>
+      {$data->id_orden} <br>
+      {$data->cord_resp} <br>
+      {$data->cord_apoyo} <br>
+      {$data->cord_resp} <br>
    </td>
    </tr>
 </table>
@@ -131,11 +131,11 @@
    </tr>
    <tr class="thead">
       <td>{$hora}</td>
-      <td>{$data.lugar}</td>
-      <td>{$data.orden}</td>
-      <td>{$data.montaje}</td>
-      <td>{$data.garantia}</td>
-      <td>{$data.folio}</td>
+      <td>{$data->lugar}</td>
+      <td>{$data->orden}</td>
+      <td>{$data->montaje}</td>
+      <td>{$data->garantia}</td>
+      <td>{$data->folio}</td>
       <td></td>
    </tr>
 
@@ -151,8 +151,8 @@
    <tr>
    <td id="alimentos_bebidas" colspan="3" rowspan="5">
       <pre>
-{if $data.observaciones != ''}
-{$data.observaciones}
+{if $data->observaciones != ''}
+{$data->observaciones}
 {else}
 N/A
 {/if}
@@ -161,10 +161,10 @@ N/A
 
    <td id="montaje" colspan="4">
       <pre>
-{if $data.detalle_montaje eq ''}
+{if $data->detalle_montaje eq ''}
 N/A
 {else}
-{$data.detalle_montaje}
+{$data->detalle_montaje}
 {/if}
       </pre>
    </td>
@@ -177,10 +177,10 @@ N/A
    <tr>
    <td id="ama_llaves" colspan="4">
       <pre>
-{if $data.ama_llaves eq ''}
+{if $data->ama_llaves eq ''}
 N/A
 {else}
-{$data.ama_llaves}  
+{$data->ama_llaves}  
 {/if}
       </pre>
    </td>
@@ -193,8 +193,8 @@ N/A
    <tr>
    <td id="seguridad" colspan="4">
       <pre>
-{if $data.seguridad != ''}
-{$data.seguridad}
+{if $data->seguridad != ''}
+{$data->seguridad}
 {else}
 N/A
 {/if}
@@ -217,22 +217,22 @@ N/A
             <th style="width: 36mm">LUGAR</th>
          </tr>
          {foreach from=$act item=row}
-         {assign var="inicio" value=" "|explode:$row.start} 
-         <tr style="line-height: 0;">
-            <td>{$inicio.0}</td>
-            <td>{$inicio.1}</td>
-            <td>{$row.title|truncate:35:""}</td>
-            <td>{$row.lugar}</td>
-         </tr>
+            {assign var="inicio" value=" "|explode:$row->start} 
+            <tr style="line-height: 0;">
+               <td>{$inicio.0}</td>
+               <td>{$inicio.1}</td>
+               <td>{$row->title|truncate:35:""}</td>
+               <td>{$row->lugar}</td>
+            </tr>
          {/foreach}
       </table>
    </td>
    <td id="mantenimiento" colspan="4">
       <pre>
-{if $data.mantenimiento eq ''}
+{if $data->mantenimiento eq ''}
 N/A
 {else}
-{$data.mantenimiento}
+{$data->mantenimiento}
 {/if}
       </pre>
    </td>
@@ -246,41 +246,41 @@ N/A
    <tr>
    <td id="recursos_humanos" colspan="4">
       <pre>
-{if $data.recursos_humanos eq ''}
+{if $data->recursos_humanos eq ''}
 N/A
 {else}
-{$data.recursos_humanos}
+{$data->recursos_humanos}
 {/if}
       </pre>
    </td>
    </tr>
 
-   {if $data.proveedores != ''}
+   {if $data->proveedores != ''}
    <tr>
    <th colspan="4">PROVEEDORES</th>
    </tr>
    <tr>
    <td id="proveedores" colspan="4">
       <pre>
-{$data.proveedores}
+{$data->proveedores}
       </pre>
    </td>
    </tr>
    {/if}
 
    {foreach from=$d_data item=row}
-   {if $row.tag != ''}
-   <tr>
-   <th colspan="4">{$row.tag}</th>
-   </tr>
-   <tr>
-   <td colspan="4">
-      <pre>
-{$row.content}
-      </pre>
-   </td>
-   </tr>
-   {/if}
+      {if $row->tag != ''}
+      <tr>
+         <th colspan="4">{$row->tag}</th>
+      </tr>
+      <tr>
+      <td colspan="4">
+         <pre>
+{$row->content}
+         </pre>
+      </td>
+      </tr>
+      {/if}
    {/foreach}
 </table>
 </page>

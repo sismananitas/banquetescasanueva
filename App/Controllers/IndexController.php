@@ -13,6 +13,6 @@ class IndexController
             ];
             unset($_SESSION['error']);
         }
-        return view('index', $params);
+        return view('index.index', $params);
     }
 }

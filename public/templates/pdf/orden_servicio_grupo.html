@@ -110,10 +110,10 @@
         <b>NOTA:</b>
       </td>
       <td>
-        {$data.title} <br>
-        {$data.contacto} <br>
-        {$data.evento}<br>
-        {$data.orden}
+        {$data->title} <br>
+        {$data->contacto} <br>
+        {$data->evento}<br>
+        {$data->orden}
       </td>
       <td>
         <b>FOLIO:</b> <br>
@@ -122,10 +122,10 @@
         <b>VENDEDOR:</b> <br>
       </td>
       <td>
-        {$data.id_orden} <br>
-        {$data.cord_resp} <br>
-        {$data.cord_apoyo} <br>
-        {$data.cord_resp} <br>
+        {$data->id_orden} <br>
+        {$data->cord_resp} <br>
+        {$data->cord_apoyo} <br>
+        {$data->cord_resp} <br>
       </td>
     </tr>
   </table>
@@ -142,15 +142,15 @@
    </tr>
    <tr class="thead">
       <td>{$hora}</td>
-      <td>{$data.lugar}</td>
-      <td>{$data.orden}</td>
-      <td>{$data.montaje}</td>
-      <td>{$data.garantia}</td>
+      <td>{$data->lugar}</td>
+      <td>{$data->orden}</td>
+      <td>{$data->montaje}</td>
+      <td>{$data->garantia}</td>
       <td>
-        {if $data.folio != ''}
-        $data.folio
+        {if $data->folio != ''}
+          $data->folio
         {else}
-        PENDIENTE
+          PENDIENTE
         {/if}
       </td>
       <td></td>
@@ -161,15 +161,15 @@
       <td colspan="4">COORDINACIÓN OPERATIVA</td>
       </tr>
       <tr class="thead">
-      <td colspan="3">{$data.orden}</td>
+      <td colspan="3">{$data->orden}</td>
       <td colspan="4">MONTAJE</td>
    </tr>
 
     <tr>
       <td id="alimentos_bebidas" colspan="2" rowspan="3">
         <pre>
-{if $data.canapes != ''}
-{$data.canapes}
+{if $data->canapes != ''}
+{$data->canapes}
 {else}
 N/A
 {/if}
@@ -178,15 +178,15 @@ N/A
 
       <td rowspan="3" style="border-left: none; padding: 0 5px;">
         <h6>OBERVACIONES</h6>
-        {$data.observaciones}
+        {$data->observaciones}
       </td>
 
       <td id="montaje" colspan="4">
         <pre>
-{if $data.detalle_montaje eq ''}
+{if $data->detalle_montaje eq ''}
 N/A
 {else}
-{$data.detalle_montaje}
+{$data->detalle_montaje}
 {/if}
         </pre>
       </td>
@@ -198,10 +198,10 @@ N/A
     <tr>
       <td id="ama_llaves" colspan="4">
         <pre>
-{if $data.ama_llaves eq ''}
+{if $data->ama_llaves eq ''}
 N/A
 {else}
-{$data.ama_llaves}  
+{$data->ama_llaves}  
 {/if}
         </pre>
       </td>
@@ -214,20 +214,20 @@ N/A
     <tr>
       <td id="bebidas" colspan="3">
         <pre>
-{if $data.bebidas eq ''}
+{if $data->bebidas eq ''}
 N/A
 {else}
-{$data.bebidas}
+{$data->bebidas}
 {/if}
         </pre>
       </td>
 
       <td id="chief_steward" colspan="4">
         <pre>
-{if $data.chief_steward eq ''}
+{if $data->chief_steward eq ''}
 N/A
 {else}
-{$data.chief_steward}
+{$data->chief_steward}
 {/if}
         </pre>
       </td>
@@ -246,56 +246,54 @@ N/A
 				<th style="width: 50mm">ACTIVIDAD</th>
 				<th style="width: 36mm">LUGAR</th>
           </tr>
-          
-          {foreach from=$act item=row}
-          {assign var="inicio" value=" "|explode:$row.start} 
-          <tr style="line-height: 0;">
-            <td>{$inicio.0}</td>
-            <td>{$inicio.1}</td>
-            <td>{$row.title|truncate:35:""}</td>
-            <td>{$row.lugar}</td>
-          </tr>
-          {/foreach}
+            {foreach from=$act item=row}
+              {assign var="inicio" value=" "|explode:$row->start} 
+              <tr style="line-height: 0;">
+                <td>{$inicio.0}</td>
+                <td>{$inicio.1}</td>
+                <td>{$row->title|truncate:35:""}</td>
+                <td>{$row->lugar}</td>
+              </tr>
+            {/foreach}
         </table>
       </td>
-
       <td id="mantenimiento" colspan="4">
         <pre>
-{if $data.mantenimiento eq ''}
+{if $data->mantenimiento eq ''}
 N/A
 {else}
-{$data.mantenimiento}
+{$data->mantenimiento}
 {/if}
         </pre>
       </td>
     </tr>
 
-    {if $data.proveedores != ''}
+    {if $data->proveedores != ''}
     <tr>
       <th colspan="4">PROVEEDORES</th>
     </tr>
     <tr>
       <td id="proveedores" colspan="4">
         <pre>
-{$data.proveedores}
+{$data->proveedores}
         </pre>
       </td>
     </tr>
     {/if}
 
     {foreach from=$d_data item=row}
-    {if $row.tag != ''}
-    <tr>
-      <th colspan="4">{$row.tag}</th>
-    </tr>
-    <tr>
-      <td colspan="4">
-        <pre>
-{$row.content}
-        </pre>
-      </td>
-    </tr>
-    {/if}
+      {if $row->tag != ''}
+      <tr>
+        <th colspan="4">{$row->tag}</th>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <pre>
+  {$row->content}
+          </pre>
+        </td>
+      </tr>
+      {/if}
     {/foreach}
 
     <tr>
@@ -304,10 +302,10 @@ N/A
     <tr>
       <td id="contabilidad_restaurante" colspan="4">
         <pre>
-{if $data.contabilidad eq ''}
+{if $data->contabilidad eq ''}
 N/A
 {else}
-{$data.contabilidad}
+{$data->contabilidad}
 {/if}
         </pre>
       </td>

@@ -129,10 +129,10 @@
 				<b>NOTA:</b>
 			</td>
 			<td>
-				{$data.title} <br>
-				{$data.contacto} <br>
-				{$data.evento}<br>
-				{$data.orden}
+				{$data->title} <br>
+				{$data->contacto} <br>
+				{$data->evento}<br>
+				{$data->orden}
 			</td>
 			<td>
 				<b>FOLIO:</b> <br>
@@ -141,10 +141,10 @@
 				<b>VENDEDOR:</b> <br>
 			</td>
 			<td>
-				{$data.id_orden} <br>
-				{$data.cord_resp} <br>
-				{$data.cord_apoyo} <br>
-				{$data.cord_resp} <br>
+				{$data->id_orden} <br>
+				{$data->cord_resp} <br>
+				{$data->cord_apoyo} <br>
+				{$data->cord_resp} <br>
 			</td>
 		</tr>
 	</table>
@@ -161,10 +161,10 @@
 		</tr>
 		<tr class="thead">
 			<td>{$hora}</td>
-			<td>{$data.lugar}</td>
-			<td>{$data.orden}</td>
-			<td>{$data.montaje}</td>
-			<td>{$data.garantia}</td>
+			<td>{$data->lugar}</td>
+			<td>{$data->orden}</td>
+			<td>{$data->montaje}</td>
+			<td>{$data->garantia}</td>
 			<td>PENDIENTE</td>
 			<td></td>
 		</tr>
@@ -181,8 +181,8 @@
 		<tr>
 			<td id="alimentos_bebidas" colspan="3">
 				<pre>
-{if $data.canapes != ''}
-{$data.canapes}
+{if $data->canapes != ''}
+{$data->canapes}
 {else}
 N/A
 {/if}
@@ -191,10 +191,10 @@ N/A
 
 			<td id="montaje" colspan="4">
 				<pre>
-{if $data.detalle_montaje eq ''}
+{if $data->detalle_montaje eq ''}
 N/A
 {else}
-{$data.detalle_montaje}
+{$data->detalle_montaje}
 {/if}
       			</pre>
 			</td>
@@ -208,20 +208,20 @@ N/A
 		<tr>
 			<td id="aguas_frescas" colspan="3">
 				<pre>
-{if $data.aguas_frescas eq ''}
+{if $data->aguas_frescas eq ''}
 N/A
 {else}
-{$data.aguas_frescas}  
+{$data->aguas_frescas}  
 {/if}
           		</pre>
 			</td>
 
 			<td id="ama_llaves" colspan="4">
 				<pre>
-{if $data.ama_llaves eq ''}
+{if $data->ama_llaves eq ''}
 N/A
 {else}
-{$data.ama_llaves}  
+{$data->ama_llaves}  
 {/if}
         		</pre>
 			</td>
@@ -235,20 +235,20 @@ N/A
 		<tr>
 			<td id="cocteleria" colspan="3">
 				<pre>
-{if $data.cocteleria eq ''}
+{if $data->cocteleria eq ''}
 N/A
 {else}
-{$data.cocteleria}
+{$data->cocteleria}
 {/if}
         		</pre>
 			</td>
 
 			<td id="chief_steward" colspan="4">
 				<pre>
-{if $data.chief_steward eq ''}
+{if $data->chief_steward eq ''}
 N/A
 {else}
-{$data.chief_steward}
+{$data->chief_steward}
 {/if}
        			</pre>
 			</td>
@@ -262,8 +262,8 @@ N/A
 		<tr>
 			<td id="mezcladores" colspan="3">
 				<pre>
-{if $data.mezcladores != ''}
-{$data.mezcladores}
+{if $data->mezcladores != ''}
+{$data->mezcladores}
 {else}
 N/A
 {/if}
@@ -272,8 +272,8 @@ N/A
 
 			<td id="seguridad" colspan="4">
 				<pre>
-{if $data.seguridad != ''}
-{$data.seguridad}
+{if $data->seguridad != ''}
+{$data->seguridad}
 {else}
 N/A
 {/if}
@@ -288,19 +288,19 @@ N/A
 		<tr>
 			<td id="bebidas" colspan="3">
 				<pre>
-{if $data.bebidas eq ''}
+{if $data->bebidas eq ''}
 N/A
 {else}
-{$data.bebidas}
+{$data->bebidas}
 {/if}
       </pre>
 			</td>
 			<td id="mantenimiento" colspan="4">
 				<pre>
-{if $data.mantenimiento eq ''}
+{if $data->mantenimiento eq ''}
 N/A
 {else}
-{$data.mantenimiento}
+{$data->mantenimiento}
 {/if}
         		</pre>
 			</td>
@@ -335,23 +335,23 @@ N/A
 			</td>
 			<td id="recursos_humanos" colspan="4">
 				<pre>
-{if $data.recursos_humanos eq ''}
+{if $data->recursos_humanos eq ''}
 N/A
 {else}
-{$data.recursos_humanos}
+{$data->recursos_humanos}
 {/if}
         		</pre>
 			</td>
 		</tr>
 
-		{if $data.proveedores != ''}
+		{if $data->proveedores != ''}
 		<tr>
 			<th colspan="4">PROVEEDORES</th>
 		</tr>
 		<tr>
 			<td id="proveedores" colspan="4">
 				<pre>
-{$data.proveedores}
+{$data->proveedores}
         		</pre>
 			</td>
 		</tr>
@@ -363,10 +363,10 @@ N/A
 		<tr>
 			<td id="contabilidad_restaurante" colspan="4">
 				<pre>
-{if $data.contabilidad eq ''}
+{if $data->contabilidad eq ''}
 N/A
 {else}
-{$data.contabilidad}
+{$data->contabilidad}
 {/if}
         		</pre>
 			</td>
@@ -375,12 +375,12 @@ N/A
 		{if $d_data[0]['tag'] != ''}
 			{foreach from=$d_data item=row}
 			<tr>
-				<th colspan="4">{$row.tag}</th>
+				<th colspan="4">{$row->tag}</th>
 			</tr>
 			<tr>
 				<td colspan="4">
 					<pre>
-{$row.content}
+{$row->content}
 					</pre>
 				</td>
 			</tr>

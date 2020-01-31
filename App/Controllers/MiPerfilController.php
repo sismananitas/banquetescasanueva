@@ -8,7 +8,7 @@ class MiPerfilController {
 
     public function index() {
         \Utils::isUser();
-        return view('mi_perfil');
+        return view('mi_perfil.mi_perfil');
     }
 
     public function getMyInfo() {

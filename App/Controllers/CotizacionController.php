@@ -10,7 +10,7 @@ class CotizacionController {
     
     public function index() {
         \Utils::isVentas();
-        return view('cotizacion');
+        return view('cotizacion.cotizacion');
     }
 
     public function detalle($id) {

@@ -2,24 +2,26 @@
 
 namespace App\Controllers;
 
-use App\Models\EventosModel;
+use App\Models\Evento;
 use App\Models\EventosSql;
 use App\Models\TablaModel;
+use Helpers\Validator;
+use stdClass;
 
 class EventosController {
 
     public function index() {
         \Utils::isVentas();
 
-        $evento = new EventosModel;
+        $evento = new Evento;
         $params = [
             'eventos' => $evento->getAll()
         ];
-        return view('eventos', $params);
+        return view('eventos.eventos', $params);
     }
 
     public function getEventos() {
-        $evento = new EventosModel;
+        $evento = new Evento;
         $eventos = $evento->getMonth($_GET['start'], $_GET['end']);
         return json_response($eventos, 200);
     }
@@ -37,7 +39,7 @@ class EventosController {
             return $not_session;
         }
 
-        $event = new EventosModel();
+        $event = new Evento();
         $res['error'] = true;
         try {
             // VALIDA LOS DATOS POR POST
@@ -81,39 +83,72 @@ class EventosController {
     public function update() {
         // Validar sesión
         $not_session = \Utils::validate_session();
+        $data = $_POST;
+        $auth = $_SESSION['usuario'];
 
         if ($not_session) {
             return $not_session;
         }
 
-        $event = new EventosModel();
+        // Valido los datos
+        $validator = new Validator($data);
+        $result = $validator
+        ->validate([
+            'title' => 'required',
+            'evento' => 'required',
+            'contacto' => 'required',
+            'cord_resp' => 'required',
+            'cord_apoyo' => 'nullable',
+            'description' => 'nullable',
+            'id_lugar' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'personas' => 'required',
+            'categoria' => 'required',
+            'folio' => 'nullable',
+            'status' => 'required',
+            'color' => 'required',
+            'id' => 'required',
+        ]);
+
+        if ($result['status'] == 422) {
+            return json_response($result, 422);
+        }
+
+        $event = new Evento();
         $res['error'] = true;
         
-		$evento_id = $_POST['id'];
-		$usuario = $_SESSION['usuario'];
+		//$usuario = $_SESSION['usuario'];
         
 		try {
             // VALIDA LOS DATOS POR POST
-            \ApiEventos::validaDatosAgregar($_POST);
+            // \ApiEventos::validaDatosAgregar($_POST);
 			// VALIDAR PERMISO
-			$permitido = \ApiEventos::permitirCambios($evento_id, $usuario);
-			if (!$permitido) {
-				throw new \Exception('<h3>Error</h3><br>No tiene permitido editar este evento');
-			}
+			// $permitido = \ApiEventos::permitirCambios($evento_id, $usuario);
+			// if (!$permitido) {
+			// 	throw new \Exception('<h3>Error</h3><br>No tiene permitido editar este evento');
+			// }
 
 			// VALIDAR FECHAS
-			$validacion = $event->validarFechas($_POST['start'], $_POST['end']);
+			$validacion = $event->validarFechas($data['start'], $data['end']);
 			if (!$validacion) {
 				throw new \Exception('<h3>Datos incorrectos</h3><br>No pueden haber fechas vacias');
             }        
 		} catch (\Exception $e) {
+            $errors = new stdClass;
+            $errors->start[] = $e->getMessage();
+
             $res['error'] = true;
-            $res['msg'] = $e->getMessage();
-            return json_response($res);
+            $res['status'] = 422;
+            $res['data'] = [
+                'message' => $e->getMessage(),
+                'errors' => $errors
+            ];
+            return json_response($res, 422);
 		}
 		try {
             // ACTUALIZA EL EVENTO
-            $event->modificarEvento($evento_id);
+            $event->modificarEvento($data);
             $res['error'] = false;
             return json_response($res);
 
@@ -121,7 +156,7 @@ class EventosController {
 			$res['error'] = true;
             $res['msg'] = 'Hubo un error';
             $res['log'] = $th->getMessage();
-            return json_response($res);
+            return json_response($res, 500);
 		}
     }
 
@@ -138,7 +173,7 @@ class EventosController {
             return $not_session;
         }
         
-        $event = new EventosModel();
+        $event = new Evento();
         $res['error'] = true;
         
 		try {

@@ -70,7 +70,7 @@ class Router {
 		else if ($response === false)
 		{
 			header("HTTP/1.0 404 Not Found");
-			include 'public/views/error-404.html';
+			echo view('errors.404');
 		}
 	}
 

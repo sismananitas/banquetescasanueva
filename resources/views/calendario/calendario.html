@@ -1,0 +1,40 @@
+{extends file='public/templates/banquetes_temp.html'}
+
+{block name="css"}
+<link rel="stylesheet" href="{$base_url}public/lib/fullcalendar/fullcalendar.css">
+<style>
+	.calendario_container {
+		overflow: auto;
+	}
+	#calendar {
+		min-width: 550px;
+	}
+	td {
+		min-width: 90px;
+	}
+</style>
+{/block}
+
+{block name="main"}
+	<div class="content m-auto">
+		<div class="row-between" style="padding-bottom: 10px">
+			<hgroup>
+				<h1>Calendario</h1>
+				<h2>Próximos eventos</h2>
+			</hgroup>
+			{include file=$inc|cat:'event-info.html'}
+		</div>
+		<div class="calendario_container">
+			<div id="calendar" class="col-xs-12 col-md-10 col-xlg-9 m-auto-x"></div>
+		</div>
+	</div>
+	{include file=$views|cat:'calendario/M_evento.html'}
+	{include file=$views|cat:'calendario/MD_evento.html'}
+{/block}
+
+{block name="js"}
+<script src="{$base_url}public/lib/fullcalendar/fullcalendar.js" defer></script>
+<script src="{$base_url}public/lib/fullcalendar/locale/es-us.js" defer></script>
+<script src="public/js/calendario/functions.js?v={date('s')}" defer></script>
+<script src="public/js/calendario/calendar.js?v={date('s')}" defer></script>
+{/block}

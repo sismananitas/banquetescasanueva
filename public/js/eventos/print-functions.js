@@ -1,59 +1,69 @@
 
 /**----------------- PINTAR TABLA LOGÍSTICA --------------------*/
 function mostrarLogistica(data) {
-	tb_logistica.innerHTML = '';	
+	let textHtml = ''
 
 	for (let val of data) {
 		let fechahora = val.start.split(' ', 2),
-		date_format = fechahora[0];
+		date_format = fechahora[0]
 
-		tb_logistica.innerHTML += `<tr>
-		<td>${date_format}</td>
-		<td>${fechahora[1]}</td>
-		<td>${val.title}</td>
-		<td>${val.lugar}</td>
-		<td>
-		<button class="atention" type="button" element="${val.id_sub_evento}">
-		<i class="fas fa-pen-alt"></i>
-		</button>
-		<button class="danger" type="button" element="${val.id_sub_evento}">
-		<i class="fas fa-trash"></i>
-		</button>
-		</td>
-		</tr>`;
+		textHtml += `
+		<tr>
+			<td>${date_format}</td>
+			<td>${fechahora[1]}</td>
+			<td>${val.title}</td>
+			<td>${val.lugar}</td>
+			<td>
+				<button class="atention" type="button" onclick="abrirEditarLogistica(${val.id_sub_evento})">
+				<i class="fas fa-pen-alt"></i>
+				</button>
+				<button class="danger" type="button" onclick="destroyLogistica(${val.id_sub_evento})">
+				<i class="fas fa-trash"></i>
+				</button>
+			</td>
+		</tr>`
 	}
+	return textHtml
 }
 
 /**----------------- PINTAR TABLA ORDENES ------------------*/
 function mostrarOrdenes(data) {
-	tbody_orden.innerHTML = '';
+	let textHtml = ''
 
 	for (let val of data) {
 		let fechahora = val.fecha.split(' ', 2),
-		date_format = fechahora[0];
+		date_format = fechahora[0]
 
-		tbody_orden.innerHTML += `<tr data-item="${val.id_orden}">
-		<td>
-		<a class="btn atention" href="ordenes/print/${val.id_orden}" target="_blank" title="ver PDF">
-		<i class="fas fa-print"></i>
-		</a>
-		<button id="btn_clonar_orden" class="btn primary" style="margin-top: 4px;" title="clonar">
-		Duplicar
-		</button>
-		</td>
-		<td>${val.orden}</td>
-		<td>${val.lugar}</td>
-		<td>${date_format}</td>
-		<td>
-		<button class="atention" type="button" orden="${val.id_orden}">
-		<i class="fas fa-pen-alt"></i>
-		</button>
-		<button class="danger" type="button" orden="${val.id_orden}">
-		<i class="fas fa-trash"></i>
-		</button>
-		</td>
-		</tr>`;
+		textHtml += `
+		<tr data-item="${val.id_orden}">
+			<td>
+				<a class="btn atention" href="ordenes/print/${val.id_orden}" target="_blank" title="ver PDF">
+				<i class="fas fa-print"></i>
+				</a>
+				<button
+					id="btn_clonar_orden"
+					class="btn primary"
+					style="margin-top: 4px;"
+					title="clonar"
+					onclick="cloneOrden(${val.id_orden})"
+				>
+					Duplicar
+				</button>
+			</td>
+			<td>${val.orden}</td>
+			<td>${val.lugar}</td>
+			<td>${date_format}</td>
+			<td>
+				<button class="atention" type="button" onclick="openEditOrden(${val.id_orden})">
+				<i class="fas fa-pen-alt"></i>
+				</button>
+				<button class="danger" type="button" onclick="destroyOrden(${val.id_orden})">
+				<i class="fas fa-trash"></i>
+				</button>
+			</td>
+		</tr>`
 	}
+	return textHtml
 }
 
 /**---- PINTA EL MODAL ORDEN DE SERVICIO ---*/
@@ -175,5 +185,65 @@ function printModalOrden(dataOrden) {
 				nc_banquete = pintarCampos(res, campos_banquete, nc_banquete);
 			});
 			break;
+	}
+}
+
+/** MODAL DETALLE DE LA ORDEN DE SEVICIO */
+/**-----------------------------PINTAR CAMPOS EXTRA FORM -----------------------*/
+function pintarCampos(arrayJson, camposContainer, numeroCampos) {
+	if (arrayJson != 'no_data') {
+
+		arrayJson.forEach(item => {
+			if (numeroCampos < 5) {
+				const e = document.createElement('div');
+				e.className = 'col-xs-6';
+				e.innerHTML = `
+				<input type="hidden" name="id_campo[]" value="${item.id_campo}">
+        		<input class="o_tag col-xs-7" type="text" name="tag[]" value="${item.tag}"> <br>
+        		<textarea wrap="off" class="o_content col-xs-11" name="content[]" rows="3">${item.content}</textarea>`;
+
+				camposContainer.appendChild(e);
+				numeroCampos++;
+
+			} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles' }) }
+		})
+	}
+	return numeroCampos;
+}
+
+/**-----------------------------OBTENER LOS CAMPOS EXTRA ----------------------*/
+async function getCamposExtra(id) {
+	let d = new FormData(); d.append('id_orden', id);
+
+	return res = await fetch('ordenes/get-campos/' + id, {
+		method: 'GET',
+	}).then(response => response.json())
+	.then(dataJson => dataJson);
+}
+
+/**----------------------LIMPIAR FORMS ORDENES DE SERVICIO --------------*/
+function borrarCamposExtra() {
+	if (nc_grupo) {
+		for (nc_grupo; nc_grupo > 0; nc_grupo--) {
+			campos_grupo.lastChild.remove();
+		}
+	}
+
+	if (nc_banquete) {
+		for (nc_banquete; nc_banquete > 0; nc_banquete--) {
+			campos_banquete.lastChild.remove();
+		}
+	}
+
+	if (nc_ceremonia) {
+		for (nc_ceremonia; nc_ceremonia > 0; nc_ceremonia--) {
+			campos_ceremonia.lastChild.remove();
+		}
+	}
+
+	if (nc_coctel) {
+		for (nc_coctel; nc_coctel > 0; nc_coctel--) {
+			campos_coctel.lastChild.remove();
+		}
 	}
 }

@@ -1,0 +1,152 @@
+<!-- CABECERA DE LA PÁGINA -->
+{include file=$inc|cat:'header.html'}
+<style>
+	#form_pass {
+		background: #d4d4d4;
+		border: solid 1px #c1c1c1;
+	}
+
+	main .content {
+		min-height: 430px;
+	}
+
+	.img-user {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: solid 3px #c1c1c1;
+		padding: 8px;
+		border-radius: 30px;
+		margin-bottom: 20px;
+	}
+
+	.img-user img {
+		width: 85%;
+	}
+
+	.t-detalle {
+		border: solid 1px #c1c1c1;
+		background: #fff;
+	}
+
+	.t-detalle td {
+		font-family: sans-serif;
+		border: solid 1px #c1c1c1;
+		padding: 6px 10px;
+	}
+
+	.t-detalle td:first-child {
+		font-weight: 600;
+		background: #d4d4d4;
+	}
+
+	.detalle button {
+		margin-top: 10px;
+		margin-bottom: 20px;
+	}
+
+	td {
+		width: 100%;
+		overflow: hidden;
+	}
+	.table-responsive {
+		overflow: auto;
+	}
+	.m-auto {
+		margin: auto;
+	}
+	.padd {
+		padding-right: 5px;
+		box-sizing: border-box;
+	}
+</style>
+
+<!-- MODAL DETALLE USUARIO -->
+{include file=$views|cat:'mi_perfil/m_detalle.html'}
+
+<main>
+	<!-- CONTENEDOR PRINCIPAL -->
+	<div class="content m-auto">
+		<h1>Mi perfil</h1><br>
+
+		<div class="row-between">
+			<div class="col-xs-12 col-md-7 row-around">
+				<!-- IMAGEN DEL USUARIO -->
+				<div class="img-user col-xs-12 col-sm-4">
+					<img src="storage/thumbs/user-png-1.png" alt="user">
+				</div>
+
+				<div class="detalle col-xs-12 col-sm-7">
+					<!-- TABLA DETALLE USUARIO -->
+					<div class="table-responsive col-xs-12">
+						<table class="t-detalle">
+							<tr>
+								<td>Usuario</td>
+								<td id="user">{$usuario.username}</td>
+							</tr>
+							<tr>
+								<td>Rol</td>
+								<td id="rol">{$usuario.rol}</td>
+							</tr>
+							<tr>
+								<td>Nombre</td>
+								<td id="u_nombre"></td>
+							</tr>
+							<tr>
+								<td>Apellidos</td>
+								<td id="u_apellidos"></td>
+							</tr>
+							<tr>
+								<td>Correo</td>
+								<td id="u_email"></td>
+							</tr>
+							<tr>
+								<td>Teléfono</td>
+								<td id="u_telefono"></td>
+							</tr>
+						</table>
+						<div class="row-between col-xs-12">
+							<div></div>
+							<!-- BOTÓN EDITAR DETALLE USUARIO -->
+							<button id="btn_detalle" class="btn atention">
+								<i class="fas fa-pencil-alt"></i> Editar
+							</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="col-xs-12 col-sm-9 col-lg-5">
+				
+				<!-- FORMULARIO CAMBIO DE CONTRASEÑA -->
+				<form id="form_pass" class="form col-xs-12" action="#">
+					<p style="text-align: center"><b>Cambiar contraseña</b></p>
+					Contraseña actual: <br>
+					<input class="col-xs-12" type="password" name="pass" placeholder="* * * * *" required>
+					Nueva Contraseña: <br>
+					<input class="col-xs-12" type="password" name="pass1" placeholder="* * * * *" required>
+					Repetir Contraseña: <br>
+					<input class="col-xs-12" type="password" name="pass2" placeholder="* * * * *" required>
+					<br><br>
+
+					<!-- BOTÓN ACTUALIZAR CONTRASEÑA -->
+					<div class="flex">
+						<button class="btn success" type="submit">
+							<i class="fas fa-chevron-up"></i> Actualizar
+						</button>
+						<button class="button" type="reset">
+							<i class="fas fa-eraser"></i> Limpiar
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</main>
+
+<!-- PIÉ DE PÁGINA -->
+<script src="{$js}Modal.js?v={date('s')}" defer></script>
+<script src="public/js/mi-perfil/print-functions.js?v={date('s')}" defer></script>
+<script src="public/js/mi-perfil/onload.js?v={date('s')}" defer></script>
+{include file=$inc|cat:'footer.html'}

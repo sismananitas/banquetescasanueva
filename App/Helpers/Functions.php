@@ -22,12 +22,14 @@
             }
         }
 
+        $view = str_replace('.', '/', $view); // Reemplaza los puntos de la cadena por slashes
+
         // Crea la ruta de la vista
-        if (is_file(VIEWS_PATH . $view . '/' . $view . '.html')) {
-            $template = VIEWS_PATH . $view . '/' . $view . '.html';
+        if (is_file(VIEWS_PATH . '/' . $view . '.html')) {
+            $template = VIEWS_PATH . '/' . $view . '.html';
             
         } else {
-            return 'No se pudo cargar la vista';
+            return 'No se pudo encontrar la vista "' . VIEWS_PATH . '/' . $view . '.html"';
         }
         header('Content-Type: text/html');
         // Devuelve la vista

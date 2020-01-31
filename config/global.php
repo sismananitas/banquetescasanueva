@@ -1,6 +1,6 @@
 <?php
 
-//include str_replace('/', '\\', str_replace('config', '', __DIR__)) .'App\Core\Environment.php';
+// Permite trabajar con variables de entorno
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ .'/..');
 $dotenv->load();
 
@@ -12,14 +12,15 @@ define('TIMEZONE', 'America/Mexico_City');
 
 // RUTAS
 define('MODELS_PATH',   'app/models/');
-define('VIEWS_PATH',    'public/views/');
-define('PUBLIC_PATH',   'public/');
+define('VIEWS_PATH',    'resources/views/');
+define('PUBLIC_PATH',   'resources/');
 define('STORAGE_PATH',  'storage/');
 define('IMAGE_PATH',    'storage/images/');
 define('THUMBS_PATH',   'storage/thumbs/');
 define('TEMP_PDF_PATH', 'public/templates/pdf/');
 define('JS_PATH',       root_dir .'/public/js/');
 
+// Le dice al autoloader en qué carpetas buscar
 const CLASS_DIRECTORIES = [
     'App/',
     'App/Controllers/',

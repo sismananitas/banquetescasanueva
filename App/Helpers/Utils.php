@@ -60,8 +60,8 @@
             
             /** RUTAS SMARTY */
             $smarty_obj->assign('views', VIEWS_PATH);
-            $smarty_obj->assign('inc', PUBLIC_PATH . 'includes/');
-            $smarty_obj->assign('temp', VIEWS_PATH);
+            $smarty_obj->assign('inc', VIEWS_PATH . 'includes/');
+            $smarty_obj->assign('temp', base_url .'public/');
             $smarty_obj->assign('js', JS_PATH);
         }
     } // FIN DE LA CLASE

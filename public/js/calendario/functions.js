@@ -12,13 +12,6 @@ function handleEventClick(calEvent, jsEvent, view) {
 }
 
 /**
- * Evitar que se haga click a elementos padres
- */
-function stopPropagation(e) {
-	e.stopPropagation()
-}
-
-/**
  * Devuelve una plantilla de los campos del evento
  * 
  * @param {json} calEvent Datos del evento seleccionado
@@ -90,33 +83,10 @@ function formWithData(calEvent) {
 }
 
 /**
- * Modal evento
- */
-
-/**
- * Cierra una ventana modal
- * @param {object} e Event handler
- * @param {string} modalId Modal to lose
- * @param {string} formId Form to reset
- */
-function cerrarModal(e, modalId, formId = null) {
-	let body = document.getElementById('body')
-	let m 	 = document.getElementById(modalId)
-
-	if (formId) {
-		let f = document.getElementById(formId)
-		f.reset()
-	}
-
-	m.style.display = 'none'
-	body.removeAttribute('style')
-}
-
-/**
  * Abre una ventana modal
  */
 function openModal(modalId) {
-	let body = document.getElementById('body');
+	let body = document.getElementById('body')
 	let m = document.getElementById(modalId)
 
 	body.setAttribute('style', 'overflow: hidden; padding-right: 17px')
