@@ -126,7 +126,6 @@ class Evento extends Model
 	/**------ MODIFICA EL EVENTO --------*/
 	public function modificarEvento($data)
 	{
-		//$data       = $this->getArrayData();
 		$sql = "UPDATE eventos SET
 		title = :title,
 		evento = :evento,
@@ -138,24 +137,9 @@ class Evento extends Model
 		start = :start,
 		end = :end,
 		personas = :personas,
-		categoria = :categoria,";
-		// $sql = "UPDATE eventos SET
-		// title = :title,
-		// evento = :evento,
-		// contacto = :contacto,
-		// cord_resp = :cord_resp,
-		// cord_apoyo = :cord_apoyo,
-		// description = :des,
-		// id_lugar = :lugar,
-		// start = :start,
-		// end = :end,
-		// personas = :personas,
-		// categoria = :categoria,";
-
-		if (!empty($data['color'])) {
-			$sql .= " color = :color, status = :status,";
-		}
-		$sql .= " folio = :folio WHERE id_evento = :id";
+		categoria = :categoria,
+		folio = :folio
+		WHERE id_evento = :id";
 		\Conexion::query($sql, $data);
 	}
 

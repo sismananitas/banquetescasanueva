@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
+use stdClass;
+use Helpers\Validator;
 use App\Models\Evento;
 use App\Models\EventosSql;
 use App\Models\TablaModel;
-use Helpers\Validator;
-use stdClass;
 
 class EventosController {
 
@@ -15,7 +15,8 @@ class EventosController {
 
         $evento = new Evento;
         $params = [
-            'eventos' => $evento->getAll()
+            'eventos' => $evento->getAll(),
+            'view_url' => 'eventos'
         ];
         return view('eventos.eventos', $params);
     }
@@ -23,7 +24,7 @@ class EventosController {
     public function getEventos() {
         $evento = new Evento;
         $eventos = $evento->getMonth($_GET['start'], $_GET['end']);
-        return json_response($eventos, 200);
+        return json_response($eventos);
     }
 
     /**
@@ -31,7 +32,7 @@ class EventosController {
      * 
      * @return boolean
      */
-    public function agregar() {
+    public function store() {
         // Validar sesión
         $not_session = \Utils::validate_session();
         
@@ -59,7 +60,7 @@ class EventosController {
         } catch (\Exception $e) {
             $res['error'] = true;
             $res['msg'] = $e->getMessage();
-            return json_response($res);
+            return json_response($res, 422);
         }
 
 		try {
@@ -71,7 +72,7 @@ class EventosController {
 		} catch (\PDOException $th) {
             $res['error'] = true;
             $res['msg'] = $th->getMessage();
-			return json_response($res);
+			return json_response($res, 500);
 		}
     }
 
@@ -217,7 +218,7 @@ class EventosController {
 		} catch (\Exception $e) {
             $res['error'] = true;
             $res['msg'] = $e->getMessage();
-			return json_response($res);
+			return json_response($res, 401);
 		}
 		try {
 			// ELIMINA EL EVENTO
@@ -231,7 +232,7 @@ class EventosController {
     
             if ($th->getCode() === '23000')
                 $res['msg'] = '<h3>Error</h3><br>No se puede eliminar porque contiene cotizaciones';
-			return json_response($res);
+			return json_response($res, 422);
 		}
     }
 
@@ -249,12 +250,6 @@ class EventosController {
             echo 0;
             die();
         }
-        $res = $tabla->obtener_datos_donde('id_evento', $_POST['id']);
-        return json_response($res);
-    }
-
-    public function getOrden() {
-        $tabla = new TablaModel('ordenes_servicio');
         $res = $tabla->obtener_datos_donde('id_evento', $_POST['id']);
         return json_response($res);
     }

@@ -8,7 +8,7 @@ class PreciosController {
 
     public function index() {
         \Utils::isUser();
-        return view('precios');
+        return view('precios.precios');
     }
 
     public function getAll() {

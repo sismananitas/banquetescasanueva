@@ -48,22 +48,19 @@
 			<p id="sellYear"></p>
 			<button class="nextyear btn-tools"> Siguiente <i class="fas fa-chevron-right"></i></button>
 		</div><br>
-
 		<div class="row-between">
 			<div id="grafica" class="gra col-xs-12 col-md-6">
 				<div class="marco">
 					<canvas id="semestre1" width="300" height="140"></canvas>
 				</div>
 			</div>
-
 			<div class="gra col-xs-12 col-md-5 flex flex-center">
 				<img class="graph" src="storage/thumbs/temporadas.png" alt="temporadas">
 			</div>
 		</div>
-		<hr /><br>
+		<hr/><br>
 
 		<div class="row-between col-xs-12">
-
 			<div class="col-xs-12 col-md-5">
 				<h4>VENTAS POR PERSONA</h4><br>
 				<table class="table">
@@ -86,7 +83,6 @@
 
 			<div class="col-xs-12 col-md-6">
 				<h4>CLIENTES POTENCIALES</h4><br>
-
 				<table class="table">
 					<thead>
 						<tr>
@@ -97,10 +93,10 @@
 					</thead>
 					<tbody id="tbody_client">
 						<!-- <tr>
-                     <td></td>
-                     <td></td>
-                     <td></td>
-                  </tr> -->
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr> -->
 					</tbody>
 				</table>
 			</div>
@@ -110,5 +106,5 @@
 
 {include file=$inc|cat:'footer.html'}
 <script src="public/lib/chart.js?v={date('s')}"></script>
-<script src="public/js/ventas/charts.js?v={date('s')}"></script>
-<script src="public/js/ventas/loader.js?v={date('s')}"></script>
+<script src="{$js}ventas/charts.js?v={date('s')}"></script>
+<script src="{$js}ventas/loader.js?v={date('s')}"></script>

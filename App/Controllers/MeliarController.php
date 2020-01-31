@@ -8,6 +8,6 @@ class MeliarController {
         $params = [
             'titulo' => 'Meliar'
         ];
-        return view('index', $params);
+        return view('index.index', $params);
     }
 }

@@ -10,22 +10,18 @@
 					<p class="title">Agregar</p>
 					<a class="close">&times;</a>
 				</div>
-
 				<div class="modal-body">
 					<form id="form_lugares" class="form" action="javascript:void(0)" method="post">
 						Lugar / Salón
 						<input class="col-xs-12" type="text" placeholder="Nombre" name="lugar">
 						<br><br>
-
 						<button class="btn primary" type="submit" name="button">Ingresar</button>
 					</form>
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<div class="content m-auto-x">
-
 		<h4>LUGARES</h4><br>
 		<div class="table-container col-xs-12 col-md-6 col-lg-5 m-auto-x">
 			<table class="table">
@@ -46,5 +42,5 @@
 	</div>
 </main>
 <script src="{$js}Modal.js?v={date('s')}"></script>
-<script src="public/js/lugares/loader.js?v={date('s')}"></script>
+<script src="{$js}lugares/loader.js?v={date('s')}"></script>
 {include file=$inc|cat:'footer.html'}

@@ -56,15 +56,20 @@ class Route {
 		$closure = $this->closure;
 		$parameters = $this->getParameters();
 
-		if (strpos($closure, '@')) {
-			$arr_closure = explode('@', $closure);
-			$class_name = $arr_closure[0];
-			$method_name = $arr_closure[1];
+		if (is_string($closure)) {
+			$closure_str = explode('@', $closure);
+			$class = $closure_str[0];
+			$method = $closure_str[1];
 
-			if (class_exists($class_name)) {
-				$instance = new $class_name();
+			if (class_exists($class)) {
+				$instance = new $class;
+				return $instance->$method($parameters);
+
+			} else if (class_exists(CONTROLLER_NAMESPACE . $class)) {
+				$class_name = CONTROLLER_NAMESPACE . $class;
+				$instance = new $class_name;
+				return $instance->$method($parameters);
 			}
-			return $instance->$method_name($parameters);
 		}
 		return call_user_func_array($closure, $parameters);
 	}

@@ -1,142 +1,142 @@
 <?php
 
 // INDEX
-$router->add('/', 'App\Controllers\IndexController@index');
+$router->add('/', 'IndexController@index');
 
 // MENU PRINCIPAL
-$router->add('/menu', 'App\Controllers\MenuController@index');
+$router->add('/menu', 'MenuController@index');
 
 // CALENDARIO
-$router->add('/calendario', 'App\Controllers\CalendarioController@index');
+$router->add('/calendario', 'CalendarioController@index');
 
 // EVENTOS
-$router->add('/eventos', 'App\Controllers\EventosController@index');
+$router->add('/eventos', 'EventosController@index');
 
-$router->add('/eventos/get-all', 'App\Controllers\EventosController@getEventos');
+$router->add('/eventos/get-all', 'EventosController@getEventos');
 
-$router->add('/eventos/get-ingreso', 'App\Controllers\EventosController@getIngreso');
+$router->add('/eventos/get-ingreso', 'EventosController@getIngreso');
 
-$router->add('/eventos/crear', 'App\Controllers\EventosController@agregar');
+$router->add('/eventos/crear', 'EventosController@store');
 
-$router->add('/eventos/editar', 'App\Controllers\EventosController@update');
+$router->add('/eventos/editar', 'EventosController@update');
 
-$router->add('/eventos/eliminar', 'App\Controllers\EventosController@delete');
+$router->add('/eventos/eliminar', 'EventosController@delete');
 
 // Logística
-$router->add('/eventos/logistica', 'App\Controllers\EventosController@getLogistica');
+$router->add('/eventos/logistica', 'EventosController@getLogistica');
 
-$router->add('/logistica/get-one/:id', 'App\Controllers\LogisticaController@getOne');
+$router->add('/logistica/get-one/:id', 'LogisticaController@getOne');
 
-$router->add('/logistica/add', 'App\Controllers\LogisticaController@create');
+$router->add('/logistica/add', 'LogisticaController@create');
 
-$router->add('/logistica/edit', 'App\Controllers\LogisticaController@editar');
+$router->add('/logistica/edit', 'LogisticaController@editar');
 
-$router->add('/logistica/del', 'App\Controllers\LogisticaController@delete');
+$router->add('/logistica/del', 'LogisticaController@delete');
 
 // Ordenes de Servicio
-$router->add('/eventos/ordenes', 'App\Controllers\EventosController@getOrden');
+$router->add('/eventos/ordenes', 'EventosController@getOrden');
 
-$router->add('/ordenes/get-one/:id', 'App\Controllers\OrdenesController@getOne');
+$router->add('/ordenes/get-one/:id', 'OrdenesController@getOne');
 
-$router->add('/ordenes/get-campos/:id_orden', 'App\Controllers\OrdenesController@getCampos');
+$router->add('/ordenes/get-campos/:id_orden', 'OrdenesController@getCampos');
 
-$router->add('/ordenes/add', 'App\Controllers\OrdenesController@create');
+$router->add('/ordenes/add', 'OrdenesController@create');
 
-$router->add('/ordenes/edit', 'App\Controllers\OrdenesController@editar');
+$router->add('/ordenes/edit', 'OrdenesController@editar');
 
-$router->add('/ordenes/del', 'App\Controllers\OrdenesController@delete');
+$router->add('/ordenes/del', 'OrdenesController@delete');
 
-$router->add('/ordenes/print/:id', 'App\Controllers\OrdenesController@printOne');
+$router->add('/ordenes/print/:id', 'OrdenesController@printOne');
 
-$router->add('/ordenes/clone', 'App\Controllers\OrdenesController@cloneOne');
+$router->add('/ordenes/clone', 'OrdenesController@cloneOne');
 
 // LUGARES
-$router->add('/lugares/todos', 'App\Controllers\LugaresController@getLugares');
+$router->add('/lugares/todos', 'LugaresController@getLugares');
 
 // USARIOS
-$router->add('/sesion/iniciar', 'App\Controllers\SesionController@iniciar');
+$router->add('/sesion/iniciar', 'SesionController@iniciar');
 
-$router->add('/sesion/cerrar', 'App\Controllers\SesionController@cerrar');
+$router->add('/sesion/cerrar', 'SesionController@cerrar');
 
-$router->add('/usuarios', 'App\Controllers\UsuariosController@index');
+$router->add('/usuarios', 'UsuariosController@index');
 
-$router->add('/usuarios/get-one/:id', 'App\Controllers\UsuariosController@getOne');
+$router->add('/usuarios/get-one/:id', 'UsuariosController@getOne');
 
-$router->add('/usuarios/add', 'App\Controllers\UsuariosController@add');
+$router->add('/usuarios/add', 'UsuariosController@add');
 
-$router->add('/usuarios/edit', 'App\Controllers\UsuariosController@editar');
+$router->add('/usuarios/edit', 'UsuariosController@editar');
 
-$router->add('/usuarios/del', 'App\Controllers\UsuariosController@delete');
+$router->add('/usuarios/del', 'UsuariosController@delete');
 
 // ADMINISTRACIÓN
-$router->add('/admin', 'App\Controllers\AdminController@index');
+$router->add('/admin', 'AdminController@index');
 
 // MI PERFIL
-$router->add('/mi_perfil', 'App\Controllers\MiPerfilController@index');
+$router->add('/mi_perfil', 'MiPerfilController@index');
 
-$router->add('/mi_perfil/get-my-info', 'App\Controllers\MiPerfilController@getMyInfo');
+$router->add('/mi_perfil/get-my-info', 'MiPerfilController@getMyInfo');
 
-$router->add('/mi_perfil/actualizar', 'App\Controllers\MiPerfilController@update');
+$router->add('/mi_perfil/actualizar', 'MiPerfilController@update');
 
-$router->add('/mi_perfil/new-pass', 'App\Controllers\MiPerfilController@newPass');
+$router->add('/mi_perfil/new-pass', 'MiPerfilController@newPass');
 
 // SEGUIMIENTO
-$router->add('/seguimiento', 'App\Controllers\SeguimientoController@index');
+$router->add('/seguimiento', 'SeguimientoController@index');
 
 // SISTEMA
-$router->add('/sistema', 'App\Controllers\SistemaController@index');
+$router->add('/sistema', 'SistemaController@index');
 
 // COTIZACIONES
-$router->add('/cotizacion', 'App\Controllers\CotizacionController@index');
+$router->add('/cotizacion', 'CotizacionController@index');
 
-$router->add('/cotizacion/get-by-event/:evento_id', 'App\Controllers\CotizacionController@getAllByEvent');
+$router->add('/cotizacion/get-by-event/:evento_id', 'CotizacionController@getAllByEvent');
 
-$router->add('/cotizacion/comprobar-disp', 'App\Controllers\CotizacionController@validar');
+$router->add('/cotizacion/comprobar-disp', 'CotizacionController@validar');
 
-$router->add('/cotizacion/add', 'App\Controllers\CotizacionController@store');
+$router->add('/cotizacion/add', 'CotizacionController@store');
 
-$router->add('/cotizacion/add/manual', 'App\Controllers\CotizacionController@insertarManual');
+$router->add('/cotizacion/add/manual', 'CotizacionController@insertarManual');
 
-$router->add('/cotizacion/status/update', 'App\Controllers\CotizacionController@statusUpdate');
+$router->add('/cotizacion/status/update', 'CotizacionController@statusUpdate');
 
-$router->add('/cotizacion/detalle/:id', 'App\Controllers\CotizacionController@detalle');
+$router->add('/cotizacion/detalle/:id', 'CotizacionController@detalle');
 
-$router->add('/cotizacion/detalle/get/:id', 'App\Controllers\CotizacionController@getDetalle');
+$router->add('/cotizacion/detalle/get/:id', 'CotizacionController@getDetalle');
 
-$router->add('/cotizacion/detalle/post/insert', 'App\Controllers\CotizacionController@insertarDetalle');
+$router->add('/cotizacion/detalle/post/insert', 'CotizacionController@insertarDetalle');
 
-$router->add('/cotizacion/print/:id', 'App\Controllers\CotizacionController@printOne');
+$router->add('/cotizacion/print/:id', 'CotizacionController@printOne');
 
-$router->add('/cotizacion/detalle/post/delete', 'App\Controllers\CotizacionController@borrarDetalle');
+$router->add('/cotizacion/detalle/post/delete', 'CotizacionController@borrarDetalle');
 
-$router->add('/cotizacion/delete/:id', 'App\Controllers\CotizacionController@destroy');
+$router->add('/cotizacion/delete/:id', 'CotizacionController@destroy');
 
 // PRECIOS
-$router->add('/precios', 'App\Controllers\PreciosController@index');
+$router->add('/precios', 'PreciosController@index');
 
-$router->add('/precios/get-all', 'App\Controllers\PreciosController@getAll');
+$router->add('/precios/get-all', 'PreciosController@getAll');
 
-$router->add('/precios/insert', 'App\Controllers\PreciosController@insertar');
+$router->add('/precios/insert', 'PreciosController@insertar');
 
-$router->add('/precios/delete', 'App\Controllers\PreciosController@borrar');
+$router->add('/precios/delete', 'PreciosController@borrar');
 
 // VENTAS
 $router->add('/ventas', 'VentasController@index');
 
 // LUGARES
-$router->add('/lugares', 'App\Controllers\LugaresController@index');
+$router->add('/lugares', 'LugaresController@index');
 
-$router->add('/lugares/get-all', 'App\Controllers\LugaresController@getLugares');
+$router->add('/lugares/get-all', 'LugaresController@getLugares');
 
-$router->add('/lugares/insert', 'App\Controllers\LugaresController@agregar');
+$router->add('/lugares/insert', 'LugaresController@agregar');
 
-$router->add('/lugares/delete', 'App\Controllers\LugaresController@eliminar');
+$router->add('/lugares/delete', 'LugaresController@eliminar');
 
 // TIPOS DE EVENTOS
-$router->add('/tipo-eventos', 'App\Controllers\TipoEventosController@index');
+$router->add('/tipo-eventos', 'TipoEventosController@index');
 
-$router->add('/tipo-eventos/get-all', 'App\Controllers\TipoEventosController@getAll');
+$router->add('/tipo-eventos/get-all', 'TipoEventosController@getAll');
 
-$router->add('/tipo-eventos/insert', 'App\Controllers\TipoEventosController@insertar');
+$router->add('/tipo-eventos/insert', 'TipoEventosController@insertar');
 
-$router->add('/tipo-eventos/delete', 'App\Controllers\TipoEventosController@eliminar');
+$router->add('/tipo-eventos/delete', 'TipoEventosController@eliminar');

@@ -25,7 +25,6 @@
 					<p class="title">Agregar</p>
 					<a class="close">&times;</a>
 				</div>
-
 				<div class="modal-body">
 					<form id="form_precios" class="form" action="javascript:void(0)" method="post">
 						Lugar:
@@ -43,7 +42,6 @@
 						Precio baja (MX):
 						<input class="col-xs-12" type="number" placeholder="Pesos" name="precio_baja">
 						<br><br>
-
 						<button class="btn primary" type="submit" name="button">Ingresar</button>
 					</form>
 				</div>
@@ -52,16 +50,13 @@
 	</div>
 
 	<div class="content m-auto-x">
-
 		<div class="row-between" style="align-items: center">
 			<h4>PRECIOS</h4>
-
 			<div class="col-xs-4">
 				<span class="col-xs-2" style="padding: 6px"><i class="fas fa-search"></i></span>
 				<input id="search" class="col-xs-11" type="text" placeholder="Buscar...">
 			</div>
 		</div><br>
-
 		<div class="table-container">
 			<table class="table">
 				<thead>
@@ -70,8 +65,9 @@
 						<th>EVENTO</th>
 						<th>TEMP. ALTA</th>
 						<th>TEMP. BAJA</th>
-						<th class="opt"><button id="add_precio" class="primary"><i
-									class="fas fa-plus-circle"></i></button></th>
+						<th class="opt">
+							<button id="add_precio" class="primary"><i class="fas fa-plus-circle"></i></button>
+						</th>
 					</tr>
 				</thead>
 				<tbody id="tbody_precios">
@@ -82,5 +78,5 @@
 	</div>
 </main>
 <script src="{$js}Modal.js?v={date('s')}"></script>
-<script src="public/js/precios/loader.js?v={date('s')}"></script>
+<script src="{$js}precios/loader.js?v={date('s')}"></script>
 {include file=$inc|cat:'footer.html'}

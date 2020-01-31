@@ -10,7 +10,7 @@ class UsuariosController {
         \Utils::isAdmin();
         $usu = new Usuario();
         $usuarios = $usu->all();
-        return view('usuarios.usuarios', ['usuarios' => $usuarios]);
+        return view('usuarios.usuarios', ['usuarios' => $usuarios, 'view_url' => 'usuarios']);
     }
 
     public function getOne($id) {

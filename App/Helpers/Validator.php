@@ -35,7 +35,6 @@ class Validator {
         if ($new_data) $data = $new_data;
         
         foreach ($data as $field_name => $field_value) { // Recorre indices de los datos
-            // $rules = explode('|', $value);
             
             if (array_key_exists($field_name, $constraints)) { // Valida que existan reglas para el indice
                 $rules = explode('|', $constraints[$field_name]); // Obtiene las reglas como array dividar por pipas

@@ -1,3 +1,3 @@
 <?php
 
-$router->add('/meliar', 'App\Controllers\MeliarController@index');
+$router->add('/meliar', 'MeliarController@index');

@@ -20,6 +20,8 @@ define('THUMBS_PATH',   'storage/thumbs/');
 define('TEMP_PDF_PATH', 'public/templates/pdf/');
 define('JS_PATH',       root_dir .'/public/js/');
 
+define('CONTROLLER_NAMESPACE', 'App\Controllers\\');
+
 // Le dice al autoloader en qué carpetas buscar
 const CLASS_DIRECTORIES = [
     'App/',

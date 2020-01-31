@@ -136,11 +136,10 @@
 <script>
 	if (typeof btn_alert_sesion != 'undefined') {
 		btn_alert_sesion.addEventListener('click', e => {
-		e.preventDefault();
-		let alert = document.getElementById(e.target.dataset.alert);
-		console.log(alert)
-		alert.classList.remove('show-flex')
-	})
+			e.preventDefault();
+			let alert = document.getElementById(e.target.dataset.alert);
+			alert.classList.remove('show-flex')
+		})
 	}
 </script>
 {/block}

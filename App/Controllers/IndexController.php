@@ -5,11 +5,11 @@ namespace App\Controllers;
 class IndexController
 {
     public function index() {
-        $params = [];
+        $params = ['view_url' => 'index'];
 
         if (isset($_SESSION['error'])) {
             $params = [
-                'error' => $_SESSION['error']
+                'error' => $_SESSION['error'],
             ];
             unset($_SESSION['error']);
         }
