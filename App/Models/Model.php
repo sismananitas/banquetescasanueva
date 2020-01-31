@@ -65,7 +65,7 @@ class Model extends \Conexion {
         $sql = substr($sql, 0, -1);
         $sql .= " FROM " . $this->table . " WHERE " . $this->primaryKey . " = ?";
 
-        $model = self::query($sql, [$id['id']], true, true);
+        $model = self::query($sql, [$id], true, true);
         return $model;
     }
 

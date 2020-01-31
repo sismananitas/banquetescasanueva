@@ -2,10 +2,19 @@
 
 namespace App\Models;
 
-class OrdenModel
+class Orden extends Model
 {
-	public function getOne($id)
+
+	public function __construct()
+	{
+		parent::__construct();
+		$this->primaryKey = 'id_orden';
+	}
+
+	public function showWithEvent()
 	{ 
+		$id = $this->primaryKey;
+
 		$sql = "SELECT o.*, e.id_evento, e.title, e.evento, e.contacto, e.cord_resp, e.cord_apoyo, e.folio".
 		" FROM ordenes_servicio o".
 		" INNER JOIN eventos e".

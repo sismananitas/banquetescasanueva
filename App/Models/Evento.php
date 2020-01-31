@@ -186,4 +186,16 @@ class Evento extends Model
 		}
 		return true;
 	}
+
+	public function getOrders()
+	{
+		$sql = "SELECT o.*, e.id_evento, e.title, e.evento, e.contacto, e.cord_resp, e.cord_apoyo, e.folio".
+		" FROM ordenes_servicio o".
+		" INNER JOIN eventos e".
+		" ON o.id_evento = e.id_evento".
+		" WHERE e.id_evento = ?";
+
+		$result = $this->query($sql, [$this->id_evento], true);
+		return $result;
+	}
 }

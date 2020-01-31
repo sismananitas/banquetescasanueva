@@ -2,21 +2,28 @@
 
 namespace App\Controllers;
 
-use App\Models\OrdenModel;
+use App\Models\Orden;
 use App\Models\Logistica;
 use Spipu\Html2Pdf\Html2Pdf;
 
 class OrdenesController extends Controller {
 
-    public function getOne($id) {
-        $orden       = new OrdenModel;
-        $res['data'] = $orden->getOne($id);
+    // public function getOne($id) {
+    //     $orden       = new Orden;
+    //     $res['data'] = $orden->getOne($id);
+    //     return $res;
+    // }
+
+    public function getCampos($id) {
+        $orden = new Orden;
+        $res   = $orden->getExtraInputs($id);
         return $res;
     }
 
-    public function getCampos($id) {
-        $orden = new OrdenModel;
-        $res   = $orden->getExtraInputs($id);
+    public function show() {
+        $orden = new Orden;
+        $orden->find($_POST['id']);
+        $res = $orden->showWithEvent();
         return $res;
     }
 
@@ -34,7 +41,7 @@ class OrdenesController extends Controller {
             || empty($_POST['garantia'])) {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
-            $orden = new OrdenModel;
+            $orden = new Orden;
       
             /** VALIDA EL AUTOR DEL EVENTO */
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
@@ -101,7 +108,7 @@ class OrdenesController extends Controller {
         }
 
         $res['error'] = true;
-        $orden = new OrdenModel;
+        $orden = new Orden;
 
         try {
             if (empty($_POST['id']) || empty($_POST['nombre'])
@@ -167,7 +174,7 @@ class OrdenesController extends Controller {
             if (empty($_POST['id'])) {
                 throw new \Exception("No se recibió la información");
             }
-            $orden = new OrdenModel;
+            $orden = new Orden;
       
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
       
@@ -200,7 +207,7 @@ class OrdenesController extends Controller {
         setlocale(LC_ALL, 'es_MX.utf8');
         $html      = new \Smarty();
         $html2pdf  = new Html2Pdf('L', 'A4', 'es', 'true', 'UTF-8', [3, 8, 3, 8]);
-        $orden     = new OrdenModel();
+        $orden     = new Orden();
         $logistica = new Logistica();
         $html2pdf->pdf->SetTitle('Orden de servicio');
 
@@ -248,7 +255,7 @@ class OrdenesController extends Controller {
         $res['error'] = true;
 
         if ($orden_id) {
-            $orden     = new OrdenModel;
+            $orden     = new Orden;
             $evento_id = $orden->getEventoId($orden_id);
             $valido    = $orden->validaUsuarioEvento($evento_id);
 
@@ -270,7 +277,7 @@ class OrdenesController extends Controller {
         }
         return json_response($res);        
     }
-} // FIN DE LA CLASE
+}
 
 
 /**

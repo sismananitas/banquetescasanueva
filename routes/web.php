@@ -34,9 +34,9 @@ $router->add('/logistica/edit', 'LogisticaController@editar');
 $router->add('/logistica/del', 'LogisticaController@delete');
 
 // Ordenes de Servicio
-$router->add('/eventos/ordenes', 'EventosController@getOrden');
+$router->add('/eventos/ordenes', 'EventosController@getOrders');
 
-$router->add('/ordenes/get-one/:id', 'OrdenesController@getOne');
+$router->add('/ordenes/get-one/:id', 'OrdenesController@show');
 
 $router->add('/ordenes/get-campos/:id_orden', 'OrdenesController@getCampos');
 

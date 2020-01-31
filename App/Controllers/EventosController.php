@@ -91,7 +91,7 @@ class EventosController {
         $color        = '';
         $status       = '';
 
-        $editable = $event->find(['id' => $data['id']]);
+        $editable = $event->find($data['id']);
         if ($not_session) return $not_session;
 
         // Autorizar usuario
@@ -251,6 +251,13 @@ class EventosController {
             die();
         }
         $res = $tabla->obtener_datos_donde('id_evento', $_POST['id']);
+        return json_response($res);
+    }
+
+    public function getOrders() {
+        $event = new Evento();
+        $e = $event->find($_POST['id']);
+        $res = $e->getOrders();
         return json_response($res);
     }
 }
