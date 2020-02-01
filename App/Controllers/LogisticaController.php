@@ -4,16 +4,17 @@ namespace App\Controllers;
 
 use App\Models\Logistica;
 
-class LogisticaController extends Controller {
-
-    public function getOne($id) {
-
+class LogisticaController extends Controller
+{
+    public function getOne($id)
+    {
         $logistica = new Logistica();
         $res = $logistica->getOne($id);
         return json_response($res);
     }
 
-    public function create() {
+    public function create()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
@@ -53,7 +54,8 @@ class LogisticaController extends Controller {
         }
     }
 
-    public function editar() {
+    public function editar()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
@@ -86,7 +88,8 @@ class LogisticaController extends Controller {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {

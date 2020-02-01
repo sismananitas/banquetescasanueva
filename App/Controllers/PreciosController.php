@@ -2,17 +2,17 @@
 
 namespace App\Controllers;
 
-use App\Models\PrecioModel;
+use App\Models\Precio;
 
-class PreciosController {
-
+class PreciosController extends Controller
+{
     public function index() {
         \Utils::isUser();
         return view('precios.precios');
     }
 
     public function getAll() {
-        $precio = new PrecioModel;
+        $precio = new Precio;
         $precios = $precio->getAll();
         return json_response($precios, 200);
     }
@@ -32,7 +32,7 @@ class PreciosController {
             'precio_baja' => $_POST['precio_baja']
         );
 
-        $precio = new PrecioModel;
+        $precio = new Precio;
         $validacion = $precio->validar($data);
 
         if (!$validacion) {
@@ -60,7 +60,7 @@ class PreciosController {
             'precio_alta' => $_POST['precio_alta'],
             'precio_baja' => $_POST['precio_baja']
         );
-        $precio = new PrecioModel;
+        $precio = new Precio;
 
         try {
             $precio->update($data);
@@ -75,7 +75,7 @@ class PreciosController {
     }
 
     public function borrar() {
-        $precio = new PrecioModel;
+        $precio = new Precio;
         if (empty($_POST['id_precio'])) {
             $res['error'] = true;
             $res['msg'] = 'No se recibieron los datos';

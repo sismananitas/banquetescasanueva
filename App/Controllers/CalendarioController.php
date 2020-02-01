@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-class CalendarioController {
+class CalendarioController extends Controller
+{
 
     public function index() {
         \Utils::isUser();

@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
-class MeliarController {
-
+class MeliarController extends Controller
+{
     public function index() {
         $params = [
             'titulo' => 'Meliar'

@@ -2,7 +2,8 @@
 
 namespace App\Controllers;
 
-class MenuController {
+class MenuController extends Controller
+{
 
     public function index() {
         

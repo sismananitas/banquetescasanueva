@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Usuario;
 
-class UsuariosController {
-
+class UsuariosController extends Controller
+{
     public function index() {
         \Utils::isAdmin();
         $usu = new Usuario();

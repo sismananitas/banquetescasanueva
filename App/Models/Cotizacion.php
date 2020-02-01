@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class CotizacionModel extends Model
+class Cotizacion extends Model
 {
     public function __construct()
     {

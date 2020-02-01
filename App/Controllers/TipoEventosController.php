@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use App\Models\TipoEvento;
 
-class TipoEventosController {
-    
+class TipoEventosController extends Controller
+{    
     public function index() {
         \Utils::isAdmin();
         $tipoEve = new TipoEvento;

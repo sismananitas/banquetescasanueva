@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UsuariosModel;
 
-class MiPerfilController {
+class MiPerfilController extends Controller
+{
 
     public function index() {
         \Utils::isUser();

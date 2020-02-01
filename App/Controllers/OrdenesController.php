@@ -6,23 +6,25 @@ use App\Models\Orden;
 use App\Models\Logistica;
 use Spipu\Html2Pdf\Html2Pdf;
 
-class OrdenesController extends Controller {
-
-    public function show($request) {
+class OrdenesController extends Controller
+{
+    public function show($request)
+    {
         $orden = new Orden;
         $o = $orden->find($request['id']);
         $res['data'] = $o->showWithEvent();
         return $res;
     }
 
-    public function getCampos($id) {
+    public function getCampos($id)
+    {
         $orden = new Orden;
         $res   = $orden->getExtraInputs($id);
         return $res;
     }
 
-    public function create() {
-        // Validar sesión
+    public function create()
+    {
         $not_session = \Utils::validate_session();
         if ($not_session) {
             return $not_session;
@@ -55,7 +57,6 @@ class OrdenesController extends Controller {
                     }
                 }
             }
-
             /** CAPTURA LOS ERRORES */
         } catch (\Exception $e) {
             $res['error'] = true;
@@ -66,7 +67,6 @@ class OrdenesController extends Controller {
           /** INSERTA LOS REGISTROS EN LA BASE DE DATOS */
         try {
             \Conexion::beginTransaction();
-
             /** INSERTA UNA ORDEN DE SERVICIO */
             $orden->agregarOrden();
             $orden_id = \Conexion::lastInsertId();
@@ -94,13 +94,13 @@ class OrdenesController extends Controller {
         return $res;
     }
 
-    public function editar() {
+    public function editar()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
             return $not_session;
         }
-
         $res['error'] = true;
         $orden = new Orden;
 
@@ -110,7 +110,6 @@ class OrdenesController extends Controller {
             || empty($_POST['garantia'])) {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
-
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
 
             if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
@@ -157,7 +156,8 @@ class OrdenesController extends Controller {
         return $res;
     }
 
-    public function delete() {
+    public function delete()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
@@ -194,7 +194,8 @@ class OrdenesController extends Controller {
         return $res;
     }
 
-    public function printOne($id) {
+    public function printOne($id)
+    {
         \Utils::isUser();
 
         /**--------- OBJETOS --------*/
@@ -239,7 +240,8 @@ class OrdenesController extends Controller {
         $html2pdf->output('Orden_de_servicio_' . date('d-m-Y') . '_' . $data_orden->title . '.pdf');
     }
 
-    public function cloneOne() {
+    public function cloneOne()
+    {
         // Validar sesión
         $not_session = \Utils::validate_session();
         if ($not_session) {
@@ -280,7 +282,8 @@ class OrdenesController extends Controller {
  * @param string $formato
  * @return string $template
  */
-function getTemplate($formato) {
+function getTemplate($formato)
+{
     switch ($formato) {
         case 'grupo':
             $template = 'orden_servicio_grupo.html';

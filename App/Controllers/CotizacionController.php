@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\CotizacionModel;
+use App\Models\Cotizacion;
 use App\Models\TipoEvento;
 use Spipu\Html2Pdf\Html2Pdf;
 
-class CotizacionController {
+class CotizacionController extends Controller
+{
     
     public function index() {
         \Utils::isVentas();
@@ -29,7 +30,7 @@ class CotizacionController {
         \Utils::isVentas();
         $folio = $param['id'];
         $res['error'] = false;
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
         $cot_id = $cot->getCotId($folio);
         $res['cotizacion'] = $cot->getCotizacion($folio, $_SESSION['usuario']['id_usuario']);
         $res['detalle'] = $cot->getDetalleCot($cot_id);
@@ -42,7 +43,7 @@ class CotizacionController {
         
         /** Motor de plantillas */
         $html = new \Smarty();
-        $c = new CotizacionModel;
+        $c = new Cotizacion;
         $folio = isset($params['id']) ? $params['id'] : '';
 
         /**----------- FORMATO DE LA HOJA ----------------*/
@@ -102,7 +103,7 @@ class CotizacionController {
     }
 
     public function getAll() {
-        $c = new CotizacionModel;
+        $c = new Cotizacion;
         $cotizaciones = $c->getAll($_POST['evento_id']);
 
         if (count($cotizaciones) > 0) {
@@ -118,7 +119,7 @@ class CotizacionController {
 
     public function getAllByEvent($event) {
         $res['error'] = false;
-        $c = new CotizacionModel;
+        $c = new Cotizacion;
         $res['data'] = $c->getAll($event);
         return json_response($res);
     }
@@ -136,7 +137,7 @@ class CotizacionController {
                throw new \Exception('Hay campos vacios');
             }
 
-            $c = new CotizacionModel;
+            $c = new Cotizacion;
    
         } catch (\Exception $e) {
             $res['msg']   = "Error al registrar el cliente";
@@ -229,7 +230,7 @@ class CotizacionController {
             return $not_session;
         }
 
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
 
         if (!$cot->validaUsuario($_POST['evento_id'], $_SESSION['usuario']['id_usuario'])) {
             $res['error'] = true;
@@ -264,7 +265,7 @@ class CotizacionController {
         }
         
         /**---------- VALIDAR DISPONIBILIDAD */
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
         $disponible = $cot->verificarEspacio();
     
         /**----------- VERIFICA QUE NO ESTÉ OCUPADO EL LUGAR */
@@ -305,7 +306,7 @@ class CotizacionController {
         }
 
         $res['error'] = true;
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
         $cotizacion_id = $cot->getCotId($_POST['folio']);
         $insert        = $cot->insertDetalleCotizacion($cotizacion_id);
 
@@ -328,7 +329,7 @@ class CotizacionController {
             return $not_session;
         }
 
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
         $delete = $cot->deleteDetalleCot($_POST['detalle_id']);
 
         if ($delete == true) {
@@ -342,7 +343,7 @@ class CotizacionController {
     }
 
     public function statusUpdate() {
-        $cot = new CotizacionModel;
+        $cot = new Cotizacion;
         $res['error'] = true;
         
         if (!($cot->validaUsuario($_POST['evento_id'], $_SESSION['usuario']['id_usuario'])) &&
@@ -369,7 +370,7 @@ class CotizacionController {
 
     public function destroy($cotizacion_id)
     {
-        $cot_instance = new CotizacionModel;
+        $cot_instance = new Cotizacion;
         $cotizacion = $cot_instance->find($cotizacion_id);
 
         $cotizacion->delete();

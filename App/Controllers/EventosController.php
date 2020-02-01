@@ -8,7 +8,8 @@ use App\Models\Evento;
 use App\Models\EventosSql;
 use App\Models\TablaModel;
 
-class EventosController {
+class EventosController extends Controller
+{
 
     public function index() {
         \Utils::isVentas();

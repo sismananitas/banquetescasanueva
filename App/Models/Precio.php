@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class PrecioModel {
+class Precio extends Model
+{
 
     public function getAll() {
         $sql = "SELECT p.id_precio as 'id', p.precio_alta, p.precio_baja, t.nombre_tevento as 'evento', l.lugar

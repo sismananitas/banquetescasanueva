@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-class EventosSql
+class EventosSql extends Model
 {
    public function getOrdenSercicio($id = false)
    {

@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Lugar;
 
-class LugaresController {
+class LugaresController extends Controller
+{
     
     public function index() {
         \Utils::isUser();

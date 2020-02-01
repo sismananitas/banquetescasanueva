@@ -4,8 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Sesion;
 
-class SesionController {
-
+class SesionController extends Controller
+{
     public function iniciar() {
         if (empty($_POST['usuario']) || empty($_POST['pass'])) {
             $_SESSION['error']['status'] = true;
