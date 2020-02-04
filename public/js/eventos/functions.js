@@ -697,7 +697,7 @@ function deleteOrden(orderId) {
 }
 
 /*-----------------------------AGREGAR ORDEN DE SERVICIO------------------*/
-function createOrden() {
+function createOrden(e) {
 	let form = e.target.parentElement.parentElement
 	let forms = md_orden.querySelectorAll('.form')
 
