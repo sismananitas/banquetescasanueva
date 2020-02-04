@@ -91,7 +91,8 @@ function newPrintModalEvento(event) {
 					<input id="time_f" class="col-xs-12" type="time" name="hora" value="${time_end}"><br>
 				</div>
 				<div class="col-xs-6">
-					Status <a id="e_status" class="pill"></a><br>
+					Status
+					<a id="e_status" class="pill">${event.status}</a><br>
 					<select
 						id="color"
 						class="col-xs-12 col-sm-11"
@@ -105,7 +106,8 @@ function newPrintModalEvento(event) {
 					</select>
 				</div>
 				<div class="col-xs-6">
-					Categoria <a id="txtcategoria" class="pill"></a><br>
+					Categoria
+					<a id="txtcategoria" class="pill">${event.categoria}</a><br>
 					<select id="categoria" class="col-xs-12" name="categoria" value="${event.categoria}">
 						<option id="idcategoria" value="Privado">- Seleccionar -</option>
 						<option value="Social"> Social </option>
@@ -130,7 +132,8 @@ function newPrintModalEvento(event) {
 			</div>
 			<div class="row-between">
 				<div class="col-xs-6">
-					<label for="idlugar">Salón</label><a id="e_place" class="pill"></a>
+					<label for="idlugar">Salón</label>
+					<a id="e_place" class="pill">${event.lugar}</a>
 					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar" value="${event.id_lugar}">
 					</select>
 				</div>
