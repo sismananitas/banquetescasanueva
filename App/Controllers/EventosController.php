@@ -109,8 +109,8 @@ class EventosController extends Controller
 
         if (
             $data['color'] != '#d7c735'
-            && $editable['color'] == '#d7c735'
-            && $auth['rol'] != 'Administrador'
+            && $editable->color == '#d7c735'
+            && strtolower($auth['rol']) != 'administrador'
         ) {
             $data['color'] = '#d7c735';
         }
