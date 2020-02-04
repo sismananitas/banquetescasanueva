@@ -149,6 +149,88 @@ function newPrintModalEvento(event) {
 	return templateForm
 }
 
+function limpiarFormEvento(date) {
+	return `
+	<input id="e_id" type="hidden" name="id">
+	<div class="row-between">
+		<div class="col-xs-12 col-sm-6">
+			Titulo *<br>
+			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="titulo" required>
+			<div class="row-between col-xs-12 col-sm-11">
+				<div class="col-xs-6">
+					Evento *<br>
+					<input id="e_evento" class="col-xs-12 col-sm-11" type="text" name="evento" required>
+				</div>
+				<div class="col-xs-6">
+					Personas *<br>
+					<input id="personas" class="col-xs-12" type="number" name="personas" required>
+				</div>
+				<div class="col-xs-6">
+					Fecha<br>
+					<input id="date_start" class="col-xs-12 col-sm-11 line-block" type="date" min="1900-04-01" name="fecha" value="${date.format('YYYY-MM-DD')}"><br>
+					Hora inicio<br>
+					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora" value="00:00:00"><br>
+				</div>
+				<div class="col-xs-6">
+					Fecha final<br>
+					<input id="date_end" class="col-xs-12" type="date" name="fecha" value="${date.format('YYYY-MM-DD')}"><br>
+					Hora final<br>
+					<input id="time_f" class="col-xs-12" type="time" name="hora" value="23:00:00"><br>
+				</div>
+				<div class="col-xs-6">
+					Status
+					<a id="e_status" class="pill"></a><br>
+					<select id="color" class="col-xs-12 col-sm-11" name="color">
+						<option id="old_color" value="#d7c735">- Elegir -</option>
+						<option value="#d7c735">Tentativo</option>
+						<option value="#f98710">Apartado</option>
+						<option value="#54b33d">Cerrado</option>
+					</select>
+				</div>
+				<div class="col-xs-6">
+					Categoria
+					<a id="txtcategoria" class="pill"></a><br>
+					<select id="categoria" class="col-xs-12" name="categoria">
+						<option id="idcategoria" value="Privado">- Seleccionar -</option>
+						<option value="Social"> Social </option>
+						<option value="Empresarial"> Empresarial </option>
+						<option value="Casa"> Casa </option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			Cliente *<br>
+			<input id="e_contacto" class="col-xs-12" type="text" name="contacto">
+			<div class="row-between">
+				<div class="col-xs-6">
+					Responsable *<br>
+					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="resp">
+				</div>
+				<div class="col-xs-6">
+					Cord. Apoyo<br>
+					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo">
+				</div>
+			</div>
+			<div class="row-between">
+				<div class="col-xs-6">
+					<label for="idlugar">Salón</label>
+					<a id="e_place" class="pill"></a>
+					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar">
+						<!-- js -->
+					</select>
+				</div>
+				<div class="col-xs-6">
+					Folio Front2Go <br>
+					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar">
+				</div>
+			</div>
+			Observaciones<br>
+			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'></textarea>
+		</div>
+	</div>`
+}
+
 /**---------------- LIMPIA EL FORMULARIO EVENTOS ---------------*/
 function limpiarDatosEvento(date) {
 	color.value = '#d7c735'
