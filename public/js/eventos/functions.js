@@ -377,8 +377,8 @@ function openModalOrdenes(id) {
 		}
 	})
 	.then(response => response.json())
-	.then(dataJson => {
-		printModalOrden(dataJson.data[0])
+	.then(dataJson => {		
+		printModalOrden(dataJson.data)
 	})
 	.then(() => {
 		closeLoading();
