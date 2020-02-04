@@ -4,6 +4,7 @@
 let nuevoEvento
 let errors = {}
 let $selectLugares = document.getElementById('idlugar')
+let lugares = []
 
 /**
  * Fullcalendar
@@ -15,13 +16,17 @@ function handlerDayClick(date, jsEvent, view) {
 		btnDetalleEvento.setAttribute('disabled', true)
 		btnAgregarEvento.removeAttribute('disabled')
 		M_evento.querySelectorAll('input')[1].focus()
-		
+
 		form_evento.innerHTML = limpiarFormEvento(date)
 		
+		openLoading()
 		getSelectLugares(idlugar)
+		.then(() => {
+			closeLoading()
+			openModal('M_evento')
+		})
 
 		// limpiarDatosEvento(date)
-		openModal('M_evento');
 	}
 }
 
@@ -45,11 +50,14 @@ function handlerEventClick(calEvent, jsEvent, view) {
 	}
 
 	if (calEvent.evento != null && view.name == 'month') {
-		//printModalEvento(calEvent)
 		let formHtml = newPrintModalEvento(calEvent)
 		form_evento.innerHTML = formHtml
+		openLoading()
 		getSelectLugares(idlugar)
-		openModal('M_evento')
+		.then(() => {
+			closeLoading()
+			openModal('M_evento')
+		})
 	}
 }
 
@@ -205,7 +213,6 @@ function getIngreso(event) {
 }
 
 function getTipoEventos() {
-
 	getFetch('tipo-eventos/get-all')
 	.then(dataJson => {
 		text = `<option value="${dataJson[0].nombre_tevento}">- Elegir -</option>`
@@ -218,50 +225,31 @@ function getTipoEventos() {
 	})
 }
 
-function getLugares() {
-	return fetch('lugares/todos', {
-		method: 'get'
-	})
-	.then(response => response.json())
-}
-
 function getSelectLugares(select) {
 	let rowHTML = ''
 	select.innerHTML = ''
 
-	getLugares()
-	.then(res => {
-		rowHTML = `<option value="${res[0].id_lugar}"> - Elegir - </option>`
-		if (res != 'fail') {
-			for (let i in res) {
-				let item = res[i]
-				rowHTML += `<option value="${item.id_lugar}"> ${item.lugar} </option>`
-			}            
-		} else {
-			rowHTML = `<option value="2"> No se han registrado lugares </option>`
-		}
-		select.innerHTML = rowHTML
+	return new Promise((resolve, reject) => {
+		fetch('lugares/todos', { method: 'get' })
+		.then(response => response.json())
+		.then(res => {
+			rowHTML = `<option value="${res[0].id_lugar}"> - Elegir - </option>`
+			if (res != 'fail') {
+				for (let i in res) {
+					let item = res[i]
+					rowHTML += `<option value="${item.id_lugar}"> ${item.lugar} </option>`
+				}            
+			} else {
+				rowHTML = `<option value="2"> No se han registrado lugares </option>`
+			}
+			select.innerHTML = rowHTML
+			resolve()
+		})
+		.catch(error => {
+			console.log(`Surgió un error: ${error.message}`)
+			reject()
+		})
 	})
-	.catch(error => {
-		console.log(`Surgió un error: ${error.message}`)
-	})
-	// .then(dataJson => {
-	// 	let rowHTML = `<option value="${dataJson[0].id_lugar}"> - Elegir - </option>`
-
-	// 	if (dataJson != 'fail') {
-	// 		for (let i in dataJson) {
-	// 			let item = dataJson[i]
-
-	// 			rowHTML += `<option value="${item.id_lugar}"> ${item.lugar} </option>`
-	// 		}            
-	// 	} else {
-	// 		rowHTML = `<option value="2"> No se han registrado lugares </option>`
-	// 	}
-	// 	select.innerHTML = rowHTML
-	// })
-	// .catch(error => {
-	// 	console.log(`Surgió un error: ${error.message}`)
-	// })
 }
 
 function destroyLogistica(logisticaId) {
