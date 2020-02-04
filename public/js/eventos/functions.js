@@ -4,19 +4,47 @@
 let nuevoEvento
 let errors = {}
 
-/** ABRE EL MODAL EVENTO */
+/**
+ * Fullcalendar
+ */
+function handlerDayClick(date, jsEvent, view) {
+	if (view.name == 'month') {
 
-function abrirEvent() {
-	let body = document.getElementById('body');
-	M_evento.style.display = 'block';
-	body.setAttribute('style', 'overflow: hidden; padding-right: 17px');
+		obtenerLugares(idlugar)
+		limpiarDatosEvento(date)
+		btnBorrar.setAttribute('disabled', true)
+		btnModificar.setAttribute('disabled', true)
+		btnDetalleEvento.setAttribute('disabled', true)
+		btnAgregarEvento.removeAttribute('disabled')
+		
+		M_evento.querySelectorAll('input')[1].focus()
+		openModal('M_evento');
+	}
 }
 
-/** CERRAR EL MODAL EVENTO */
-function cerrarEvent() {
-	form_evento.reset();
-	M_evento.style.display = 'none';
-	body.removeAttribute('style');
+function handlerEventClick(calEvent, jsEvent, view) {
+	const btnAddEvent = document.querySelector('#btnAgregarEvento')
+	getIngreso(calEvent);
+
+	/** ACTIVA Y DESACTIVA LOS BOTONES DEPENDIENDO DEL ESTADO DEL EVENTO */
+	if (calEvent.color != '#e62424') {
+
+		btnModificar.removeAttribute('disabled')
+		btnBorrar.removeAttribute('disabled')
+		btnDetalleEvento.removeAttribute('disabled')
+		btnAddEvent.setAttribute('disabled', 'disabled')
+
+	} else {
+		btnModificar.removeAttribute('disabled')
+		btnBorrar.setAttribute('disabled', 'disabled')
+		btnDetalleEvento.removeAttribute('disabled')
+		btnAddEvent.setAttribute('disabled', 'disabled')
+	}
+
+	if (calEvent.evento != null && view.name == 'month') {
+		printModalEvento(calEvent)
+		openModal('M_evento')
+	}
 }
 
 /** AGREGAR EVENTO */
@@ -31,14 +59,14 @@ function addEvento() {
 		return 0;
 	}
 	openLoading();
-	enviarInformacion('crear', nuevoEvento);
+	enviarInformacion('crear', nuevoEvento)
 }
 
 /** ELIMINAR EVENTO */
 function eliminarEvento() {
 	recolectarDatosGUI();
 	openLoading();
-	enviarInformacion('eliminar', nuevoEvento);
+	enviarInformacion('eliminar', nuevoEvento)
 }
 
 /** EDITAR EVENTO */
@@ -53,13 +81,13 @@ function modificarEvento() {
 		return 0;
 	}
 	openLoading();
-	enviarInformacion('editar', nuevoEvento);
+	enviarInformacion('editar', nuevoEvento)
 }
 
 /** CREAR OBJETO DE EVENTO */
 function recolectarDatosGUI() {
 	let start = date_start.value + ' ' + time.value,
-		end = date_end.value + ' ' + time_f.value;
+		end = date_end.value + ' ' + time_f.value
 
 	if (start < end) {
 		nuevoEvento = {
@@ -94,7 +122,7 @@ function enviarInformacion(accion, objEvento) {
 	.done((r) => {
 		closeLoading()
 		$('#calendar').fullCalendar('refetchEvents')
-		cerrarEvent()
+		cerrarModal('', 'M_evento')
 	})
 	.fail(err => {
 		closeLoading()
@@ -150,7 +178,7 @@ function destroyEvento() {
 
 function getIngreso(event) {
 	let dataIng = new FormData;
-	dataIng.append('evento_id', event.id_evento);
+	dataIng.append('evento_id', event.id_evento)
 
 	ajaxRequest('eventos/get-ingreso', dataIng)
 	.then(totales => {
@@ -165,63 +193,20 @@ function getIngreso(event) {
 		return 0;
 	})
 	.then(ingreso => {
-		let ingreso_format = parseFloat(ingreso).toLocaleString('es-MX', formato_moneda);
+		let ingreso_format = parseFloat(ingreso).toLocaleString('es-MX', formato_moneda)
 		e_ingreso.value = '$ ' + ingreso_format;
 	})
-}
-
-/**
- * Fullcalendar
- */
-function handlerDayClick(date, jsEvent, view) {
-	if (view.name == 'month') {
-
-		obtenerLugares(idlugar);
-		limpiarDatosEvento(date);
-		btnBorrar.setAttribute('disabled', true);
-		btnModificar.setAttribute('disabled', true);
-		btnDetalleEvento.setAttribute('disabled', true);
-		btnAgregarEvento.removeAttribute('disabled');
-		
-		M_evento.querySelectorAll('input')[1].focus();
-		abrirEvent();
-	}
-}
-
-function handlerEventClick(calEvent, jsEvent, view) {
-	const btnAddEvent = document.querySelector('#btnAgregarEvento');
-	getIngreso(calEvent);
-
-	/** ACTIVA Y DESACTIVA LOS BOTONES DEPENDIENDO DEL ESTADO DEL EVENTO */
-	if (calEvent.color != '#e62424') {
-
-		btnModificar.removeAttribute('disabled');
-		btnBorrar.removeAttribute('disabled');
-		btnDetalleEvento.removeAttribute('disabled');
-		btnAddEvent.setAttribute('disabled', 'disabled');
-
-	} else {
-		btnModificar.removeAttribute('disabled');
-		btnBorrar.setAttribute('disabled', 'disabled');
-		btnDetalleEvento.removeAttribute('disabled');
-		btnAddEvent.setAttribute('disabled', 'disabled');
-	}
-
-	if (calEvent.evento != null && view.name == 'month') {
-		extraerDatosEvento(calEvent);
-		abrirEvent();
-	}
 }
 
 function getTipoEventos() {
 
 	getFetch('tipo-eventos/get-all')
 	.then(dataJson => {
-		text = `<option value="${dataJson[0].nombre_tevento}">- Elegir -</option>`;
+		text = `<option value="${dataJson[0].nombre_tevento}">- Elegir -</option>`
 
 		for (i in dataJson) {
 			t = dataJson[i];
-			text += `<option value="${t.nombre_tevento}">${t.nombre_tevento}</option>`;
+			text += `<option value="${t.nombre_tevento}">${t.nombre_tevento}</option>`
 		}
 		e_evento.innerHTML = text;
 	})

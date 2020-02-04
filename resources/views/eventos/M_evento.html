@@ -49,10 +49,8 @@
 									{if $usuario.rol != 'Supervisor' && $usuario.rol != 'Administrador'}disabled{/if}>
 										<option id="old_color" value="#d7c735">- Elegir -</option>
 										<option value="#d7c735">Tentativo</option>
-											{if $usuario.rol == 'Supervisor' || $usuario.rol == 'Administrador'}
-												<option value="#f98710">Apartado</option>
-												<option value="#54b33d">Cerrado</option>
-											{/if}
+										<option value="#f98710">Apartado</option>
+										<option value="#54b33d">Cerrado</option>
 									</select>
 								</div>
 								<div class="col-xs-6">

@@ -26,6 +26,8 @@ function openModal(modalId) {
 
 	body.setAttribute('style', 'overflow: hidden; padding-right: 17px')
 	modal.style.display = 'block'
+	console.log('Open modal');
+	
 }
 
 w.openModal = openModal
