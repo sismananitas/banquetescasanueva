@@ -3,8 +3,6 @@
 
 let nuevoEvento
 let errors = {}
-let $selectLugares = document.getElementById('idlugar')
-let lugares = []
 
 /**
  * Fullcalendar
@@ -20,13 +18,11 @@ function handlerDayClick(date, jsEvent, view) {
 		form_evento.innerHTML = limpiarFormEvento(date)
 		
 		openLoading()
-		getSelectLugares(idlugar)
+		getSelectLugares('idlugar')
 		.then(() => {
 			closeLoading()
 			openModal('M_evento')
 		})
-
-		// limpiarDatosEvento(date)
 	}
 }
 
@@ -53,7 +49,7 @@ function handlerEventClick(calEvent, jsEvent, view) {
 		let formHtml = newPrintModalEvento(calEvent)
 		form_evento.innerHTML = formHtml
 		openLoading()
-		getSelectLugares(idlugar)
+		getSelectLugares('idlugar')
 		.then(() => {
 			closeLoading()
 			openModal('M_evento')
@@ -225,9 +221,9 @@ function getTipoEventos() {
 	})
 }
 
-function getSelectLugares(select) {
+function getSelectLugares(selectId) {
+	let select = document.getElementById(selectId)
 	let rowHTML = ''
-	select.innerHTML = ''
 
 	return new Promise((resolve, reject) => {
 		fetch('lugares/todos', { method: 'get' })
