@@ -98,7 +98,7 @@ class EventosController extends Controller
         // Autorizar usuario
         if (
             $auth['id_usuario'] != $editable->id_usuario
-            || strtolower($auth['rol']) != 'administrador'
+            && strtolower($auth['rol']) != 'administrador'
         ) {
             return json_response([
                 'data' => [
