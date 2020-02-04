@@ -138,7 +138,9 @@ class Evento extends Model
 		end = :end,
 		personas = :personas,
 		categoria = :categoria,
-		folio = :folio
+		color = :color,
+		folio = :folio,
+		status = :status
 		WHERE id_evento = :id";
 		\Conexion::query($sql, $data);
 	}

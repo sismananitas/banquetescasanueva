@@ -181,7 +181,7 @@ class EventosController extends Controller
             return json_response($res);
 
 		} catch (\PDOException $th) {
-            $res['status'] = 422;
+            $res['status'] = 500;
             $res['data'] = ['message' => $th->getMessage()];
             return json_response($res, 500);
 		}
