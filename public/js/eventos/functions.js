@@ -726,9 +726,8 @@ function addOrden(frm, forms) {
 		method: 'POST',
 		body: data
 	})
-	.then(response => response.json())
 	.catch(error => popup.alert({ content: 'No hay conexión\n' + error }))
-
+	.then(response => response.json())
 	.then(dataJson => {
 		if (dataJson.error) {
 			throw dataJson
@@ -738,21 +737,13 @@ function addOrden(frm, forms) {
 		let ord = new FormData;
 		ord.append('id', e_id.value);
 
-		obtenerOrdenes(ord)
-		.then(dataJson => {
-			let results = dataJson.length;
-
-			if (results <= 0)
-				console.log('No hay ordenes', dataJson.length);
-
-			mostrarOrdenes(dataJson);
-			md_orden.style.display = 'none';
-		})
-
-		borrarCamposExtra();
+		getOrdenes(ord)		
+		md_orden.style.display = 'none';
+		borrarCamposExtra()
 		forms.forEach(item => item.reset());
 	})
 	.catch(error => {
+		console.log(error);
 		popup.alert({ content: error.msg });
 	})
 }
