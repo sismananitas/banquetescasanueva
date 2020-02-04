@@ -70,7 +70,7 @@ function newPrintModalEvento(event) {
 				</div>
 				<div class="col-xs-6">
 					Personas *<br>
-					<input id="personas" class="col-xs-12" type="number" name="personas" value="${event.title}" required>
+					<input id="personas" class="col-xs-12" type="number" name="personas" value="${event.personas}" required>
 				</div>
 				<div class="col-xs-6">
 					Fecha<br>
