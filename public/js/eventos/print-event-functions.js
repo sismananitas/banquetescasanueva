@@ -1,4 +1,4 @@
-
+"use strict"
 /**--------------------- PINTAR FORMULARIO EVENTOS -------------*/
 function printModalEvento(calEvent) {	
 	let select         = document.querySelector('#idlugar option:first-child')
@@ -49,6 +49,15 @@ function printModalEvento(calEvent) {
 function newPrintModalEvento(event) {
 	let templateForm = ''
 
+	let fechaHora_start  = event.start._i.split(" ")
+	let fechaHora_end = event.end._i.split(" ")
+
+	let date_start = fechaHora_start[0]
+	let time_start = fechaHora_start[1]
+	
+	let date_end = fechaHora_end[0]
+	let time_end   = fechaHora_end[1]
+
 	templateForm = `
 	<input id="e_id" type="hidden" name="id" value="${event.id_evento}">
 	<div class="row-between">
@@ -58,7 +67,7 @@ function newPrintModalEvento(event) {
 			<div class="row-between col-xs-12 col-sm-11">
 				<div class="col-xs-6">
 					Evento *<br>
-					<input id="e_evento" class="col-xs-12 col-sm-11" type="text" name="evento" value="${event.title}" required>
+					<input id="e_evento" class="col-xs-12 col-sm-11" type="text" name="evento" value="${event.evento}" required>
 				</div>
 				<div class="col-xs-6">
 					Personas *<br>
@@ -69,18 +78,17 @@ function newPrintModalEvento(event) {
 					<input
 						id="date_start"
 						class="col-xs-12 col-sm-11 line-block"
-						type="date" min="1900-04-01" name="fecha" value="${event.title}"
+						type="date" min="1900-04-01" name="fecha" value="${date_start}"
 					>
 					<br>
-					Hora inicio
-					<br>
-					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora" value="${event.title}"><br>
+					Hora inicio<br>
+					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora" value="${time_start}"><br>
 				</div>
 				<div class="col-xs-6">
 					Fecha final<br>
-					<input id="date_end" class="col-xs-12" type="date" name="fecha" value="${event.title}"><br>
+					<input id="date_end" class="col-xs-12" type="date" name="fecha" value="${date_end}"><br>
 					Hora final<br>
-					<input id="time_f" class="col-xs-12" type="time" name="hora" value="${event.title}"><br>
+					<input id="time_f" class="col-xs-12" type="time" name="hora" value="${time_end}"><br>
 				</div>
 				<div class="col-xs-6">
 					Status <a id="e_status" class="pill"></a><br>
@@ -88,8 +96,7 @@ function newPrintModalEvento(event) {
 						id="color"
 						class="col-xs-12 col-sm-11"
 						name="color"
-						{if $usuario.rol != 'Supervisor' && $usuario.rol != 'Administrador'}disabled{/if}
-						value="${event.title}"
+						value="${event.color}"
 					>
 						<option id="old_color" value="#d7c735">- Elegir -</option>
 						<option value="#d7c735">Tentativo</option>
@@ -99,7 +106,7 @@ function newPrintModalEvento(event) {
 				</div>
 				<div class="col-xs-6">
 					Categoria <a id="txtcategoria" class="pill"></a><br>
-					<select id="categoria" class="col-xs-12" name="categoria" value="${event.title}">
+					<select id="categoria" class="col-xs-12" name="categoria" value="${event.categoria}">
 						<option id="idcategoria" value="Privado">- Seleccionar -</option>
 						<option value="Social"> Social </option>
 						<option value="Empresarial"> Empresarial </option>
@@ -110,23 +117,23 @@ function newPrintModalEvento(event) {
 		</div>
 		<div class="col-xs-12 col-sm-6">
 			Cliente *<br>
-			<input id="e_contacto" class="col-xs-12" type="text" name="contacto" value="${event.title}">
+			<input id="e_contacto" class="col-xs-12" type="text" name="contacto" value="${event.contacto}">
 			<div class="row-between">
 				<div class="col-xs-6">
 					Responsable *<br>
-					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="resp">
+					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="resp" value="${event.cord_resp}">
 				</div>
 				<div class="col-xs-6">
 					Cord. Apoyo<br>
-					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo">
+					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo" value="${event.cord_apoyo}">
 				</div>
 			</div>
 			Observaciones<br>
-			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'>${event.title}</textarea>
+			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'>${event.description}</textarea>
 			<div class="row-between">
 				<div class="col-xs-6">
 					<label for="idlugar">Salón</label><a id="e_place" class="pill"></a>
-					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar" value="${event.title}">
+					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar" value="${event.id_lugar}">
 						<!-- <option value="0">- Cambiar -</option>
 						<option value="1">Casa Nueva</option>
 						<option value="2">Jardin Privado</option> -->
@@ -134,7 +141,7 @@ function newPrintModalEvento(event) {
 				</div>
 				<div class="col-xs-6">
 					Folio Front2Go <br>
-					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar" value="${event.title}">
+					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar" value="${event.folio}">
 				</div>
 			</div>
 		</div>

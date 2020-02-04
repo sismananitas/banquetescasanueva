@@ -3,8 +3,8 @@
 namespace App\Controllers;
 
 use stdClass;
-use Helpers\Validator;
 use App\Models\Evento;
+use App\Helpers\Validator;
 use App\Models\EventosSql;
 use App\Models\TablaModel;
 
