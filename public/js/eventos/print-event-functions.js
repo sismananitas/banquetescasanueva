@@ -14,11 +14,11 @@ function printModalEvento(calEvent) {
 	idlugar.value      = calEvent.id_lugar
 	select.value       = calEvent.id_lugar
 
-	fechaHora        = calEvent.start._i.split(" ")
+	let fechaHora    = calEvent.start._i.split(" ")
 	date_start.value = fechaHora[0]
 	time.value       = fechaHora[1]
 
-	fechaHora_f = calEvent.end._i.split(" ");
+	let fechaHora_f = calEvent.end._i.split(" ");
 	
 	if (fechaHora_f.length > 1) {
 		date_end.value = fechaHora_f[0]
