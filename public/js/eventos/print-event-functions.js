@@ -128,15 +128,10 @@ function newPrintModalEvento(event) {
 					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo" value="${event.cord_apoyo}">
 				</div>
 			</div>
-			Observaciones<br>
-			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'>${event.description}</textarea>
 			<div class="row-between">
 				<div class="col-xs-6">
 					<label for="idlugar">Salón</label><a id="e_place" class="pill"></a>
 					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar" value="${event.id_lugar}">
-						<!-- <option value="0">- Cambiar -</option>
-						<option value="1">Casa Nueva</option>
-						<option value="2">Jardin Privado</option> -->
 					</select>
 				</div>
 				<div class="col-xs-6">
@@ -144,6 +139,8 @@ function newPrintModalEvento(event) {
 					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar" value="${event.folio}">
 				</div>
 			</div>
+			Observaciones<br>
+			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'>${event.description}</textarea>
 		</div>
 	</div>`
 	return templateForm

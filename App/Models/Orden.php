@@ -22,7 +22,7 @@ class Orden extends Model
 		" ON o.id_evento = e.id_evento".
 		" WHERE o.id_orden = ?";
 
-		$ord = $this->query($sql, [$id], true);
+		$ord = $this->query($sql, [$id], true, true);
 		return $ord;
 	}
 

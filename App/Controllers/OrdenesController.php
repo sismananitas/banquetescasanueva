@@ -202,12 +202,13 @@ class OrdenesController extends Controller
         setlocale(LC_ALL, 'es_MX.utf8');
         $html      = new \Smarty();
         $html2pdf  = new Html2Pdf('L', 'A4', 'es', 'true', 'UTF-8', [3, 8, 3, 8]);
-        $orden     = new Orden();
+        $orden     = new Orden;
+        $orden  = $orden->find($id['id']);
         $logistica = new Logistica();
         $html2pdf->pdf->SetTitle('Orden de servicio');
 
         /**----------- VARIABLES -------------*/
-        $data_orden  = $orden->getOne($id)[0];
+        $data_orden = $orden->showWithEvent();
         $id_evento   = $data_orden->id_evento;
         $fecha_hora  = explode(' ', $data_orden->fecha);
         $formato     = $data_orden->tipo_formato;
@@ -237,7 +238,7 @@ class OrdenesController extends Controller
 
         /**-------------- ESCRIBE Y MUESTRA EL PDF ---------------*/
         $html2pdf->writeHTML($html);
-        $html2pdf->output('Orden_de_servicio_' . date('d-m-Y') . '_' . $data_orden->title . '.pdf');
+        $html2pdf->output('Orden_de_servicio_' . date('d-m-Y') . '_' . $data_orden->orden . '.pdf');
     }
 
     public function cloneOne()
