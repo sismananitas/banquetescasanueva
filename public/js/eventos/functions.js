@@ -1,4 +1,4 @@
-
+"use strict"
 // TODO: ELIMINAR JQUERY
 
 let nuevoEvento
@@ -698,6 +698,9 @@ function deleteOrden(orderId) {
 
 /*-----------------------------AGREGAR ORDEN DE SERVICIO------------------*/
 function createOrden() {
+	let form = e.target.parentElement.parentElement
+	let forms = md_orden.querySelectorAll('.form')
+
 	popup.confirm({
 		content: 'Confirmar cambios',
 		default_btns: {
@@ -706,9 +709,7 @@ function createOrden() {
 	},
 	(clck) => {
 		if (clck.proceed) {
-			if (formClass[0] == 'form') {
-				enviarFormulario(e.target, forms, addOrden)
-			}
+			addOrden(form, forms)
 		}
 	})
 }
