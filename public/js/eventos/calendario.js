@@ -20,3 +20,4 @@ $('#calendar').fullCalendar({
    eventClick: handlerEventClick,
 })
 
+tabs('#tabs_ordenes')

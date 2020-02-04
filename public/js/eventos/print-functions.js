@@ -347,9 +347,9 @@ function printModalOrden(dataOrden) {
 	const ord = dataOrden	
 
 	let mdl = document.getElementById('md_orden'),
-		tabs = mdl.querySelectorAll('.tab');
+		tabs = mdl.querySelectorAll('.tab')
 
-		id_orden = mdl.querySelectorAll('.id_orden'),
+	let id_orden = mdl.querySelectorAll('.id_orden'),
 		evento = mdl.querySelectorAll('.o_nombre'),
 		place = mdl.querySelectorAll('.o_place'),
 		montaje = mdl.querySelectorAll('.o_montaje'),
@@ -373,7 +373,7 @@ function printModalOrden(dataOrden) {
 		proveedores = mdl.querySelectorAll('.o_proveedores'),
 		contabilidad = mdl.querySelectorAll('.o_contabilidad'),
 		formularios = mdl.querySelectorAll('form'),
-		observaciones = mdl.querySelectorAll('.o_observaciones');
+		observaciones = mdl.querySelectorAll('.o_observaciones')
 
 	/** Da click a la pestaña con el mismo formato */
 	tabs.forEach(tab => {
