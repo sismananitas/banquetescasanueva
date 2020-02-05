@@ -3,7 +3,7 @@ const w = window
 w.formato_moneda  = {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-    minimumIntegerDigits: 2
+    minimumIntegerDigits: 1
 };
 
 w.MESES = [

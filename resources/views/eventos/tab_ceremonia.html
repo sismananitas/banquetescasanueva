@@ -81,7 +81,7 @@
 	<div class="row-right">
 		<button form="tab_ceremonia" class="btn success" type="button" onclick="createOrden(event)">Subir</button>
 		<button form="tab_ceremonia" class="btn atention" type="button" onclick="editOrden(event)">Aplicar</button>
-		<button id="btnCampoExtraCeremonia" class="btn primary" type="button">
+		<button class="btn primary" type="button" onclick="addCampoExtraCeremonia()">
 			Mas <i class="fas fa-plus fa-sm"></i>
 		</button>
 	</div>
@@ -91,16 +91,22 @@
 <script>
 	let nc_ceremonia = 0;
 
-	btnCampoExtraCeremonia.addEventListener('click', () => {
+	function addCampoExtraCeremonia() {
 		if (nc_ceremonia < 5) {
-			const e = document.createElement('div');
+			const e = document.createElement('div')
 			e.className = 'col-xs-12 col-sm-6';
-			e.innerHTML = `<input class="o_tag col-xs-7" type="text" name="tag[]"> <br>
-      <textarea wrap="off" class="o_content col-xs-12 col-sm-11" name="content[]" rows="3"></textarea>`;
+			e.innerHTML = `<input class="o_tag col-xs-7" type="text" name="tag[]">
+			<a class="btn-field" onclick="removeCampo(event)">&times;</a><br>
+      		<textarea wrap="off" class="o_content col-xs-12 col-sm-11" name="content[]" rows="3"></textarea>`
 
-			campos_ceremonia.appendChild(e);
+			campos_ceremonia.appendChild(e)
+			nc_ceremonia++
+		} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles', effect: 'bottom' }) }
+	}
 
-			nc_ceremonia++;
-		} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles', effect: 'bottom' }); }
-	})
+	function removeCampo(e) {
+		e.target.parentElement.remove()
+		nc_ceremonia--
+		e.preventDefault()
+	}
 </script>

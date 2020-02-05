@@ -1,5 +1,5 @@
 <div id="MD_evento" class="sub-modal">
-	<div class="flex" onclick="cerrarModal(event, 'MD_evento')">
+	<div class="flex" onclick="cerrarSubModal(event, 'MD_evento')">
 		<div class="modal-content col-xs-11 col-lg-10" onclick="stopPropagation(event)">
 			<div class="modal-header">
 				<h3>Información</h3>
@@ -46,7 +46,7 @@
 					<button id="btn_agregar_orden" class="btn primary" type="button" onclick="abrirAgregarOrden()">Agregar</button>
 				</div>
 				<div class="modal-footer">
-					<button id="cancelar" class="btn default" type="button" onclick="cerrarModal(event, 'MD_evento')">Cancel</button>
+					<button id="cancelar" class="btn default" type="button" onclick="cerrarSubModal(event, 'MD_evento')">Cancel</button>
 				</div>
 			</div>
 		</div>

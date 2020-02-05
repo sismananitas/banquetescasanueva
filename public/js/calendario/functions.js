@@ -101,10 +101,10 @@ async function abrirDetalleEvento(e) {
 	let input_id = document.getElementById('e_id')
 	let modal = document.getElementById('MD_evento')
 	let table = document.getElementById('tbody_orden')
-	let btn_detalle = input_id.value,
-		data = new FormData()
+	let btn_detalle = input_id.value
+	let data = new FormData()
 
-	openLoading();
+	openLoading()
 	data.append('id', btn_detalle)
 
 	await ajaxLogistica(data)

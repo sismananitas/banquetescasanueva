@@ -233,7 +233,7 @@ function limpiarFormEvento(date) {
 /**---------------- LIMPIA EL FORMULARIO EVENTOS ---------------*/
 function limpiarDatosEvento(date) {
 	color.value = '#d7c735'
-	e_ingreso.value = '$ 00.00'
+	e_ingreso.value = '$ 0.00'
 
 	date_start.value = date.format('YYYY-MM-DD')
 	date_end.value = date.format('YYYY-MM-DD')

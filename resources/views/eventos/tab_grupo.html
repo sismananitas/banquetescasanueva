@@ -87,12 +87,18 @@
 		if (nc_grupo < 5) {
 			const e = document.createElement('div');
 			e.className = 'col-xs-12 col-sm-6';
-			e.innerHTML = `<input class="o_tag col-xs-7" type="text" name="tag[]"> <br>
-      <textarea wrap="off" class="o_content col-xs-12 col-sm-11" name="content[]" rows="3"></textarea>`;
+			e.innerHTML = `<input class="o_tag col-xs-7" type="text" name="tag[]">
+			<a class="p-2" onclick="removeCampo(event)">&times;</a><br>
+      		<textarea wrap="off" class="o_content col-xs-12 col-sm-11" name="content[]" rows="3"></textarea>`
 
 			campos_grupo.appendChild(e)
-
-			nc_grupo++;
-		} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles', effect: 'bottom' }); }
+			nc_grupo++
+		} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles', effect: 'bottom' }) }
 	})
+
+	function removeCampo(e) {
+		e.target.parentElement.remove()
+		nc_grupo--
+		e.preventDefault()
+	}
 </script>

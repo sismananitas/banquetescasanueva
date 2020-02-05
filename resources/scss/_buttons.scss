@@ -8,8 +8,117 @@
     background: #e4e4e4;
     color: rgb(36, 36, 36);
 }
+
 .btn-login:hover {
     background: #292929cc;
     color: #fff;
+    cursor: pointer;
+}
+
+.default {
+    color: #272727;
+    border: solid 1px #8a8a8a;
+    background: linear-gradient(#bebebe, #a7a7a7);
+}
+
+.default:hover {
+    border: solid 1px #494949;
+}
+
+.primary {
+    color: #e1eef8;
+    border: solid 1px #3e52b9;
+    background: linear-gradient(#517aff, #5162fa);
+}
+
+.primary:hover {
+    border: solid 1px #0c1670;
+}
+
+.success {
+    color: #eef0ef;
+    border: solid 1px #1a8543;
+    background: linear-gradient(#15b96f, #1a945d);
+}
+.success:hover {
+    border: solid 1px #004b1d;
+}
+
+.atention {
+    color: #282727;
+    border: solid 1px #afad1a;
+    background: linear-gradient(#f3d23f, #d3b42a);
+}
+
+.atention:hover {
+    border: solid 1px #5e5c00;
+}
+
+.danger {
+    color: #f5dbdb;
+    border: solid 1px #a82222;
+    background: linear-gradient(#f0443c, #cc322a);
+}
+.danger:hover {
+    border: solid 1px #6d0000;
+}
+
+.btn {
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    padding: 6px 10px;
+    display: block;
+    text-decoration: none;
+    border-radius: 4px;
+    text-align: center;
+    transition: 0.2s;
+    margin: 0 5px;
+    min-width: 90px;
+}
+
+.btn:disabled {
+    display: none;
+}
+
+.btn:hover {
+    box-shadow: inset 0px 0px 4px #000;
+}
+
+.admin-button {
+    cursor: pointer;
+    display: inline-block;
+    color: #181818;
+    background: #d8d8d8;
+    border: solid 1px #747474;
+    padding: 20px;
+    text-decoration: none;
+    font-family: sans-serif;
+}
+
+.admin-button:hover {
+    background: #c1c1c1;
+}
+
+.button {
+    cursor: pointer;
+    color: #242424;
+    background: linear-gradient(#f0f0f0, #dddddd);
+    outline: none;
+    border: solid 1px #b4b4b4;
+    border-radius: 3px;
+}
+
+.button:hover {
+    background: linear-gradient(#ebebeb, #dadada);
+}
+
+button, a, .btn {
+    outline: none;
+}
+
+.btn-field {
+    padding: 7px 13px;
+    background-color: #f17878;
+    color: #920a0a;
     cursor: pointer;
 }

@@ -5,8 +5,14 @@
 
 @import '~@fortawesome/fontawesome-free/css/all.css';
 
-@import 'variables';
-@import 'base';
 @import 'fonts';
-@import 'buttons';
+@import 'variables';
+@import 'reset';
+@import 'gridsystem';
+@import 'base';
 @import 'theme';
+@import 'header';
+@import 'loader';
+@import 'buttons';
+@import 'modal';
+@import 'tabs';
