@@ -33,45 +33,30 @@ class Logistica
 
 	/**--- AGREGAR LOGISTICA ---*/
 	public function agregarLogistica($datos)
-	{
-		/** VALIDA EL AUTOR DEL EVENTO */
-		if ($this->obtenerValidacionEvento($_SESSION['usuario']['id_usuario'], $datos['id_evento'])
-		|| $_SESSION['usuario']['rol'] == 'Administrador') {
-			$validacion = true;
-
-		} else { 
-			$validacion = false;
-		}
-
-		/** VALIDA */
-		if (!$validacion) {
-			throw new \PDOException('No tiene permiso de editar este evento', 10);
-			exit;
-		}
-		
+	{		
 		$sql = "INSERT INTO sub_evento VALUES
 		(null, :id_evento, :start, null, :title, :lugar)";
 
-		\Conexion::query($sql, $datos);
+		return \Conexion::query($sql, $datos);
 	}
 
 	/**--- ELIMINAR LOGISTICA ---*/
-	public function eliminarLogistica($id, $id_evento)
+	public function eliminarLogistica($id)
 	{
 		/** VALIDA EL AUTOR DEL EVENTO */
-		if ($this->obtenerValidacionEvento($_SESSION['usuario']['id_usuario'], $id_evento)
-		|| $_SESSION['usuario']['rol'] == 'Administrador') {
-			$validacion = true;
+		// if ($this->obtenerValidacionEvento($_SESSION['usuario']['id_usuario'], $id_evento)
+		// || $_SESSION['usuario']['rol'] == 'Administrador') {
+		// 	$validacion = true;
 
-		} else { 
-			$validacion = false;
-		}
+		// } else { 
+		// 	$validacion = false;
+		// }
 
 		/** VALIDA */
-		if (!$validacion) {
-			throw new \PDOException('No tiene permiso de editar este evento', 10);
-			exit;
-		}
+		// if (!$validacion) {
+		// 	throw new \PDOException('No tiene permiso de editar este evento', 10);
+		// 	exit;
+		// }
 
 		$sql = "DELETE FROM sub_evento WHERE id_sub_evento = :id";
 		/** ELIMINA EL REGISTRO */
@@ -79,24 +64,8 @@ class Logistica
 	}
 
 	/**--- MODIFICAR LOGISTICA ---*/
-	public function modificarLogistica($id, $datos)
+	public function modificarLogistica($datos)
 	{
-		$datos['id'] = $id;
-		/** VALIDA EL AUTOR DEL EVENTO */
-		if ($this->obtenerValidacionEvento($_SESSION['usuario']['id_usuario'], $datos['id_evento'])
-		|| $_SESSION['usuario']['rol'] == 'Administrador') {
-			$validacion = true;
-
-		} else { 
-			$validacion = false;
-		}
-
-		/** VALIDA */
-		if (!$validacion) {
-			throw new \PDOException('No tiene permiso de editar este evento', 10);
-			return false;
-		}
-
 		$sql = "UPDATE sub_evento SET
 		id_evento = :id_evento,
 		start     = :start,
@@ -111,10 +80,10 @@ class Logistica
 	/**--- VALIDA EL USUARIO ---*/
 	private function obtenerValidacionEvento($id_usu, $id_evento)
 	{
-		$data = array(
+		$data = [
 			'id'        => $id_usu,
 			'id_evento' => $id_evento
-		);
+		];
 
 		$sql = "SELECT id_usuario FROM eventos
 		WHERE id_usuario = :id AND id_evento = :id_evento";

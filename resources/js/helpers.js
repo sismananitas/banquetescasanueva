@@ -109,6 +109,16 @@ w.tabs = (element) => {
             tab_selected.className         = 'tab active';
             tab_content_selected.className = 'tab_content show';
         }
-        
+    })
+}
+
+w.showToast = (message, type = 'success') => {
+    swal.fire({
+        toast: true,
+        icon: type,
+        title: message,
+        position: 'top-right',
+        timer: 3000,
+        showConfirmButton: false
     })
 }

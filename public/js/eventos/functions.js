@@ -272,30 +272,23 @@ function deleteLogistica(logisticaId) {
 	logDatos.append('id', logisticaId)
 
 	openLoading()
-
-	fetch('logistica/del', {
-		method: 'POST',
-		body: logDatos
-	})
-	.then(response => response.json())
-	.catch(error => popup.alert({ content: 'No hay conexión a Internet' }))
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson;
-		}
-
-		/** ACTUALIZA LAS ACTIVIDADES */
-		$('#calendar').fullCalendar('refetchEvents');
+	axios.post('logistica/del', logDatos)
+	.then(resJson => {
 		let log = new FormData();
-
 		log.append('id', id_evento.value)
+		
+		/** ACTUALIZA LAS ACTIVIDADES */
 		getLogistica(log)
-		.then(() => closeLoading())
+		.then(() => {
+			closeLoading()
+			showToast(resJson.data.success)
+		})
 	})
 	.catch(error => {
+		closeLoading()
 		swal.fire({
-			type: 'error',
-			title: error.msg
+			icon: 'error',
+			title: error.response.data.message
 		})
 	})
 }
@@ -407,7 +400,7 @@ function abrirEditarLogistica(id) {
 		md_logistica.style.display = 'block'
 		btn_edit.style.display = 'block'
 		id_edit_log.value = id
-		id_evento.value = e_id
+		id_evento.value = e_id.value
 		closeLoading()
 	})
 }
@@ -415,40 +408,42 @@ function abrirEditarLogistica(id) {
 // TODO: ACTUALIZAR LAS PETICIONES AJAX
 /**---- AGREGAR LOGÍSTICA ----*/
 function addLogistica() {
-	let logDatos = new FormData(form_logistica);
-	logDatos.append('accion', 'agregar');
+	let logDatos = new FormData(form_logistica)
+	logDatos.append('accion', 'agregar')
 
 	openLoading()
-
-	fetch('logistica/add', {
-		method: 'POST',
-		body: logDatos
-	})
-	.then(response => response.json())
-	.catch(error => {
-		popup.alert({ content: 'No hay conexión a Internet' })
-		console.log(error);
-	})
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson;
-		}
-
-		/** ACTUALIZA LAS ACTIVIDADES */
-		$('#calendar').fullCalendar('refetchEvents');
-		let log = new FormData(),
-			md_logis = document.querySelector('#md_logistica');
-
+	axios.post('logistica/add', logDatos)
+	.then(resJson => {		
+		let log = new FormData()
+		let md_logis = document.querySelector('#md_logistica')
+			
 		log.append('id', id_evento.value)
-
+			
+		/** ACTUALIZA LAS ACTIVIDADES */
 		getLogistica(log)
-		.then(() => closeLoading())
+		.then(() => {
+			closeLoading()
+			showToast(resJson.data.success)
+			md_logis.style.display = 'none'
+		})
+		.then(() => {
+			form_logistica.reset()
+		})
 
-		md_logis.style.display = 'none'
-		form_logistica.reset()
 	})
-	.catch(error => {
-		popup.alert({ content: error.msg });
+	.catch(error => {		
+		closeLoading()
+		let textHtml = ''
+		if (error.response.status == 422) {
+			for (let i in error.response.data.errors) {				
+				textHtml += error.response.data.errors[i] + `<br>`
+			}
+		}
+		swal.fire({
+			icon: 'error',
+			title: error.response.data.message,
+			html: textHtml
+		})
 	})
 }
 
@@ -459,35 +454,36 @@ function editLogistica() {
 	logDatos.append('accion', 'modificar')
 
 	openLoading()
-
-	fetch('logistica/edit', {
-		method: 'POST',
-		body: logDatos
-	})
-	.then(response => response.json())
-	.catch(error => {
-		popup.alert({ content: 'No hay conexión a Iternet' })
-		console.log(error);
-	})
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson;
-		}
-		/** ACTUALIZA LAS ACTIVIDADES */
+	axios.post('logistica/edit', logDatos)
+	.then(resJson => {
 		let log = new FormData()
 		
 		log.append('id', id_evento.value)
-		$('#calendar').fullCalendar('refetchEvents');
-
+		
+		/** ACTUALIZA LAS ACTIVIDADES */
 		getLogistica(log)
 		.then(() => {
 			closeLoading()
-			form_logistica.reset()
+			showToast(resJson.data.success)
 			modal.style.display = 'none'
+		})
+		.then(() => {
+			form_logistica.reset()
 		})
 	})
 	.catch(error => {
-		popup.alert({ content: error.msg });
+		closeLoading()
+		let textHtml = ''
+		if (error.response.status == 422) {
+			for (let i in error.response.data.errors) {				
+				textHtml += error.response.data.errors[i] + `<br>`
+			}
+		}
+		swal.fire({
+			icon: 'error',
+			title: error.response.data.message,
+			html: textHtml
+		})
 	})
 }
 
@@ -497,11 +493,11 @@ function ajaxDetalleLogistica(data) {
 		method: 'POST',
 		body: data
 	})
-		.then(response => response.json())
-		.catch(error => popup.alert({ content: 'No hay conexión a Iternet' }))
-		.then(dataJson => {
-			mostrarLogistica(dataJson)
-		})
+	.then(response => response.json())
+	.catch(error => popup.alert({ content: 'No hay conexión a Iternet' }))
+	.then(dataJson => {
+		mostrarLogistica(dataJson)
+	})
 }
 
 /**---- OBTENER DATOS DE UNA ACTIVIDAD ----*/
@@ -640,7 +636,6 @@ function addOrden(frm, forms) {
 		if (dataJson.error) {
 			throw dataJson
 		}
-
 		/** RECARGO LOS REGISTROS */
 		let ord = new FormData;
 		ord.append('id', e_id.value)

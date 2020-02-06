@@ -27,11 +27,11 @@ $router->add('/eventos/logistica', 'EventosController@getLogistica');
 
 $router->add('/logistica/get-one/:id', 'LogisticaController@getOne');
 
-$router->add('/logistica/add', 'LogisticaController@create');
+$router->add('/logistica/add', 'LogisticaController@store');
 
-$router->add('/logistica/edit', 'LogisticaController@editar');
+$router->add('/logistica/edit', 'LogisticaController@update');
 
-$router->add('/logistica/del', 'LogisticaController@delete');
+$router->add('/logistica/del', 'LogisticaController@destroy');
 
 // Ordenes de Servicio
 $router->add('/eventos/ordenes', 'EventosController@getOrders');
