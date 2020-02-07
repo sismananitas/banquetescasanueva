@@ -6,6 +6,6 @@ class SistemaController extends Controller
 {    
     public function index() {
         \Utils::isUser();
-        return view('sistema');
+        return view('sistema.sistema');
     }
 }

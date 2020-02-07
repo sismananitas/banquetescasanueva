@@ -25,6 +25,7 @@ class OrdenesController extends Controller
 
     public function create()
     {
+        $orden = new Orden;
         $not_session = \Utils::validate_session();
         if ($not_session) {
             return $not_session;
@@ -32,12 +33,13 @@ class OrdenesController extends Controller
 
         try {
             /** VALIDA LOS DATOS POST */
-            if (empty($_POST['id_evento']) || empty($_POST['nombre'])
-            || empty($_POST['lugar']) || empty($_POST['montaje'])
-            || empty($_POST['garantia'])) {
+            if (
+                empty($_POST['id_evento']) || empty($_POST['nombre'])
+                || empty($_POST['lugar']) || empty($_POST['montaje'])
+                || empty($_POST['garantia'])
+            ) {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
-            $orden = new Orden;
 
             /** VALIDA EL AUTOR DEL EVENTO */
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
@@ -94,20 +96,22 @@ class OrdenesController extends Controller
         return $res;
     }
 
-    public function editar()
+    public function update()
     {
-        // Validar sesión
+        $orden = new Orden;
         $not_session = \Utils::validate_session();
+        // Validar sesión
         if ($not_session) {
             return $not_session;
         }
         $res['error'] = true;
-        $orden = new Orden;
 
         try {
-            if (empty($_POST['id']) || empty($_POST['nombre'])
-            || empty($_POST['lugar']) || empty($_POST['montaje'])
-            || empty($_POST['garantia'])) {
+            if (
+                empty($_POST['id']) || empty($_POST['nombre'])
+                || empty($_POST['lugar']) || empty($_POST['montaje'])
+                || empty($_POST['garantia'])
+            ) {
                 throw new \Exception('Debe llenar los campos obligatorios');
             }
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
@@ -158,8 +162,9 @@ class OrdenesController extends Controller
 
     public function delete()
     {
-        // Validar sesión
+        $orden = new Orden;
         $not_session = \Utils::validate_session();
+        // Validar sesión
         if ($not_session) {
             return $not_session;
         }
@@ -168,7 +173,6 @@ class OrdenesController extends Controller
             if (empty($_POST['id'])) {
                 throw new \Exception("No se recibió la información");
             }
-            $orden = new Orden;
 
             $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
 
@@ -179,19 +183,20 @@ class OrdenesController extends Controller
         } catch (\Exception $e) {
             $res['error'] = true;
             $res['msg']   = $e->getMessage();
-            return $res;
+            return json_response($res, 422);
         }
 
         try {
             $orden->eliminarOrden($_POST['id'], $_POST['id_evento']);
-            $res['error'] = false;
+            $res['success'] = 'Eliminado correctamente';
+            return json_response($res);
 
         } catch (\PDOException $e) {
             $res['error'] = true;
             $res['msg']   = 'No se pudo eliminar la orden';
             $res['log']   = $e->getMessage();
+            return json_response($res, 500);
         }
-        return $res;
     }
 
     public function printOne($id)
@@ -243,8 +248,9 @@ class OrdenesController extends Controller
 
     public function cloneOne()
     {
-        // Validar sesión
+        $orden     = new Orden;
         $not_session = \Utils::validate_session();
+        // Validar sesión
         if ($not_session) {
             return $not_session;
         }
@@ -252,7 +258,6 @@ class OrdenesController extends Controller
         $res['error'] = true;
 
         if ($orden_id) {
-            $orden     = new Orden;
             $evento_id = $orden->getEventoId($orden_id);
             $valido    = $orden->validaUsuarioEvento($evento_id);
 

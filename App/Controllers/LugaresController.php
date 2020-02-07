@@ -36,8 +36,8 @@ class LugaresController extends Controller
         }
 
         try {
-            $lugar->insert($_POST['lugar']);
-            $res['error'] = false;
+            $lugar->insert([$_POST['lugar']]);
+            $res['success'] = 'Registrado correctamente';
 
         } catch (\PDOException $e) {
             $res['msg'] = 'No se pudo agregar';
@@ -49,9 +49,10 @@ class LugaresController extends Controller
 
     public function eliminar() {
         $lugar = new Lugar;
+        $lugar = $lugar->find($_POST['id_lugar']);
 
         try {
-            $lugar->delete($_POST['id_lugar']);
+            $lugar->delete();
             $res['error'] = false;
 
         } catch (\PDOException $e) {

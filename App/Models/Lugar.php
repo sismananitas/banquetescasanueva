@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-class Lugar {
-
+class Lugar extends Model
+{
     public function getAll() {
         $sql = "SELECT * FROM lugares";
         $res = \Conexion::query($sql, [], true);
@@ -21,17 +21,5 @@ class Lugar {
             $res = true;
         }
         return $res;
-    }
-
-    public function insert($lugar) {
-        $sql = "INSERT INTO lugares VALUES (null, ?)";
-        \Conexion::query($sql, [$lugar]);
-        return true;
-    }
-
-    public function delete($id) {
-        $sql = "DELETE FROM lugares WHERE id_lugar = ?";
-        \Conexion::query($sql, [$id]);
-        return true;
     }
 }

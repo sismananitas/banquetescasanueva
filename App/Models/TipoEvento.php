@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-class TipoEvento {
+class TipoEvento extends Model
+{
     private $id;
     private $nombre;
 
@@ -12,18 +13,6 @@ class TipoEvento {
 
     public function setNombre($nombre) {
         $this->nombre = $nombre;
-    }
-
-    public function insert() {
-        $sql = "INSERT INTO tipo_eventos VALUES (null, ?)";
-        \Conexion::query($sql, [$this->nombre]);
-        return true;
-    }
-
-    public function delete() {
-        $sql = "DELETE FROM tipo_eventos WHERE id_tipo_evento = ?";
-        \Conexion::query($sql, [$this->id]);
-        return true;
     }
 
     public function getAll() {

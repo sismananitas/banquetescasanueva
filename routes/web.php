@@ -42,7 +42,7 @@ $router->add('/ordenes/get-campos/:id_orden', 'OrdenesController@getCampos');
 
 $router->add('/ordenes/add', 'OrdenesController@create');
 
-$router->add('/ordenes/edit', 'OrdenesController@editar');
+$router->add('/ordenes/edit', 'OrdenesController@update');
 
 $router->add('/ordenes/del', 'OrdenesController@delete');
 

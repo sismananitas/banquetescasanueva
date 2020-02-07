@@ -11,7 +11,7 @@ class TipoEventosController extends Controller
         $tipoEve = new TipoEvento;
         $eventos = $tipoEve->getAll();
 
-        return view('tipo_eventos', ['tipo_eventos' => $eventos]);
+        return view('tipo_eventos.tipo_eventos', ['tipo_eventos' => $eventos]);
     }
 
     public function getAll() {
@@ -21,14 +21,13 @@ class TipoEventosController extends Controller
     }
 
     public function insertar() {
+        $tipoEve = new TipoEvento;
+        
         if (empty($_POST['nombre'])) {
             $res['error'] = true;
             $res['msg'] = 'No pueden haber campos vacios';
             return $res;
-        }
-        
-        $tipoEve = new TipoEvento;
-        $tipoEve->setNombre($_POST['nombre']);
+        }        
 
         if (!$tipoEve->validar()) {
             $res['error'] = true;
@@ -38,30 +37,30 @@ class TipoEventosController extends Controller
         }
 
         try {
-            $tipoEve->insert();
-            $res['error'] = false;
+            $tipoEve->insert($_POST['nombre']);
+            $res['success'] = 'Registrado correctamnente';
+            return json_response($res);
 
         } catch (\PDOException $e) {
             $res['error'] = true;
-            $res['msg'] = 'Ocurrio un error';
-            $res['log'] = $e->getMessage();
+            $res['message'] = $e->getMessage();
+            return json_response($res, 500);
         }
-        return $res;
     }
 
     public function eliminar() {
         $tipoEve = new TipoEvento;
-        $tipoEve->setId($_POST['id']);
+        $tipoEve = $tipoEve->find($_POST['id']);
 
         try {
             $tipoEve->delete();
-            $res['error'] = false;
+            $res['success'] = 'Eliminado correctamente';
+            return json_response($res);
 
         } catch (\PDOException $e) {
             $res['error'] = true;
-            $res['msg'] = 'No se pudo eliminar';
-            $res['log'] = $e->getMessage();
+            $res['message'] = $e->getMessage();
+            return json_response($res, 500);
         }
-        return $res;
     }
 }

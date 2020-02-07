@@ -246,10 +246,14 @@ class EventosController extends Controller
 
     public function getLogistica() {
         $tabla = new TablaModel('sub_evento');
+        $validator = new Validator($_POST);
 
-        if (empty($_POST['id'])) {   
-            echo 0;
-            die();
+        $validation = $validator->validate([
+            'id' => 'required'
+        ]);
+
+        if ($validation['status'] == 422) {   
+            return json_response($validation['data']);
         }
         $res = $tabla->obtener_datos_donde('id_evento', $_POST['id']);
         return json_response($res);

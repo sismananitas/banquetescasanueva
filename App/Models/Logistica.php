@@ -2,15 +2,8 @@
 
 namespace App\Models;
 
-class Logistica
+class Logistica extends Model
 {
-	private $datos;
-
-	public function __construct()
-	{
-		$this->datos = array();
-	}
-
 	public function getOne($id) {
 		$sql = "SELECT * FROM sub_evento WHERE id_sub_evento = :id";
 		$res = \Conexion::query($sql, $id, true);
@@ -43,21 +36,6 @@ class Logistica
 	/**--- ELIMINAR LOGISTICA ---*/
 	public function eliminarLogistica($id)
 	{
-		/** VALIDA EL AUTOR DEL EVENTO */
-		// if ($this->obtenerValidacionEvento($_SESSION['usuario']['id_usuario'], $id_evento)
-		// || $_SESSION['usuario']['rol'] == 'Administrador') {
-		// 	$validacion = true;
-
-		// } else { 
-		// 	$validacion = false;
-		// }
-
-		/** VALIDA */
-		// if (!$validacion) {
-		// 	throw new \PDOException('No tiene permiso de editar este evento', 10);
-		// 	exit;
-		// }
-
 		$sql = "DELETE FROM sub_evento WHERE id_sub_evento = :id";
 		/** ELIMINA EL REGISTRO */
 		\Conexion::query($sql, array('id' => $id));
@@ -75,23 +53,5 @@ class Logistica
 
 		/** ACTUALIZA LA ACTIVIDAD */
 		\Conexion::query($sql, $datos);
-	}
-
-	/**--- VALIDA EL USUARIO ---*/
-	private function obtenerValidacionEvento($id_usu, $id_evento)
-	{
-		$data = [
-			'id'        => $id_usu,
-			'id_evento' => $id_evento
-		];
-
-		$sql = "SELECT id_usuario FROM eventos
-		WHERE id_usuario = :id AND id_evento = :id_evento";
-
-		$is_autor = \Conexion::query($sql, $data, true);
-
-		if (count($is_autor) > 0) {
-			return 1;
-		} return 0;
 	}
 }

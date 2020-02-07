@@ -190,9 +190,10 @@ function getIngreso(event) {
 	let dataIng = new FormData;
 	dataIng.append('evento_id', event.id_evento)
 
-	ajaxRequest('eventos/get-ingreso', dataIng)
-	.then(totales => {
-		let val = totales.ingreso[0];
+	// ajaxRequest('eventos/get-ingreso', dataIng)
+	axios.post('eventos/get-ingreso', dataIng)
+	.then(resJson => {
+		let val = resJson.data.ingreso[0];
 
 		if (parseFloat(val.total) > 0)
 			return val.total;
@@ -209,12 +210,12 @@ function getIngreso(event) {
 }
 
 function getTipoEventos() {
-	getFetch('tipo-eventos/get-all')
-	.then(dataJson => {
-		text = `<option value="${dataJson[0].nombre_tevento}">- Elegir -</option>`
+	axios.get('tipo-eventos/get-all')
+	.then(resJson => {		
+		text = `<option value="${resJson[0].nombre_tevento}">- Elegir -</option>`
 
-		for (i in dataJson) {
-			t = dataJson[i];
+		for (i in resJson) {
+			t = resJson[i];
 			text += `<option value="${t.nombre_tevento}">${t.nombre_tevento}</option>`
 		}
 		e_evento.innerHTML = text;
@@ -226,9 +227,10 @@ function getSelectLugares(selectId) {
 	let rowHTML = ''
 
 	return new Promise((resolve, reject) => {
-		fetch('lugares/todos', { method: 'get' })
-		.then(response => response.json())
-		.then(res => {
+		axios.get('lugares/todos')
+		.then(resJson => {
+			let res = resJson.data
+			
 			rowHTML = `<option value="${res[0].id_lugar}"> - Elegir - </option>`
 			if (res != 'fail') {
 				for (let i in res) {
@@ -242,54 +244,50 @@ function getSelectLugares(selectId) {
 			resolve()
 		})
 		.catch(error => {
-			console.log(`Surgió un error: ${error.message}`)
+			console.log(`Surgió un error: ${error.response.data.message}`)
 			reject()
 		})
 	})
 }
 
 function destroyLogistica(logisticaId) {
-	popup.confirm({
-		content: '<strong>Eliminar</strong><br><br>¿Está seguro?',
-		default_btns: {
-			ok: 'SÍ',
-			cancel: 'NO'
-		}
-	},
-	(click) => {
-		if (click.proceed) {
-			deleteLogistica(logisticaId)
-		}
+	let data = new FormData()
+
+	swal.fire({
+		icon: 'warning',
+		title: 'Eliminar',
+		text: '¿Está seguro(a)?',
+		showCancelButton: true
 	})
-}
+	.then(click => {
+		if (click.value) {
+			openLoading()
 
-/**---- ELIMINAR LOGÍSTICA ----*/
-function deleteLogistica(logisticaId) {
-	let logDatos = new FormData()
+			data.append('accion', 'eliminar')
+			data.append('id_evento', e_id.value)
+			data.append('id', logisticaId)
 
-	logDatos.append('accion', 'eliminar')
-	logDatos.append('id_evento', e_id.value)
-	logDatos.append('id', logisticaId)
-
-	openLoading()
-	axios.post('logistica/del', logDatos)
-	.then(resJson => {
-		let log = new FormData();
-		log.append('id', id_evento.value)
-		
-		/** ACTUALIZA LAS ACTIVIDADES */
-		getLogistica(log)
-		.then(() => {
-			closeLoading()
-			showToast(resJson.data.success)
-		})
-	})
-	.catch(error => {
-		closeLoading()
-		swal.fire({
-			icon: 'error',
-			title: error.response.data.message
-		})
+			// Pide eliminar la actividad
+			axios.post('logistica/del', data)
+			.then(resJson => {
+				let log = new FormData();
+				log.append('id', id_evento.value)
+				
+				/** ACTUALIZA LAS ACTIVIDADES */
+				getLogistica(log)
+				.then(() => {
+					closeLoading()
+					showToast(resJson.data.success)
+				})
+			})
+			.catch(error => {
+				closeLoading()
+				swal.fire({
+					icon: 'error',
+					title: error.response.data.message
+				})
+			})
+		}
 	})
 }
 
@@ -313,22 +311,25 @@ async function abrirDetalleEvento() {
 }
 
 function getLogistica(data) {
+	let table_body = document.getElementById('tb_logistica')
+	let textHtml = ''
+
 	return peticionAjax('eventos/logistica', data)
-	.then(dataJson => {
-		if (dataJson.length > 0) {
-			tb_logistica.innerHTML = mostrarLogistica(dataJson)
+	.then(resJson => {
+		if (resJson.length > 0) {
+			table_body.innerHTML = mostrarLogistica(resJson)
 		} else {
-			tb_logistica.innerHTML = ''
+			table_body.innerHTML = ''
 		}
 	})
 }
 
 /**----------------- OBTENER ORDENES DE SERVICIO ------------------*/
 async function getOrdenes(data) {
-	return peticionAjax('eventos/ordenes', data)
+	return axios.post('eventos/ordenes', data)
 	.then(dataJson => {
-		if (dataJson.length > 0) {
-			tbody_orden.innerHTML = mostrarOrdenes(dataJson)
+		if (dataJson.data.length > 0) {
+			tbody_orden.innerHTML = mostrarOrdenes(dataJson.data)
 		} else {
 			tbody_orden.innerHTML = ''
 		}
@@ -360,17 +361,9 @@ function abrirAgregarOrden() {
 
 /*------------ CARGA EL FORMULARIO ORDEN DE SERVICIO -----------*/
 function openModalOrdenes(id) {
-
-	openLoading();
-	/** PINTA EL MODAL DE ORDEN */
-	fetch('ordenes/get-one/' + id, {
-		method: 'GET',
-		headers: {
-			'Cache-Control': 'no-store'
-		}
-	})
-	.then(response => response.json())
-	.then(dataJson => {		
+	openLoading()
+	axios.get('ordenes/get-one/' + id)
+	.then(dataJson => {
 		printModalOrden(dataJson.data)
 	})
 	.then(() => {
@@ -405,7 +398,6 @@ function abrirEditarLogistica(id) {
 	})
 }
 
-// TODO: ACTUALIZAR LAS PETICIONES AJAX
 /**---- AGREGAR LOGÍSTICA ----*/
 function addLogistica() {
 	let logDatos = new FormData(form_logistica)
@@ -487,40 +479,27 @@ function editLogistica() {
 	})
 }
 
-/**---- ENVIAR DETALLE LOGÍSTICA ----*/
-function ajaxDetalleLogistica(data) {
-	fetch('core/ajax/logisticaAjaxController.php', {
-		method: 'POST',
-		body: data
-	})
-	.then(response => response.json())
-	.catch(error => popup.alert({ content: 'No hay conexión a Iternet' }))
-	.then(dataJson => {
-		mostrarLogistica(dataJson)
-	})
-}
-
 /**---- OBTENER DATOS DE UNA ACTIVIDAD ----*/
 async function obtenerDatosLog(id) {
-	return await fetch('logistica/get-one/' + id)
-	.then(response => response.json())
-	.then(dataJson => {
-		const activ = document.querySelector('#actividad_log');
-		let lugar = document.querySelector('#lugar_log'),
-			id_log = document.querySelector('#id_edit_log'),
-			fecha = document.querySelector('#fecha_edit_log'),
-			time = document.querySelector('#time_start_log');
+	return await axios.get('logistica/get-one/' + id)
+	.then(resJson => {
+		let activities = resJson.data
+		let $activ = document.querySelector('#actividad_log')
+		let $lugar = document.querySelector('#lugar_log')
+		let $id_log = document.querySelector('#id_edit_log'),
+			$fecha = document.querySelector('#fecha_edit_log'),
+			$time = document.querySelector('#time_start_log')
 
-		for (let i in dataJson) {
-			let item = dataJson[i],
-				date = item.start.split(' ');
+		for (let i in activities) {
+			let item = activities[i],
+				date = item.start.split(' ')
 
-			activ.value = item.title;
-			lugar.value = item.lugar;
-			id_log.value = item.id_sub_evento;
-			id_evento.value = item.id_evento;
-			fecha.value = date[0];
-			time.value = date[1];
+			$activ.value = item.title
+			$lugar.value = item.lugar
+			$id_log.value = item.id_sub_evento
+			id_evento.value = item.id_evento
+			$fecha.value = date[0]
+			$time.value = date[1]
 		}
 	})
 }
@@ -558,45 +537,37 @@ function openEditOrden(orderId) {
 }
 
 function destroyOrden(orderId) {
-	popup.confirm({
-		content: '<strong>Eliminar</strong><br><br>¿Está seguro?',
-		default_btns: {
-			ok: 'SÍ',
-			cancel: 'NO'
-		}
-	},
-	(click) => {
-		if (click.proceed) {
-			deleteOrden(orderId)
-		}
+	let data = new FormData()
+
+	swal.fire({
+		icon: 'warning',
+		title: 'Eliminar',
+		text: '¿Está seguro(a)?',
+		showCancelButton: true
 	})
-}
+	.then(click => {
+		if (click.value) {
+			openLoading()
 
-function deleteOrden(orderId) {
-	let datos = new FormData();
+			data.append('id_evento', e_id.value)
+			data.append('accion', 'eliminar')
+			data.append('id', orderId)
 
-	datos.append('id_evento', e_id.value)
-	datos.append('accion', 'eliminar')
-	datos.append('id', orderId)
-
-	/** PIDE BORRAR EL REGISTRO */
-	fetch('ordenes/del', {
-		method: 'POST',
-		body: datos
-	})
-	.then(response => response.json())
-	.catch(error => popup.alert({ content: 'No hay conexión\n' + error }))
-
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson
+			axios.post('ordenes/del', data)
+			.then(resJson => {
+				showToast(resJson.data.success)
+				data = new FormData()
+				data.append('id', e_id.value)
+				// Actualizo las ordenes
+				getOrdenes(data).then(() => closeLoading())
+			})
+			.catch(error => {
+				closeLoading()
+				console.log(error)
+				
+				popup.alert({ content: error.msg });
+			})
 		}
-		let ord = new FormData()
-		ord.append('id', e_id.value)
-		getOrdenes(ord) // Actualizo las ordenes
-	})
-	.catch(error => {
-		popup.alert({ content: error.msg });
 	})
 }
 
@@ -689,11 +660,11 @@ function updateOrden(frm, forms) {
 
 		getOrdenes(ord)
 		md_orden.style.display = 'none';
-		borrarCamposExtra();
-		forms.forEach(item => item.reset());
+		borrarCamposExtra()
+		forms.forEach(item => item.reset())
 	})
 	.catch(error => {
-		popup.alert({ content: error.msg });
+		popup.alert({ content: error.msg })
 	})
 }
 
