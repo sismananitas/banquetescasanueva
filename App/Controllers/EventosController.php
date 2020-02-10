@@ -34,14 +34,14 @@ class EventosController extends Controller
      * @return boolean
      */
     public function store() {
-        // Validar sesión
+        $event = new Evento();
         $not_session = \Utils::validate_session();
         
+        // Validar sesión
         if ($not_session) {
             return $not_session;
         }
 
-        $event = new Evento();
         $res['error'] = true;
         try {
             // VALIDA LOS DATOS POR POST
@@ -83,19 +83,20 @@ class EventosController extends Controller
      * @return boolean
      */
     public function update() {
-        // Validar sesión
         $not_session  = \Utils::validate_session();
         $auth         = $_SESSION['usuario'];
         $event        = new Evento();
         $data         = $_POST;
-        $res['data']  = [];
+        $res          = [];
         $color        = '';
         $status       = '';
-
-        $editable = $event->find($data['id']);
+        
+        // Validar sesión
         if ($not_session) return $not_session;
 
         // Autorizar usuario
+        $editable = $event->find($data['id']);
+        
         if (
             $auth['id_usuario'] != $editable->id_usuario
             && strtolower($auth['rol']) != 'administrador'
@@ -106,6 +107,45 @@ class EventosController extends Controller
                 ]
             ], 401);
         }
+        
+        // Validar datos POST
+        $validator = new Validator($data);
+        $result = $validator
+        ->validate([
+            'title' => 'required',
+            'evento' => 'required',
+            'contacto' => 'required',
+            'cord_resp' => 'required',
+            'cord_apoyo' => 'nullable',
+            'description' => 'nullable',
+            'id_lugar' => 'required',
+            'start' => 'required',
+            'end' => 'required',
+            'personas' => 'required',
+            'categoria' => 'required',
+            'folio' => 'nullable',
+            'color' => 'required',
+            'id' => 'required',
+        ]);
+
+        if ($result['status'] == 422) {
+            return json_response($result['data'], 422);
+        }
+
+        // VALIDAR FECHAS
+        try {
+			$validacion = $event->validarFechas($data['start'], $data['end']);
+			if (!$validacion) {
+				throw new \Exception('<h3>Datos incorrectos</h3><br>No pueden haber fechas vacias');
+            }        
+		} catch (\Exception $e) {
+            $errors = new stdClass;
+            $errors->start[] = $e->getMessage();
+
+            $res['message'] = $e->getMessage();
+            $res['errors'] = $errors;
+            return json_response($res, 422);
+		}
 
         if (
             $data['color'] != '#d7c735'
@@ -131,58 +171,15 @@ class EventosController extends Controller
 				break;
         }
         $data['status'] = $status;
-
-        // Valido los datos
-        $validator = new Validator($data);
-        $result = $validator
-        ->validate([
-            'title' => 'required',
-            'evento' => 'required',
-            'contacto' => 'required',
-            'cord_resp' => 'required',
-            'cord_apoyo' => 'nullable',
-            'description' => 'nullable',
-            'id_lugar' => 'required',
-            'start' => 'required',
-            'end' => 'required',
-            'personas' => 'required',
-            'categoria' => 'required',
-            'folio' => 'nullable',
-            'status' => 'required',
-            'color' => 'required',
-            'id' => 'required',
-        ]);
-
-        if ($result['status'] == 422) {
-            return json_response($result, 422);
-        }
         
-		try {
-			// VALIDAR FECHAS
-			$validacion = $event->validarFechas($data['start'], $data['end']);
-			if (!$validacion) {
-				throw new \Exception('<h3>Datos incorrectos</h3><br>No pueden haber fechas vacias');
-            }        
-		} catch (\Exception $e) {
-            $errors = new stdClass;
-            $errors->start[] = $e->getMessage();
-
-            $res['status'] = 422;
-            $res['data'] = [
-                'message' => $e->getMessage(),
-                'errors' => $errors
-            ];
-            return json_response($res, 422);
-		}
 		try {
             // ACTUALIZA EL EVENTO
             $event->modificarEvento($data);
-            $res['data'] = ['message' => 'Actualizado correctamente.'];
+            $res['message'] = 'Actualizado correctamente.';
             return json_response($res);
 
 		} catch (\PDOException $th) {
-            $res['status'] = 500;
-            $res['data'] = ['message' => $th->getMessage()];
+            $res['message'] = $th->getMessage();
             return json_response($res, 500);
 		}
     }

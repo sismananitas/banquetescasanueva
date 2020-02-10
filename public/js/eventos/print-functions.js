@@ -1,6 +1,6 @@
 
 function printModalEvento(calEvent) {	
-	let select         = document.querySelector('#idlugar option:first-child')
+	let select         = document.querySelector('#id_lugar option:first-child')
 	
 	e_id.value         = calEvent.id_evento
 	e_title.value      = calEvent.title
@@ -10,7 +10,7 @@ function printModalEvento(calEvent) {
 	e_cord_apoyo.value = calEvent.cord_apoyo
 	e_description.innerHTML = calEvent.description
 	e_place.innerHTML  = calEvent.lugar
-	idlugar.value      = calEvent.id_lugar
+	id_lugar.value      = calEvent.id_lugar
 	select.value       = calEvent.id_lugar
 
 	let fechaHora    = calEvent.start._i.split(" ")
@@ -55,14 +55,14 @@ function newPrintModalEvento(event) {
 	let time_start = fechaHora_start[1]
 	
 	let date_end = fechaHora_end[0]
-	let time_end   = fechaHora_end[1]
+	let time_end = fechaHora_end[1]
 
 	templateForm = `
 	<input id="e_id" type="hidden" name="id" value="${event.id_evento}">
 	<div class="row-between">
 		<div class="col-xs-12 col-sm-6">
 			Titulo *<br>
-			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="titulo" value="${event.title}" required>
+			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="title" value="${event.title}" required>
 			<div class="row-between col-xs-12 col-sm-11">
 				<div class="col-xs-6">
 					Evento *<br>
@@ -77,17 +77,17 @@ function newPrintModalEvento(event) {
 					<input
 						id="date_start"
 						class="col-xs-12 col-sm-11 line-block"
-						type="date" min="1900-04-01" name="fecha" value="${date_start}"
+						type="date" min="1900-04-01" value="${date_start}"
 					>
 					<br>
 					Hora inicio<br>
-					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora" value="${time_start}"><br>
+					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" value="${time_start}"><br>
 				</div>
 				<div class="col-xs-6">
 					Fecha final<br>
-					<input id="date_end" class="col-xs-12" type="date" name="fecha" value="${date_end}"><br>
+					<input id="date_end" class="col-xs-12" type="date" value="${date_end}"><br>
 					Hora final<br>
-					<input id="time_f" class="col-xs-12" type="time" name="hora" value="${time_end}"><br>
+					<input id="time_f" class="col-xs-12" type="time" value="${time_end}"><br>
 				</div>
 				<div class="col-xs-6">
 					Status
@@ -96,12 +96,26 @@ function newPrintModalEvento(event) {
 						id="color"
 						class="col-xs-12 col-sm-11"
 						name="color"
-						value="${event.color}"
 					>
 						<option id="old_color" value="#d7c735">- Elegir -</option>
-						<option value="#d7c735">Tentativo</option>
-						<option value="#f98710">Apartado</option>
-						<option value="#54b33d">Cerrado</option>
+						<option
+							value="#d7c735" `
+
+		templateForm += event.color == "#d7c735" ? `selected` : ``
+
+		templateForm +=	`>Tentativo</option>
+						<option
+							value="#f98710" `
+
+		templateForm +=	event.color == "#f98710" ? `selected` : ``
+
+		templateForm += `>Apartado</option>
+						<option
+							value="#54b33d" `
+
+		templateForm +=	event.color == "#54b33d" ? `selected` : ``
+
+		templateForm += `>Cerrado</option>
 					</select>
 				</div>
 				<div class="col-xs-6">
@@ -122,18 +136,18 @@ function newPrintModalEvento(event) {
 			<div class="row-between">
 				<div class="col-xs-6">
 					Responsable *<br>
-					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="resp" value="${event.cord_resp}">
+					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="cord_resp" value="${event.cord_resp}">
 				</div>
 				<div class="col-xs-6">
 					Cord. Apoyo<br>
-					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo" value="${event.cord_apoyo}">
+					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="cord_apoyo" value="${event.cord_apoyo}">
 				</div>
 			</div>
 			<div class="row-between">
 				<div class="col-xs-6">
-					<label for="idlugar">Salón</label>
+					<label for="id_lugar">Salón</label>
 					<a id="e_place" class="pill">${event.lugar}</a>
-					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar" value="${event.id_lugar}">
+					<select id="id_lugar" class="col-xs-12 col-sm-11" name="id_lugar" value="${event.id_lugar}">
 					</select>
 				</div>
 				<div class="col-xs-6">
@@ -142,7 +156,7 @@ function newPrintModalEvento(event) {
 				</div>
 			</div>
 			Observaciones<br>
-			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'>${event.description}</textarea>
+			<textarea id="e_description" class="col-xs-12" name="description" rows='3'>${event.description}</textarea>
 		</div>
 	</div>`
 	return templateForm
@@ -154,7 +168,7 @@ function limpiarFormEvento(date) {
 	<div class="row-between">
 		<div class="col-xs-12 col-sm-6">
 			Titulo *<br>
-			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="titulo" required>
+			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="title" required>
 			<div class="row-between col-xs-12 col-sm-11">
 				<div class="col-xs-6">
 					Evento *<br>
@@ -166,15 +180,15 @@ function limpiarFormEvento(date) {
 				</div>
 				<div class="col-xs-6">
 					Fecha<br>
-					<input id="date_start" class="col-xs-12 col-sm-11 line-block" type="date" min="1900-04-01" name="fecha" value="${date.format('YYYY-MM-DD')}"><br>
+					<input id="date_start" class="col-xs-12 col-sm-11 line-block" type="date" min="1900-04-01" value="${date.format('YYYY-MM-DD')}"><br>
 					Hora inicio<br>
-					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora" value="00:00:00"><br>
+					<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" value="00:00:00"><br>
 				</div>
 				<div class="col-xs-6">
 					Fecha final<br>
-					<input id="date_end" class="col-xs-12" type="date" name="fecha" value="${date.format('YYYY-MM-DD')}"><br>
+					<input id="date_end" class="col-xs-12" type="date" value="${date.format('YYYY-MM-DD')}"><br>
 					Hora final<br>
-					<input id="time_f" class="col-xs-12" type="time" name="hora" value="23:00:00"><br>
+					<input id="time_f" class="col-xs-12" type="time" value="23:00:00"><br>
 				</div>
 				<div class="col-xs-6">
 					Status
@@ -204,18 +218,18 @@ function limpiarFormEvento(date) {
 			<div class="row-between">
 				<div class="col-xs-6">
 					Responsable *<br>
-					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="resp">
+					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="cord_resp">
 				</div>
 				<div class="col-xs-6">
 					Cord. Apoyo<br>
-					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="apoyo">
+					<input id="e_cord_apoyo" class="col-xs-12" type="text" name="cord_apoyo">
 				</div>
 			</div>
 			<div class="row-between">
 				<div class="col-xs-6">
-					<label for="idlugar">Salón</label>
+					<label for="id_lugar">Salón</label>
 					<a id="e_place" class="pill"></a>
-					<select id="idlugar" class="col-xs-12 col-sm-11" name="idlugar">
+					<select id="id_lugar" class="col-xs-12 col-sm-11" name="id_lugar">
 						<!-- js -->
 					</select>
 				</div>
@@ -225,7 +239,7 @@ function limpiarFormEvento(date) {
 				</div>
 			</div>
 			Observaciones<br>
-			<textarea id="e_description" class="col-xs-12" name="descrip" rows='3'></textarea>
+			<textarea id="e_description" class="col-xs-12" name="description" rows='3'></textarea>
 		</div>
 	</div>`
 }
@@ -256,7 +270,7 @@ function arrastrarEvento(calEvent) {
 	e_cord_resp.value  = calEvent.cord_resp
 	e_cord_apoyo.value = calEvent.cord_apoyo
 	e_place.innerHTML  = calEvent.lugar
-	idlugar.value      = calEvent.id_lugar
+	id_lugar.value      = calEvent.id_lugar
 	e_description.innerHTML = calEvent.description
 
 

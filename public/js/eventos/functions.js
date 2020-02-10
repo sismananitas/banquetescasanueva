@@ -18,7 +18,7 @@ function handlerDayClick(date, jsEvent, view) {
 		form_evento.innerHTML = limpiarFormEvento(date)
 		
 		openLoading()
-		getSelectLugares('idlugar')
+		getSelectLugares('id_lugar')
 		.then(() => {
 			closeLoading()
 			openModal('M_evento')
@@ -49,7 +49,7 @@ function handlerEventClick(calEvent, jsEvent, view) {
 		let formHtml = newPrintModalEvento(calEvent)
 		form_evento.innerHTML = formHtml
 		openLoading()
-		getSelectLugares('idlugar')
+		getSelectLugares('id_lugar')
 		.then(() => {
 			closeLoading()
 			openModal('M_evento')
@@ -59,101 +59,141 @@ function handlerEventClick(calEvent, jsEvent, view) {
 
 /** AGREGAR EVENTO */
 function addEvento() {
-	recolectarDatosGUI();
+	//recolectarDatosGUI()
 	if (personas.value === '') {
 		popup.alert({ content: 'No el campo de personas debe ser de tipo numérico' })
-		return 0;
+		return 0
 	}
 	if (nuevoEvento === '') {
 		popup.alert({ content: 'La fecha de finalización no puede ser anterior a la fecha de inicio' })
-		return 0;
+		return 0
 	}
-	openLoading();
-	enviarInformacion('crear', nuevoEvento)
+	openLoading()
+	enviarInformacion('crear', 'form_evento')
+	.then(() => {
+		closeLoading()
+	})
 }
 
 /** ELIMINAR EVENTO */
 function eliminarEvento() {
-	recolectarDatosGUI();
-	openLoading();
-	enviarInformacion('eliminar', nuevoEvento)
+	//recolectarDatosGUI()
+	openLoading()
+	enviarInformacion('eliminar', 'form_evento')
+	.then(() => {
+		closeLoading()
+	})
 }
 
 /** EDITAR EVENTO */
 function modificarEvento() {
-	recolectarDatosGUI();
+	//recolectarDatosGUI()
 	if (personas.value === '') {
 		popup.alert({ content: 'No el campo de personas debe ser de tipo numérico' })
-		return 0;
+		return 0
 	}
 	if (nuevoEvento === '') {
 		popup.alert({ content: 'La fecha de finalización no puede ser anterior a la fecha de inicio' })
-		return 0;
+		return 0
 	}
-	openLoading();
-	enviarInformacion('editar', nuevoEvento)
+	openLoading()
+	enviarInformacion('editar', 'form_evento')
+	.then(() => {
+		closeLoading()
+	})
 }
 
 /** CREAR OBJETO DE EVENTO */
-function recolectarDatosGUI() {
-	let start = date_start.value + ' ' + time.value,
-		end = date_end.value + ' ' + time_f.value
+// function recolectarDatosGUI() {
+// 	let start = date_start.value + ' ' + time.value
+// 	let end = date_end.value + ' ' + time_f.value
 
-	if (start < end) {
-		nuevoEvento = {
-			id: e_id.value,
-			title: e_title.value,
-			evento: e_evento.value,
-			contacto: e_contacto.value,
-			cord_resp: e_cord_resp.value,
-			cord_apoyo: e_cord_apoyo.value,
-			description: e_description.value,
-			id_lugar: idlugar.value,
-			start: start,
-			end: end,
-			personas: personas.value,
-			categoria: categoria.value,
-			color: color.value,
-			folio: e_folio.value
-		}
-	} else {
-		nuevoEvento = '';
-	}
-}
+// 	if (start < end) {
+// 		nuevoEvento = {
+// 			id: e_id.value,
+// 			title: e_title.value,
+// 			evento: e_evento.value,
+// 			contacto: e_contacto.value,
+// 			cord_resp: e_cord_resp.value,
+// 			cord_apoyo: e_cord_apoyo.value,
+// 			description: e_description.value,
+// 			id_lugar: id_lugar.value,
+// 			start: start,
+// 			end: end,
+// 			personas: personas.value,
+// 			categoria: categoria.value,
+// 			color: color.value,
+// 			folio: e_folio.value
+// 		}
+// 	} else {
+// 		nuevoEvento = ''
+// 	}
+// }
 
 /** MANDAR DATOS DEL EVENTO POR AJAX */
-function enviarInformacion(accion, objEvento) {
-	$.ajax({
-		type: 'POST',
-		url: 'eventos/' + accion,
-		data: objEvento
-		
-	})
-	.done((r) => {
-		closeLoading()
+function enviarInformacion(accion, form_id) {
+	let form = document.getElementById(form_id)
+	let data = new FormData(form)
+
+	data.append('start', date_start.value + ' ' + time.value)
+	data.append('end', date_end.value + ' ' + time_f.value)
+
+	return axios.post('eventos/' + accion, data)
+	.then(resJson => {
+		showToast(resJson.data.message)
 		$('#calendar').fullCalendar('refetchEvents')
 		cerrarModal('', 'M_evento')
 	})
-	.fail(err => {
-		closeLoading()
-		if (err.status == 401) {
+	.catch(err => {		
+		if (err.response.status == 401) {
 			swal.fire({
 				icon: 'error',
-				title: err.responseJSON.data.message
+				title: err.response.data.message
 			})
 		}
-		if (err.status == 422) {
+		if (err.response.status == 422) {
 			let textHtml = ''
-			for (let i in err.responseJSON.data.errors) {
-				textHtml += err.responseJSON.data.errors[i]
+			for (let i in err.response.data.errors) {
+				textHtml += err.response.data.errors[i]
 			}
 			swal.fire({
 				icon: 'error',
-				title: err.responseJSON.data.message,
+				title: err.response.data.message,
 				html: textHtml
 			})
 		}
 	})
+	// $.ajax({
+	// 	type: 'POST',
+	// 	url: 'eventos/' + accion,
+	// 	data: datos
+		
+	// })
+	// .done((r) => {
+	// 	closeLoading()
+	// 	$('#calendar').fullCalendar('refetchEvents')
+	// 	cerrarModal('', 'M_evento')
+	// })
+	// .fail(err => {
+	// 	closeLoading()
+	// 	if (err.status == 401) {
+	// 		swal.fire({
+	// 			icon: 'error',
+	// 			title: err.responseJSON.data.message
+	// 		})
+	// 	}
+	// 	if (err.status == 422) {
+	// 		let textHtml = ''
+	// 		for (let i in err.responseJSON.data.errors) {
+	// 			textHtml += err.responseJSON.data.errors[i]
+	// 		}
+	// 		swal.fire({
+	// 			icon: 'error',
+	// 			title: err.responseJSON.data.message,
+	// 			html: textHtml
+	// 		})
+	// 	}
+	// })
 }
 
 function editarEvento() {

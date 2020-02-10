@@ -366,18 +366,18 @@ N/A
 		{/if}
 
 		{foreach from=$d_data item=row}
-		{if $row->tag != ''}
-		<tr>
-			<th colspan="4">{$row->tag}</th>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<pre>
+			{if $row->tag != ''}
+				<tr>
+					<th colspan="4">{$row->tag}</th>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<pre>
 {$row->content}
-        		</pre>
-			</td>
-		</tr>
-		{/if}
+						</pre>
+					</td>
+				</tr>
+			{/if}
 		{/foreach}
 
 		<tr>
