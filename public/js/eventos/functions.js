@@ -403,8 +403,8 @@ function abrirAgregarOrden() {
 function openModalOrdenes(id) {
 	openLoading()
 	axios.get('ordenes/get-one/' + id)
-	.then(dataJson => {
-		printModalOrden(dataJson.data)
+	.then(resJson => {		
+		printModalOrden(resJson.data.order)
 	})
 	.then(() => {
 		closeLoading();

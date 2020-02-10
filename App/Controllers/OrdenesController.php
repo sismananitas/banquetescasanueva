@@ -12,7 +12,7 @@ class OrdenesController extends Controller
     {
         $orden = new Orden;
         $o = $orden->find($request['id']);
-        $res['data'] = $o->showWithEvent();
+        $res['order'] = $o->showWithEvent();
         return $res;
     }
 
