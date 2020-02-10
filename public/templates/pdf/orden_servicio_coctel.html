@@ -323,12 +323,12 @@ N/A
 						<th style="width: 36mm">LUGAR</th>
 					</tr>
 					{foreach from=$act item=row}
-						{assign var="inicio" value=" "|explode:$row.start}
+						{assign var="inicio" value=" "|explode:$row->start}
 						<tr style="line-height: 0;">
 							<td>{$inicio.0}</td>
 							<td>{$inicio.1}</td>
-							<td>{$row.title|truncate:35:""}</td>
-							<td>{$row.lugar}</td>
+							<td>{$row->title|truncate:35:""}</td>
+							<td>{$row->lugar}</td>
 						</tr>
 					{/foreach}
 				</table>
@@ -345,16 +345,16 @@ N/A
 		</tr>
 
 		{if $data->proveedores != ''}
-		<tr>
-			<th colspan="4">PROVEEDORES</th>
-		</tr>
-		<tr>
-			<td id="proveedores" colspan="4">
-				<pre>
+			<tr>
+				<th colspan="4">PROVEEDORES</th>
+			</tr>
+			<tr>
+				<td id="proveedores" colspan="4">
+					<pre>
 {$data->proveedores}
-        		</pre>
-			</td>
-		</tr>
+					</pre>
+				</td>
+			</tr>
 		{/if}
 
 		<tr>
@@ -371,20 +371,19 @@ N/A
         		</pre>
 			</td>
 		</tr>
-
-		{if $d_data[0]['tag'] != ''}
-			{foreach from=$d_data item=row}
-			<tr>
-				<th colspan="4">{$row->tag}</th>
-			</tr>
-			<tr>
-				<td colspan="4">
-					<pre>
+		{foreach from=$d_data item=row}
+			{if $row->tag != ''}
+				<tr>
+					<th colspan="4">{$row->tag}</th>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<pre>
 {$row->content}
-					</pre>
-				</td>
-			</tr>
-			{/foreach}
-		{/if}
+						</pre>
+					</td>
+				</tr>
+			{/if}
+		{/foreach}
 	</table>
 </page>
