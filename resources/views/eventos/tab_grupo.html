@@ -5,14 +5,14 @@
 -->
 <form id="tab_grupo" class="form col-xs-12" action="core/ajax" method="post">
 	<input class="id_orden" type="hidden" name="id">
+	<input type="hidden" name="tipo_formato" value="grupo">
 	<div class="row-between">
 		<!-- CAMPOS DE LA IZQUIERDA -->
 		<div class="col-xs-12 col-md-6">
 			<div class="row-between scroll-y" style="padding: 0 20px">
-				<input type="hidden" name="tipo_formato" value="grupo">
 				<div class="col-xs-12 col-sm-6">
-					Nombre de la Orden *<br>
-					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre">
+					<label for="nombre">Nombre de la Orden *</label><br>
+					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre_orden">
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Lugar *<br>
@@ -32,15 +32,15 @@
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Alimentos<br>
-					<textarea wrap="off" class="o_canapes col-xs-12 col-sm-11" name="canapes" rows="3"></textarea>
+					<textarea wrap="off" class="o_canapes col-xs-12 col-sm-12" name="canapes" rows="3"></textarea>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Bebidas<br>
-					<textarea wrap="off" class="o_bebidas col-xs-12" name="bebidas" rows="3"></textarea>
+					<textarea wrap="off" class="o_bebidas col-xs-11" name="bebidas" rows="3"></textarea>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Notas (Observaciones)<br>
-					<textarea wrap="off" class="o_observaciones col-xs-12 col-sm-11" name="observaciones" rows="3"></textarea>
+					<textarea wrap="off" class="o_observaciones col-xs-12 col-sm-12" name="observaciones" rows="3"></textarea>
 				</div>
 			</div>
 		</div>
@@ -75,7 +75,8 @@
 		<button form="tab_grupo" class="btn success" type="button" onclick="createOrden(event)">Subir</button>
 		<button form="tab_grupo" class="btn atention" type="button" onclick="editOrden(event)">Aplicar</button>
 		<button id="btnCampoExtra" class="btn primary" type="button">
-			Mas <i class="fas fa-plus fa-sm"></i></button>
+			Mas <i class="fas fa-plus fa-sm"></i>
+		</button>
 	</div>
 </form>
 

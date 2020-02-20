@@ -5,13 +5,13 @@
 -->
 <form id="tab_banquete" class="form col-xs-12" action="#" method="post">
 	<input class="id_orden" type="hidden" name="id">
+	<input type="hidden" name="tipo_formato" value="banquete">
 	<div class="row-between">
 		<div class="col-xs-12 col-md-6">
 			<div class="row-between scroll-y" style="padding: 0 20px">
-				<input type="hidden" name="tipo_formato" value="banquete">
 				<div class="col-xs-12 col-sm-6">
-					Nombre de la Orden *<br>
-					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre">
+					<label for="nombre">Nombre de la Orden *</label>
+					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre_orden">
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Lugar * <br>
@@ -31,15 +31,15 @@
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Entrada<br>
-					<textarea wrap="off" class="o_entrada col-xs-12 col-sm-11" name="entrada" rows="3"></textarea>
+					<textarea wrap="off" class="o_entrada col-xs-12 col-sm-12" name="entrada" rows="3"></textarea>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Fuerte<br>
-					<textarea wrap="off" class="o_fuerte col-xs-12" name="fuerte" rows="3"></textarea>
+					<textarea wrap="off" class="o_fuerte col-xs-11" name="fuerte" rows="3"></textarea>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Postre<br>
-					<textarea wrap="off" class="o_postre col-xs-12 col-sm-11" name="postre" rows="3"></textarea>
+					<textarea wrap="off" class="o_postre col-xs-12 col-sm-12" name="postre" rows="3"></textarea>
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					Torna<br>

@@ -32,7 +32,7 @@ class Usuario extends Model
         ON u.id_usuario = d.id_usuario
         WHERE u.id_usuario = :id";
 
-        $res = \Conexion::query($sql, $id, true);
+        $res = $this->query($sql, $id, true);
         return $res;
     }
 
@@ -42,7 +42,7 @@ class Usuario extends Model
         u.id_usuario = d.id_usuario
         WHERE u.username = ?";
 
-        $res = \Conexion::query($sql, [$username], true);
+        $res = $this->query($sql, [$username], true);
         return $res;
     }
 
@@ -63,7 +63,7 @@ class Usuario extends Model
         $sql = "INSERT INTO usuarios VALUES (null, :usuario, :pass, :nivel, :estado)";
 
         try {
-            \Conexion::query($sql, $data_usu);
+            $this->query($sql, $data_usu);
 
         } catch (\PDOException $e) {
             $_SESSION['error']['msg'] = $e->getMessage();
@@ -94,7 +94,7 @@ class Usuario extends Model
         WHERE id_usuario = :id";
 
         try {
-            \Conexion::query($sql, $data_usu);
+            $this->query($sql, $data_usu);
 
         } catch (\PDOException $e) {
             $_SESSION['error']['msg'] = $e->getMessage();
@@ -110,7 +110,7 @@ class Usuario extends Model
         WHERE id_usuario = :id";
 
         try {
-            \Conexion::query($sql, array('id' => $id));
+            $this->query($sql, array('id' => $id));
 
         } catch (\PDOException $e) {
             $_SESSION['error']['msg'] = $e->getMessage();
@@ -126,7 +126,7 @@ class Usuario extends Model
         WHERE id_usuario = :id';
 
         try {
-            \Conexion::query($sql, array(
+            $this->query($sql, array(
                 'pass' => $pass,
                 'id'   => $id_usuario
             ));
@@ -146,7 +146,7 @@ class Usuario extends Model
         AND pass = :pass";
         
         try {
-            $valid = \Conexion::query($sql, array(
+            $valid = $this->query($sql, array(
                 'id_usuario' => $id_usuario,
                 'pass'       => $pass
             ), true);

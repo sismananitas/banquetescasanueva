@@ -23,97 +23,22 @@ class Evento extends Model
 		" WHERE (e.start BETWEEN ? AND ? OR e.end BETWEEN ? AND ?) OR
 		(? BETWEEN e.start AND e.end OR ? BETWEEN e.start AND e.end);";
 
-		$params = array(
-			$start,
-			$end,
-			$start,
-			$end,
-			$start,
-			$end
-		);
+		$params = [ $start, $end, $start, $end, $start, $end ];
 
 		$eventos = \Conexion::query($sql, $params, true);
 		return $eventos;
 	}
 
-	/** CREA UN ARRAY DE LOS DATOS */
-	private function getArrayData()
-	{
-		$autor = !empty($_SESSION['usuario']['nombre']) ? $_SESSION['usuario']['nombre']. ' ' .$_SESSION['usuario']['apellidos'] : $_SESSION['usuario']['username'];
-		$resp = !empty($_POST['cord_resp']) ? $_POST['cord_resp'] : $autor;
-
-		/** Elegir el status */
-		$color = '#d7c735';
-		$status = 'tentativo';
-
-		switch ($_POST['color']) {
-			case '#54b33d':
-				$color =  '#54b33d';
-				$status = 'cerrado';
-				break;
-			case '#f98710':
-				$color =  '#f98710';
-				$status = 'apartado';
-				break;
-			default:
-				$color = '#d7c735';
-				$status = 'tentativo';
-				break;
-		}
-		
-		/** Si es casa de muñecas el color es rosa */
-		if ($_POST['color'] == '#54b33d' && $_POST['id_lugar'] == 4)
-			$color = '#E56285';
-
-		// LIMPIEZA DE DATOS
-		$titulo     = trim($_POST['title']);
-		$evento     = trim($_POST['evento']);
-		$folio      = isset($_POST['folio']) ? trim($_POST['folio']) : '';
-		$contacto   = trim($_POST['contacto']);
-		$cord_resp  = trim($resp);
-		$cord_apoyo = isset($_POST['cord_apoyo']) ? trim($_POST['cord_apoyo']) : '';
-		$desc 		= isset($_POST['description']) ? trim($_POST['description']) : '';
-
-		$array = array(
-			'title'      => $titulo,
-			'evento'     => mb_strtoupper($evento),
-			'folio'      => $folio,
-			'contacto'   => mb_strtoupper($contacto),
-			'cord_resp'  => mb_strtoupper($cord_resp),
-			'cord_apoyo' => mb_strtoupper($cord_apoyo),
-			'des'        => $desc,
-			'lugar'      => $_POST['id_lugar'],
-			'start'      => trim($_POST['start']),
-			'end'        => trim($_POST['end']),
-			'personas'   => $_POST['personas'],
-			'categoria'  => trim($_POST['categoria']),
-			'color'      => $color,
-			'status'	 => $status
-		);
-		// SOLO CIERRAN LOS EVENTOS LOS ADMINS Y SUPERVISORES
-		if (
-			$color != '#d7c735'
-			&& strtolower($_SESSION['usuario']['rol']) != 'administrador'
-			&& strtolower($_SESSION['usuario']['rol']) != 'supervisor'
-		) {
-			unset($array['color']);
-			unset($array['status']);
-		}
-		return $array;
-	}
-
 	/**------ INSERTA EL EVENTO ---------*/
-	public function agregarEvento()
+	public function agregarEvento($data)
 	{
-		$data               = $this->getArrayData();
-		$data['id_usuario'] = $_SESSION['usuario']['id_usuario'];
-
 		$sql = "INSERT INTO eventos VALUES (
 		null, :title, :evento, :folio, :contacto, :cord_resp,
-		:cord_apoyo, :des, :lugar, :start, :end, :personas,
-		:categoria, :color, :id_usuario, :status)";
+		:cord_apoyo, :description, :id_lugar, :start, :end, :personas,
+		:categoria, :color, :id_usuario, :status
+		)";
 
-		\Conexion:: query($sql, $data);
+		return \Conexion::query($sql, $data);
 	}
 
 	/**---------- ELIMINA EL EVENTO ---------*/

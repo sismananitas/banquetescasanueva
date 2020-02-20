@@ -24,13 +24,13 @@ class Cotizacion extends Model
         WHERE co.evento_id = :evento_id
         GROUP BY co.id;";
 
-        $select = \Conexion::query($sql, $evento_id, true);
+        $select = $this->query($sql, $evento_id, true);
         return $select;
     }
 
     public function getByEvent($evento_id) {
         $sql = "SELECT * FROM cotizaciones WHERE evento_id = :evento_id";
-        return \Conexion::query($sql, $evento_id, true);
+        return $this->query($sql, $evento_id, true);
     }
     
     /**
@@ -107,7 +107,7 @@ class Cotizacion extends Model
         (:final BETWEEN start and end)) AND
         (id_lugar = :id_lugar AND color != :color)";
 
-        $is_event = \Conexion::query($sql, $data, true);
+        $is_event = $this->query($sql, $data, true);
 
         if (count($is_event) > 0) {
             $validacion = false;
@@ -120,7 +120,7 @@ class Cotizacion extends Model
             (end between :inicio and :final)) AND
             (id_lugar = :id_lugar AND color != :color)";
 
-            $is_event = \Conexion::query($sql, $data, true);
+            $is_event = $this->query($sql, $data, true);
             
             if (count($is_event) > 0) {
                 $validacion = false;
@@ -142,7 +142,7 @@ class Cotizacion extends Model
             $sql = "INSERT INTO cotizaciones VALUES
             (null, :evento_id, :cliente_id, :usuario_id, :folio, CURDATE(), :renta, :pax, :estado, :costo_total)";
             
-            \Conexion::query($sql, $data);
+            $this->query($sql, $data);
 
         } else {
            throw new \Exception('No tiene permiso de crear esta cotización');
@@ -158,7 +158,7 @@ class Cotizacion extends Model
         $sql = "INSERT INTO clientes VALUES
         (null, :nombre, :apellido, :email, :telefono, CURRENT_DATE())";
         
-        \Conexion::query($sql, $d);
+        $this->query($sql, $d);
     }
 
     /**
@@ -168,7 +168,7 @@ class Cotizacion extends Model
         $sql = "INSERT INTO eventos VALUES
         (null, :title, :evento, null, :contacto, :cord_resp, null, null, :id_lugar, :start, :end, :personas, :categoria, :color, :id_usuario)";
 
-        \Conexion::query($sql, $data);
+        $this->query($sql, $data);
     }
 
     /**
@@ -195,7 +195,7 @@ class Cotizacion extends Model
             $detalle['cotizacion_id'] = $cotizacion_id;
 
             try {
-                $insert = \Conexion::query($sql, $detalle);
+                $insert = $this->query($sql, $detalle);
 
             } catch (\PDOException $e) {
                 if ($insert->errorCode() !== 0) {
@@ -221,7 +221,7 @@ class Cotizacion extends Model
         $sql = "SELECT id_precio, precio_alta, precio_baja FROM precios_renta
         WHERE id_tipo_evento = :id_tevento AND id_lugar = :id_lugar";
 
-        $is_precio = \Conexion::query($sql, array('id_tevento' => $id_tevento, 'id_lugar' => $id_lugar), true);
+        $is_precio = $this->query($sql, array('id_tevento' => $id_tevento, 'id_lugar' => $id_lugar), true);
 
         if (count($is_precio) < 1) {
             $precio_result['msg']   = 'No se ha registrado un precio del salón para ese tipo de evento';
@@ -253,7 +253,7 @@ class Cotizacion extends Model
     public function getCliente($cliente_id) {
         $sql = "SELECT nombre, apellido FROM clientes WHERE id = :cliente_id";
 
-        $cliente = \Conexion::query($sql, array('cliente_id' => $cliente_id), true, true);
+        $cliente = $this->query($sql, array('cliente_id' => $cliente_id), true, true);
         return $cliente;
     }
 
@@ -264,7 +264,7 @@ class Cotizacion extends Model
     {
         $sql = "SELECT id FROM clientes WHERE email = :email";
 
-        $cliente_id = \Conexion::query($sql, array('email' => $email), true, true);
+        $cliente_id = $this->query($sql, array('email' => $email), true, true);
         return $cliente_id['id'];
     }
 
@@ -277,7 +277,7 @@ class Cotizacion extends Model
         INNER JOIN detalle_usuario d ON d.id_usuario = u.id_usuario
         WHERE u.id_usuario = :usuario_id";
 
-        $usuario = \Conexion::query($sql, array('usuario_id' => $usuario_id), true, true);
+        $usuario = $this->query($sql, array('usuario_id' => $usuario_id), true, true);
         return $usuario;
     }
 
@@ -290,7 +290,7 @@ class Cotizacion extends Model
         FROM eventos
         WHERE id_evento = :evento_id";
 
-        $evento = \Conexion::query($sql, array('evento_id' => $evento_id), true);
+        $evento = $this->query($sql, array('evento_id' => $evento_id), true);
         return $evento;
     }
 
@@ -303,7 +303,7 @@ class Cotizacion extends Model
         eventos e ON e.evento = te.nombre_tevento
         WHERE e.id_evento = :evento_id";
 
-        $evento = \Conexion::query($sql, array('evento_id' => $evento_id), true);
+        $evento = $this->query($sql, array('evento_id' => $evento_id), true);
         return $evento;
     }
 
@@ -327,7 +327,7 @@ class Cotizacion extends Model
             WHERE c.folio = :folio AND c.usuario_id = :usuario";
         }
 
-        $cotizacion = \Conexion::query($sql, $data, true);
+        $cotizacion = $this->query($sql, $data, true);
         return $cotizacion;
     }
 
@@ -339,7 +339,7 @@ class Cotizacion extends Model
         $sql = "SELECT id, descripcion, precio_unitario, cantidad, subtotal FROM
         detalle_cotizacion WHERE cotizacion_id = ?";
 
-        $detalle = \Conexion::query($sql, [$cotizacion_id], true);
+        $detalle = $this->query($sql, [$cotizacion_id], true);
         return $detalle;
     }
 
@@ -352,7 +352,7 @@ class Cotizacion extends Model
         ON d.cotizacion_id = c.id
         WHERE c.folio = ?;";
 
-        $select = \Conexion::query($sql, [$folio], true);
+        $select = $this->query($sql, [$folio], true);
         if (count($select) > 0) {
             return $select[0];
         } else {
@@ -366,7 +366,7 @@ class Cotizacion extends Model
     public function getValidacionRenta($validacion_id) {
         $sql = "SELECT * FROM validaciones_renta WHERE id = :validacion_id";
 
-        $rentaData = \Conexion::query($sql, array('validacion_id' => $validacion_id));
+        $rentaData = $this->query($sql, array('validacion_id' => $validacion_id));
         return $rentaData;
     }
 
@@ -375,7 +375,7 @@ class Cotizacion extends Model
      */
     private function validaFolioCot($folio) {
         $sql        = "SELECT folio FROM cotizaciones WHERE folio = :folio";
-        $cotizacion = \Conexion::query($sql, array('folio' => $folio), true);
+        $cotizacion = $this->query($sql, array('folio' => $folio), true);
         $validacion = true;
 
         if (count($cotizacion) > 0) {
@@ -392,7 +392,7 @@ class Cotizacion extends Model
     public function getCotId($folio)
     {
         $sql = "SELECT id FROM cotizaciones WHERE folio = :folio";
-        $cotizacion = \Conexion::query($sql, array('folio' => $folio), true);
+        $cotizacion = $this->query($sql, array('folio' => $folio), true);
 
         if (count($cotizacion) > 0) {
             return (int) $cotizacion[0]['id'];
@@ -407,7 +407,7 @@ class Cotizacion extends Model
     {
         $sql = "SELECT nombre FROM clientes WHERE (nombre = :nombre AND apellido = :apellido AND email = :email)";
 
-        $cliente = \Conexion::query($sql, array('nombre' => $nombre, 'apellido' => $apellido, 'email' => $email), true);
+        $cliente = $this->query($sql, array('nombre' => $nombre, 'apellido' => $apellido, 'email' => $email), true);
 
         if (count($cliente) > 0) {
             return true;
@@ -422,7 +422,7 @@ class Cotizacion extends Model
     public function isEmail($email)
     {
         $sql = "SELECT email FROM clientes WHERE email = :email";
-        $cliente = \Conexion::query($sql, array('email' => $email), true);
+        $cliente = $this->query($sql, array('email' => $email), true);
 
         if (count($cliente) > 0) {
             return true;
@@ -437,7 +437,7 @@ class Cotizacion extends Model
     private function createFolio()
     {
         $sql = "SELECT folio FROM cotizaciones ORDER BY folio DESC LIMIT 1";
-        $folio = \Conexion::query($sql, array(), true);
+        $folio = $this->query($sql, array(), true);
 
         if (count($folio) > 0) {
             return $folio[0]['folio'] + 1;
@@ -453,7 +453,7 @@ class Cotizacion extends Model
         $sql = "DELETE FROM detalle_cotizacion WHERE id = :id";
 
         try {
-           $delete = \Conexion::query($sql, array('id' => $detalle_id));
+           $delete = $this->query($sql, array('id' => $detalle_id));
            return true;
 
         } catch (\PDOException $e) {
@@ -468,7 +468,7 @@ class Cotizacion extends Model
      */
     public function cambiarStatus($folio, $estado) {
         $sql = "UPDATE cotizaciones SET estado = ? WHERE folio = ?";
-        \Conexion::query($sql, [$estado, $folio]);
+        $this->query($sql, [$estado, $folio]);
         return true;
     }
 
@@ -477,7 +477,7 @@ class Cotizacion extends Model
      */
     public function varlidaCotizacion($cotizacion_id) {
         $sql = "SELECT folio FROM cotizaciones WHERE id = :id AND usuario_id = :usuario_id";
-        $cot = \Conexion::query($sql, array('id' => $cotizacion_id, 'usuario_id' => $_SESSION['usuario']['id_usuario']), true);
+        $cot = $this->query($sql, array('id' => $cotizacion_id, 'usuario_id' => $_SESSION['usuario']['id_usuario']), true);
 
         if (count($cot) > 0) {
             return true;
@@ -494,7 +494,7 @@ class Cotizacion extends Model
         INNER JOIN detalle_usuario d ON d.id_usuario = u.id_usuario
 		WHERE u.nivel = 'Administrador' OR u.nivel = 'Supervisor';";
 
-        $usuarios = \Conexion::query($sql, array(), true);
+        $usuarios = $this->query($sql, array(), true);
         if (count($usuarios) > 0) {
 
             //para el envío en formato HTML 
@@ -521,7 +521,7 @@ class Cotizacion extends Model
             'email'    => $data_post['email']
         );
         // COMIENZA LA TRANSACCIÓN
-        \Conexion::beginTransaction();
+        $this->beginTransaction();
 
         try {
             // VALIDA SI EXISTE EL CORREO
@@ -542,14 +542,14 @@ class Cotizacion extends Model
                 $sql = "INSERT INTO clientes VALUES
                 (null, :nombre, :apellido, :email, :telefono, NOW())";
                 
-                \Conexion::query($sql, $cliente_data);
+                $this->query($sql, $cliente_data);
 
                 // OBTIENE EL ID DEL CLIENTE INSERTADO
-                $cliente_id = \Conexion::lastInsertId();
+                $cliente_id = $this->lastInsertId();
             }
         } catch (\PDOException $e) {
             $_SESSION['error']['msg'] = '<b>Error:</b><br><br>'. $e->getMessage();
-            \Conexion::rollBack();
+            $this->rollBack();
             return false;
         }
         
@@ -566,7 +566,7 @@ class Cotizacion extends Model
 
         } catch (\PDOException $e) {
             $_SESSION['error']['msg'] = 'Error: '. $e->getMessage();
-            \Conexion::rollBack();
+            $this->rollBack();
             return false;
         }
         // VALIDA LOS RESULTADOS SQL
@@ -586,7 +586,7 @@ class Cotizacion extends Model
         } catch (\Exception $e) {
             // SI HAY ERROR TERMINA LA EJECUCIÓN
             $_SESSION['error']['msg'] = $e->getMessage();
-            \Conexion::rollBack();
+            $this->rollBack();
             return false;
         }
         /**
@@ -607,21 +607,21 @@ class Cotizacion extends Model
             $sql = "INSERT INTO cotizaciones VALUES
             (null, :evento_id, :cliente_id, :usuario_id, :folio, NOW(), :renta, :personas, 'pendiente', 0)";
 
-            \Conexion::query($sql, $cot_data);
+            $this->query($sql, $cot_data);
             // SI NO HAY ERROR DEVUELVE TRUE Y FINALIZA LA TRANSACCIÓN
-            \Conexion::commit();
+            $this->commit();
             return true;
 
         } catch (\PDOExeption $e) {
             $_SESSION['error']['msg'] = 'Error: '. $e->getMessage();
-            \Conexion::rollBack();
+            $this->rollBack();
            return false;
         }
     }
 
     public function validaUsuario($evento_id, $usuario_id) {
         $sql = "SELECT id_evento FROM eventos WHERE id_evento = ? AND id_usuario = ?";
-        $res = \Conexion::query($sql, [$evento_id, $usuario_id], true);
+        $res = $this->query($sql, [$evento_id, $usuario_id], true);
 
         if (count($res) > 0) {
             $res = true;

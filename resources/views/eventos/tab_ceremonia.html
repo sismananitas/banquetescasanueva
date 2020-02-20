@@ -5,71 +5,58 @@
 -->
 <form id="tab_ceremonia" class="form col-xs-12" action="#" method="post">
 	<input class="id_orden" type="hidden" name="id">
-
+	<input type="hidden" name="tipo_formato" value="ceremonia">
 	<div class="row-between">
 		<div class="col-xs-12 col-md-6">
 			<div class="row-between scroll-y" style="padding: 0 20px">
-				<input type="hidden" name="tipo_formato" value="ceremonia">
-
 				<div class="col-xs-12 col-sm-6">
 					Nombre de la Orden *<br>
-					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre">
+					<input class="o_nombre col-xs-12 col-sm-11" type="text" name="nombre_orden">
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Lugar *<br>
 					<input class="o_place col-xs-12" type="text" name="lugar">
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Montaje *<br>
 					<input class="o_montaje col-xs-12 col-sm-11" type="text" name="montaje"><br>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Garantía *<br>
 					<input class="o_garantia col-xs-12" type="text" name="garantia"><br>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Hora *<br>
 					<input class="o_hora col-xs-12 col-sm-11" type="text" name="time" placeholder="HH:MM:SS"><br>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Nota Especial<br>
-					<textarea wrap="off" class="o_observaciones col-xs-12 col-sm-11" name="observaciones" rows="3"></textarea>
+					<textarea wrap="off" class="o_observaciones col-xs-12 col-sm-12" name="observaciones" rows="3"></textarea>
 				</div>
 			</div>
 		</div>
-
 		<div class="col-xs-12 col-md-6">
 			<div id="campos_ceremonia" class="row-between scroll-y" style="padding: 0 20px">
 				<div class="col-xs-12 col-sm-6">
 					Detalle montaje<br>
 					<textarea wrap="off" class="o_dmontaje col-xs-12 col-sm-11" name="detalle_montaje" rows="3"></textarea>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Ama de llaves<br>
 					<textarea wrap="off" class="o_ama_llaves col-xs-12 col-sm-11" name="ama_llaves" rows="3"></textarea>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Mantenimiento<br>
 					<textarea wrap="off" class="o_mantenimiento col-xs-12 col-sm-11" name="mantenimiento" rows='3'></textarea>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Seguridad<br>
 					<textarea wrap="off" class="o_seguridad col-xs-12 col-sm-11" name="seguridad" rows='3'></textarea>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Recursos Humanos<br>
 					<textarea wrap="off" class="o_RH col-xs-12 col-sm-11" name="recursos_humanos" rows="3"></textarea>
 				</div>
-
 				<div class="col-xs-12 col-sm-6">
 					Proveedores<br>
 					<textarea wrap="off" class="o_proveedores col-xs-12 col-sm-11" name="proveedores" rows="3"></textarea>
@@ -77,7 +64,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div class="row-right">
 		<button form="tab_ceremonia" class="btn success" type="button" onclick="createOrden(event)">Subir</button>
 		<button form="tab_ceremonia" class="btn atention" type="button" onclick="editOrden(event)">Aplicar</button>

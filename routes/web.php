@@ -40,11 +40,11 @@ $router->add('/ordenes/get-one/:id', 'OrdenesController@show');
 
 $router->add('/ordenes/get-campos/:id_orden', 'OrdenesController@getCampos');
 
-$router->add('/ordenes/add', 'OrdenesController@create');
+$router->add('/ordenes/add', 'OrdenesController@store');
 
 $router->add('/ordenes/edit', 'OrdenesController@update');
 
-$router->add('/ordenes/del', 'OrdenesController@delete');
+$router->add('/ordenes/del', 'OrdenesController@destroy');
 
 $router->add('/ordenes/print/:id', 'OrdenesController@printOne');
 

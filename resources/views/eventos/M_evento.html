@@ -34,13 +34,13 @@
 									Fecha<br>
 									<input id="date_start" class="col-xs-12 col-sm-11 line-block" type="date" min="1900-04-01"><br>
 									Hora inicio<br>
-									<input id="time" class="col-xs-12 col-sm-11 line-block" type="time"><br>
+									<input id="time" class="col-xs-12 col-sm-11 line-block" type="time" name="hora"><br>
 								</div>
 								<div class="col-xs-6">
 									Fecha final<br>
 									<input id="date_end" class="col-xs-12" type="date"><br>
 									Hora final<br>
-									<input id="time_f" class="col-xs-12" type="time"><br>
+									<input id="time_f" class="col-xs-12" type="time" name="hora"><br>
 								</div>
 								<div class="col-xs-6">
 									Status
@@ -99,9 +99,13 @@
 
 				<div class="modal-footer">
 					<button class="btn default cerrar" onclick="cerrarModal(event, 'M_evento', 'form_evento')">Cancel</button>
-					<button id="btnModificar" class="btn atention" onclick="editarEvento()">Modificar</button>
-					<button id="btnBorrar" class="btn danger" onclick="destroyEvento()">Borrar</button>
-					<button id="btnAgregarEvento" class="btn primary" onclick="addEvento()">Agregar</button>
+					<div id="on_edit" class="flex">
+						<button id="btnModificar" class="btn atention" onclick="editarEvento()">Modificar</button>
+						<button id="btnBorrar" class="btn danger" onclick="destroyEvento()">Borrar</button>
+					</div>
+					<div id="on_create">
+						<button id="btnAgregar" class="btn primary" onclick="addEvento()">Agregar</button>
+					</div>
 				</div>
 			</div>
 		</div>

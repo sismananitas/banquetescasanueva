@@ -44,48 +44,17 @@ class Orden extends Model
 		return $evento->evento_id;
 	}
 
-	/**--- OBTENER ARRAY DE LA ORDEN ---*/
-	private function getArrayData()
-	{
-		return array(
-			'id_evento'        => trim($_POST['id_evento']),
-			'fecha'            => trim($_POST['fecha']) . ' ' . trim($_POST['time']),
-			'orden'            => trim($_POST['nombre']),
-			'garantia'         => trim($_POST['garantia']),
-			'lugar'            => trim($_POST['lugar']),
-			'montaje'          => trim($_POST['montaje']),
-			'canapes'          => isset($_POST['canapes']) ? trim($_POST['canapes']) : '',
-			'entrada'          => isset($_POST['entrada']) ? trim($_POST['entrada']) : '',
-			'fuerte'           => isset($_POST['fuerte']) ? trim($_POST['fuerte']) : '',
-			'postre'           => isset($_POST['postre']) ? trim($_POST['postre']) : '',
-			'torna'            => isset($_POST['torna']) ? trim($_POST['torna']) : '',
-			'bebidas'          => isset($_POST['bebidas']) ? trim($_POST['bebidas']) : '',
-			'cocteleria'       => isset($_POST['cocteleria']) ? trim($_POST['cocteleria']) : '',
-			'mezcladores'      => isset($_POST['mezcladores']) ? trim($_POST['mezcladores']) : '',
-			'detalle_montaje'  => isset($_POST['detalle_montaje']) ? trim($_POST['detalle_montaje']) : '',
-			'ama_llaves'       => isset($_POST['ama_llaves']) ? trim($_POST['ama_llaves']) : '',
-			'chief_steward'    => isset($_POST['chief_steward']) ? trim($_POST['chief_steward']) : '',
-			'mantenimiento'    => isset($_POST['mantenimiento']) ? trim($_POST['mantenimiento']) : '',
-			'seguridad'        => isset($_POST['seguridad']) ? trim($_POST['seguridad']) : '',
-			'proveedores'      => isset($_POST['proveedores']) ? trim($_POST['proveedores']) : '',
-			'recursos_humanos' => isset($_POST['recursos_humanos']) ? trim($_POST['recursos_humanos']) : '',
-			'contabilidad'     => isset($_POST['contabilidad']) ? trim($_POST['contabilidad']) : '',
-			'observaciones'    => isset($_POST['observaciones']) ? trim($_POST['observaciones']) : '',
-			'tipo_formato'     => isset($_POST['tipo_formato']) ? trim($_POST['tipo_formato']) : '',
-			'aguas_frescas'    => isset($_POST['aguas_frescas']) ? trim($_POST['aguas_frescas']) : ''
-		);
-	}
-
 	/**--- AGREGAR ORDEN ---*/
-	public function agregarOrden()
+	public function insertar($data)
 	{
 		$sql = "INSERT INTO ordenes_servicio
 		VALUES (
-			null, :id_evento, :fecha,
-			:orden, :garantia,
-			:lugar, :montaje,
-			null, :canapes,
-			:entrada, :fuerte, :postre,
+			null, :id_evento,
+			:fecha, :nombre_orden,
+			:garantia, :lugar,
+			:montaje, null,
+			:canapes, :entrada,
+			:fuerte, :postre,
 			:torna, :bebidas,
 			:cocteleria, :mezcladores,
 			:detalle_montaje,
@@ -98,7 +67,7 @@ class Orden extends Model
 			:aguas_frescas
 		)";
 
-		$this->query($sql, $this->getArrayData());
+		$this->query($sql, $data);
 	}
 
 	/**--- ELIMINAR ORDEN ---*/
@@ -109,15 +78,12 @@ class Orden extends Model
 	}
 
 	/**--- ACTUALIZAR ORDEN ---*/
-	public function modificarOrden($id)
+	public function modificar($data)
 	{
-		$data = $this->getArrayData();
-		$data['id'] = $id;
-
 		$sql = "UPDATE ordenes_servicio SET
 		id_evento        = :id_evento,
 		fecha            = :fecha,
-		orden            = :orden,
+		orden			 = :nombre_orden,
 		garantia         = :garantia,
 		lugar            = :lugar,
 		montaje          = :montaje,
@@ -139,7 +105,8 @@ class Orden extends Model
 		contabilidad     = :contabilidad,
 		observaciones    = :observaciones,
 		tipo_formato     = :tipo_formato,
-    	aguas_frescas    = :aguas_frescas WHERE id_orden = :id";
+    	aguas_frescas    = :aguas_frescas
+		WHERE id_orden = :id";
 
 		$this->query($sql, $data);
 	}

@@ -1,19 +1,17 @@
 "use strict"
 // TODO: ELIMINAR JQUERY
 
-let nuevoEvento
-let errors = {}
-
 /**
  * Fullcalendar
  */
 function handlerDayClick(date, jsEvent, view) {
+	let modal = document.getElementById('M_evento')
+	btnDetalleEvento.setAttribute('disabled', 'disabled')
+
 	if (view.name == 'month') {
-		btnBorrar.setAttribute('disabled', true)
-		btnModificar.setAttribute('disabled', true)
-		btnDetalleEvento.setAttribute('disabled', true)
-		btnAgregarEvento.removeAttribute('disabled')
-		M_evento.querySelectorAll('input')[1].focus()
+		on_create.style.display = 'flex'
+		on_edit.style.display = 'none'
+		modal.querySelectorAll('input')[1].focus()
 
 		form_evento.innerHTML = limpiarFormEvento(date)
 		
@@ -27,23 +25,10 @@ function handlerDayClick(date, jsEvent, view) {
 }
 
 function handlerEventClick(calEvent, jsEvent, view) {
-	const btnAddEvent = document.querySelector('#btnAgregarEvento')
-	getIngreso(calEvent);
-
-	/** ACTIVA Y DESACTIVA LOS BOTONES DEPENDIENDO DEL ESTADO DEL EVENTO */
-	if (calEvent.color != '#e62424') {
-
-		btnModificar.removeAttribute('disabled')
-		btnBorrar.removeAttribute('disabled')
-		btnDetalleEvento.removeAttribute('disabled')
-		btnAddEvent.setAttribute('disabled', 'disabled')
-
-	} else {
-		btnModificar.removeAttribute('disabled')
-		btnBorrar.setAttribute('disabled', 'disabled')
-		btnDetalleEvento.removeAttribute('disabled')
-		btnAddEvent.setAttribute('disabled', 'disabled')
-	}
+	getIngreso(calEvent)
+	btnDetalleEvento.removeAttribute('disabled')
+	on_edit.style.display = 'flex'
+	on_create.style.display = 'none'
 
 	if (calEvent.evento != null && view.name == 'month') {
 		let formHtml = newPrintModalEvento(calEvent)
@@ -59,7 +44,6 @@ function handlerEventClick(calEvent, jsEvent, view) {
 
 /** AGREGAR EVENTO */
 function addEvento() {
-	//recolectarDatosGUI()
 	if (personas.value === '') {
 		popup.alert({ content: 'No el campo de personas debe ser de tipo numérico' })
 		return 0
@@ -77,7 +61,6 @@ function addEvento() {
 
 /** ELIMINAR EVENTO */
 function eliminarEvento() {
-	//recolectarDatosGUI()
 	openLoading()
 	enviarInformacion('eliminar', 'form_evento')
 	.then(() => {
@@ -87,7 +70,6 @@ function eliminarEvento() {
 
 /** EDITAR EVENTO */
 function modificarEvento() {
-	//recolectarDatosGUI()
 	if (personas.value === '') {
 		popup.alert({ content: 'No el campo de personas debe ser de tipo numérico' })
 		return 0
@@ -102,33 +84,6 @@ function modificarEvento() {
 		closeLoading()
 	})
 }
-
-/** CREAR OBJETO DE EVENTO */
-// function recolectarDatosGUI() {
-// 	let start = date_start.value + ' ' + time.value
-// 	let end = date_end.value + ' ' + time_f.value
-
-// 	if (start < end) {
-// 		nuevoEvento = {
-// 			id: e_id.value,
-// 			title: e_title.value,
-// 			evento: e_evento.value,
-// 			contacto: e_contacto.value,
-// 			cord_resp: e_cord_resp.value,
-// 			cord_apoyo: e_cord_apoyo.value,
-// 			description: e_description.value,
-// 			id_lugar: id_lugar.value,
-// 			start: start,
-// 			end: end,
-// 			personas: personas.value,
-// 			categoria: categoria.value,
-// 			color: color.value,
-// 			folio: e_folio.value
-// 		}
-// 	} else {
-// 		nuevoEvento = ''
-// 	}
-// }
 
 /** MANDAR DATOS DEL EVENTO POR AJAX */
 function enviarInformacion(accion, form_id) {
@@ -154,7 +109,7 @@ function enviarInformacion(accion, form_id) {
 		if (err.response.status == 422) {
 			let textHtml = ''
 			for (let i in err.response.data.errors) {
-				textHtml += err.response.data.errors[i]
+				textHtml += err.response.data.errors[i] + '<br>'
 			}
 			swal.fire({
 				icon: 'error',
@@ -163,37 +118,6 @@ function enviarInformacion(accion, form_id) {
 			})
 		}
 	})
-	// $.ajax({
-	// 	type: 'POST',
-	// 	url: 'eventos/' + accion,
-	// 	data: datos
-		
-	// })
-	// .done((r) => {
-	// 	closeLoading()
-	// 	$('#calendar').fullCalendar('refetchEvents')
-	// 	cerrarModal('', 'M_evento')
-	// })
-	// .fail(err => {
-	// 	closeLoading()
-	// 	if (err.status == 401) {
-	// 		swal.fire({
-	// 			icon: 'error',
-	// 			title: err.responseJSON.data.message
-	// 		})
-	// 	}
-	// 	if (err.status == 422) {
-	// 		let textHtml = ''
-	// 		for (let i in err.responseJSON.data.errors) {
-	// 			textHtml += err.responseJSON.data.errors[i]
-	// 		}
-	// 		swal.fire({
-	// 			icon: 'error',
-	// 			title: err.responseJSON.data.message,
-	// 			html: textHtml
-	// 		})
-	// 	}
-	// })
 }
 
 function editarEvento() {
@@ -520,8 +444,8 @@ function editLogistica() {
 }
 
 /**---- OBTENER DATOS DE UNA ACTIVIDAD ----*/
-async function obtenerDatosLog(id) {
-	return await axios.get('logistica/get-one/' + id)
+function obtenerDatosLog(id) {
+	return axios.get('logistica/get-one/' + id)
 	.then(resJson => {
 		let activities = resJson.data
 		let $activ = document.querySelector('#actividad_log')
@@ -556,12 +480,12 @@ function cloneOrden(orderId) {
 			throw dataJson;
 		}
 
-		let ord = new FormData();
-		ord.append('id', e_id.value);
+		let ord = new FormData()
+		ord.append('id', e_id.value)
 		getOrdenes(ord)
 	})
 	.catch(error => {
-		popup.alert({ content: 'Error: ' + error.msg });
+		popup.alert({ content: 'Error: ' + error.msg })
 	})
 }
 
@@ -587,25 +511,24 @@ function destroyOrden(orderId) {
 	})
 	.then(click => {
 		if (click.value) {
-			openLoading()
-
 			data.append('id_evento', e_id.value)
 			data.append('accion', 'eliminar')
 			data.append('id', orderId)
+			openLoading()
 
 			axios.post('ordenes/del', data)
 			.then(resJson => {
-				showToast(resJson.data.success)
 				data = new FormData()
 				data.append('id', e_id.value)
 				// Actualizo las ordenes
+				showToast(resJson.data.success)
 				getOrdenes(data).then(() => closeLoading())
 			})
 			.catch(error => {
-				closeLoading()
-				console.log(error)
-				
-				popup.alert({ content: error.msg });
+				swal.fire({
+					icon: 'error',
+					title: error.response.data.message
+				})
 			})
 		}
 	})
@@ -624,7 +547,11 @@ function createOrden(e) {
 	},
 	(clck) => {
 		if (clck.proceed) {
+			openLoading()
 			addOrden(form, forms)
+			.then(() => {
+				closeLoading()
+			})
 		}
 	})
 }
@@ -633,32 +560,35 @@ function addOrden(frm, forms) {
 	let fecha = document.querySelector('#date_start')
 	let data = new FormData(frm)
 
-	data.append('accion', 'agregar')
 	data.append('id_evento', e_id.value)
 	data.append('fecha', fecha.value)
 
-	fetch('ordenes/add', {
-		method: 'POST',
-		body: data
-	})
-	.catch(error => popup.alert({ content: 'No hay conexión\n' + error }))
-	.then(response => response.json())
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson
-		}
-		/** RECARGO LOS REGISTROS */
+	return axios.post('ordenes/add', data)
+	.then(resJson => {
 		let ord = new FormData;
 		ord.append('id', e_id.value)
 
-		getOrdenes(ord)		
+		showToast(resJson.data.success)
+		getOrdenes(ord)
 		md_orden.style.display = 'none'
+	})
+	.then(() => {
 		borrarCamposExtra()
 		forms.forEach(item => item.reset())
 	})
 	.catch(error => {
-		console.log(error);
-		popup.alert({ content: error.msg })
+		errors = error.response.data.errors
+		let textHtml = ''
+
+		for (let i in errors) {
+			textHtml += errors[i] + '<br>'
+		}
+		
+		swal.fire({
+			icon: 'error',
+			title: error.response.data.message,
+			html: textHtml
+		})
 	})
 }
 
@@ -666,50 +596,54 @@ function editOrden(e) {
 	let form = e.target.parentElement.parentElement
 	let forms = md_orden.querySelectorAll('.form')
 	
-	popup.confirm({
-		content: 'Confirmar cambios',
-		default_btns: {
-			ok: 'SÍ', cancel: 'NO'
-		}
-	},
-	(click) => {
-		if (click.proceed) {
+	swal.fire({
+		icon: 'warning',
+		title: 'Confirmar cambios',
+		showCancelButton: true
+	})
+	.then(click => {
+		if (click.value) {
+			openLoading()
 			updateOrden(form, forms)
+			.then(() => {
+				closeLoading()
+			})
 		}
 	})
 }
 
 /*----------------- EDITAR ORDEN --------------------------*/
 function updateOrden(frm, forms) {
-	let fecha = document.querySelector('#date_start'),
-		time = document.querySelector('#time'),
-		formData = new FormData(frm);
+	let fecha = document.querySelector('#date_start')
+	let time = document.querySelector('#time')
+	let data = new FormData(frm)
 
-	formData.append('accion', 'modificar');
-	formData.append('id_evento', e_id.value);
-	formData.append('fecha', fecha.value);
+	data.append('id_evento', e_id.value)
+	data.append('fecha', fecha.value)
 
-	fetch('ordenes/edit', {
-		method: 'POST',
-		body: formData
-	})
-	.then(response => response.json())
+	return axios.post('ordenes/edit', data)
 	.then(resJson => {
-		let ord = new FormData();
+		let ord = new FormData()
 		ord.append('id', e_id.value)
 
+		showToast(resJson.data.success)
 		getOrdenes(ord)
-		md_orden.style.display = 'none';
+		md_orden.style.display = 'none'
+	})
+	.then(() => {
 		borrarCamposExtra()
 		forms.forEach(item => item.reset())
 	})
 	.catch(error => {
-		popup.alert({ content: error.msg })
+		let textHtml = ''
+		errors = error.response.data.errors
+		for (let i in errors) {
+			textHtml += errors[i] + '<br>'
+		}
+		swal.fire({
+			icon: 'error',
+			title: error.response.data.message,
+			html: textHtml
+		})
 	})
-}
-
-function enviarFormulario(btn, frms, callback) {
-	let form_id = btn.getAttribute('form')
-	form = md_orden.querySelector('#' + form_id)
-	callback(form, frms)
 }

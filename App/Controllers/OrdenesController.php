@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Helpers\Validator;
+use App\Models\Evento;
 use App\Models\Orden;
 use App\Models\Logistica;
 use Spipu\Html2Pdf\Html2Pdf;
@@ -23,54 +25,82 @@ class OrdenesController extends Controller
         return $res;
     }
 
-    public function create()
+    public function store()
     {
         $orden = new Orden;
+        $data = $_POST;
+        $auth = $_SESSION['usuario'];
+        $event = new Evento;
+        $event = $event->find($data['id_evento']);
         $not_session = \Utils::validate_session();
+        
+        // Valida la sesión
         if ($not_session) {
             return $not_session;
         }
 
-        try {
-            /** VALIDA LOS DATOS POST */
-            if (
-                empty($_POST['id_evento']) || empty($_POST['nombre'])
-                || empty($_POST['lugar']) || empty($_POST['montaje'])
-                || empty($_POST['garantia'])
-            ) {
-                throw new \Exception('Debe llenar los campos obligatorios');
-            }
+        $data['fecha'] = trim($_POST['fecha']) . ' ' . trim($_POST['time']);
+        unset($data['id']);
+        unset($data['time']);
+        unset($data['tag']);
+        unset($data['content']);
+        $data['canapes']          = isset($_POST['canapes']) ? trim($_POST['canapes']) : '';
+        $data['entrada']          = isset($_POST['entrada']) ? trim($_POST['entrada']) : '';
+        $data['fuerte']           = isset($_POST['fuerte']) ? trim($_POST['fuerte']) : '';
+        $data['postre']           = isset($_POST['postre']) ? trim($_POST['postre']) : '';
+        $data['torna']            = isset($_POST['torna']) ? trim($_POST['torna']) : '';
+        $data['bebidas']          = isset($_POST['bebidas']) ? trim($_POST['bebidas']) : '';
+        $data['cocteleria']       = isset($_POST['cocteleria']) ? trim($_POST['cocteleria']) : '';
+        $data['mezcladores']      = isset($_POST['mezcladores']) ? trim($_POST['mezcladores']) : '';
+        $data['chief_steward']    = isset($_POST['chief_steward']) ? trim($_POST['chief_steward']) : '';
+        $data['seguridad']        = isset($_POST['seguridad']) ? trim($_POST['seguridad']) : '';
+        $data['proveedores']      = isset($_POST['proveedores']) ? trim($_POST['proveedores']) : '';
+        $data['recursos_humanos'] = isset($_POST['recursos_humanos']) ? trim($_POST['recursos_humanos']) : '';
+        $data['contabilidad']     = isset($_POST['contabilidad']) ? trim($_POST['contabilidad']) : '';
+        $data['aguas_frescas']    = isset($_POST['aguas_frescas']) ? trim($_POST['aguas_frescas']) : '';
+        
+        // Validar datos post
+        $validator = new Validator($data);
+        $validated = $validator->validate([
+            'id_evento'    => 'required',
+            'nombre_orden' => 'required',
+            'lugar'        => 'required',
+            'montaje'      => 'required',
+            'garantia'     => 'required',
+        ]);
 
-            /** VALIDA EL AUTOR DEL EVENTO */
-            $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
-
-            if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
-                throw new \Exception('No tiene permiso de editar este evento');
-            }
-
-            /** VALIDA LOS CAMPOS EXTRA */
-            if (isset($_POST['tag'])) {
-                $tag     = $_POST['tag'];
-                $content = $_POST['content'];
-
-                for ($i = 0; $i < sizeof($tag); $i++) {
-                    if (empty($tag[$i]) || empty($content[$i])) {
-                        throw new \Exception('No puede enviar campos extra vacios');
-                    }
-                }
-            }
-            /** CAPTURA LOS ERRORES */
-        } catch (\Exception $e) {
-            $res['error'] = true;
-            $res['msg']   = $e->getMessage();
-            return $res;
+        if ($validated['status'] == 422) {
+            return json_response($validated['data'], 422);
         }
 
-          /** INSERTA LOS REGISTROS EN LA BASE DE DATOS */
+        /** VALIDA LOS CAMPOS EXTRA */
+        if (isset($_POST['tag'])) {
+            $tag     = $_POST['tag'];
+            $content = $_POST['content'];
+
+            for ($i = 0; $i < sizeof($tag); $i++) {
+                if (empty($tag[$i]) || empty($content[$i])) {
+                    $res['message'] = 'Error en los datos';
+                    $res['errors'] = ['fields' => 'No puede enviar campos extra vacios'];
+                    return json_response($res, 422);
+                }
+            }
+        }
+
+        /** VALIDA EL AUTOR DEL EVENTO */
+        if ($event->id_usuario != $auth['id_usuario'] && $auth['rol'] != 'Administrador') {
+            return json_response([
+                'data' => [
+                    'message' => 'No tiene permiso de editar este evento'
+                ]
+            ], 401);
+        }
+        
         try {
             \Conexion::beginTransaction();
+
             /** INSERTA UNA ORDEN DE SERVICIO */
-            $orden->agregarOrden();
+            $orden->insertar($data);
             $orden_id = \Conexion::lastInsertId();
 
             if (isset($_POST['tag'])) {
@@ -81,119 +111,150 @@ class OrdenesController extends Controller
                     $orden->agregarCampoExtra($orden_id, $tag[$i], $content[$i]);
                 }
             }
-            /** CONFIRMA LOS CAMBIOS */
-            \Conexion::commit();
-            $res['error'] = false;
-            $res['message'] = 'Orden registrada correctamente';
 
-            /** ATRAPA LOS ERRORES Y REVIERTE LOS CAMBIOS */
         } catch (\PDOException $e) {
-            $res['error'] = true;
-            $res['msg']   = 'No se pudo registrar la orden';
-            $res['code']  = $e->getCode();
             \Conexion::rollBack();
+            $res['message'] = 'No se pudo registrar la orden';
+            $res['code']    = $e->getMessage();
+            $res['data']    = $data;
+            /** ATRAPA LOS ERRORES Y REVIERTE LOS CAMBIOS */
+            return json_response($res, 500);
         }
-        return $res;
+
+        /** CONFIRMA LOS CAMBIOS */
+        \Conexion::commit();
+        $res['success'] = 'Orden registrada correctamente';
+        return json_response($res, 200);
     }
 
     public function update()
     {
         $orden = new Orden;
+        $data = $_POST;
+        $auth = $_SESSION['usuario'];
+        $event = new Evento;
+        $event = $event->find($data['id_evento']);
         $not_session = \Utils::validate_session();
         // Validar sesión
         if ($not_session) {
             return $not_session;
         }
-        $res['error'] = true;
 
-        try {
-            if (
-                empty($_POST['id']) || empty($_POST['nombre'])
-                || empty($_POST['lugar']) || empty($_POST['montaje'])
-                || empty($_POST['garantia'])
-            ) {
-                throw new \Exception('Debe llenar los campos obligatorios');
-            }
-            $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
+        $data['fecha'] = trim($_POST['fecha']) . ' ' . trim($_POST['time']);
+        unset($data['time']);
+        unset($data['tag']);
+        unset($data['content']);
+        unset($data['id_campo']);
+        $data['canapes']          = isset($_POST['canapes']) ? trim($_POST['canapes']) : '';
+        $data['entrada']          = isset($_POST['entrada']) ? trim($_POST['entrada']) : '';
+        $data['fuerte']           = isset($_POST['fuerte']) ? trim($_POST['fuerte']) : '';
+        $data['postre']           = isset($_POST['postre']) ? trim($_POST['postre']) : '';
+        $data['torna']            = isset($_POST['torna']) ? trim($_POST['torna']) : '';
+        $data['bebidas']          = isset($_POST['bebidas']) ? trim($_POST['bebidas']) : '';
+        $data['cocteleria']       = isset($_POST['cocteleria']) ? trim($_POST['cocteleria']) : '';
+        $data['mezcladores']      = isset($_POST['mezcladores']) ? trim($_POST['mezcladores']) : '';
+        $data['chief_steward']    = isset($_POST['chief_steward']) ? trim($_POST['chief_steward']) : '';
+        $data['seguridad']        = isset($_POST['seguridad']) ? trim($_POST['seguridad']) : '';
+        $data['proveedores']      = isset($_POST['proveedores']) ? trim($_POST['proveedores']) : '';
+        $data['recursos_humanos'] = isset($_POST['recursos_humanos']) ? trim($_POST['recursos_humanos']) : '';
+        $data['contabilidad']     = isset($_POST['contabilidad']) ? trim($_POST['contabilidad']) : '';
+        $data['aguas_frescas']    = isset($_POST['aguas_frescas']) ? trim($_POST['aguas_frescas']) : '';
 
-            if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
-                throw new \Exception('No tiene permiso de editar este evento');
-            }
+        // Validar datos post
+        $validator = new Validator($data);
+        $validated = $validator->validate([
+            'id_evento'    => 'required',
+            'nombre_orden' => 'required',
+            'lugar'        => 'required',
+            'montaje'      => 'required',
+            'garantia'     => 'required',
+        ]);
 
-            /** VALIDA LOS CAMPOS EXTRA */
-            if (isset($_POST['tag'])) {
-                $tag     = $_POST['tag'];
-                $content = $_POST['content'];
+        if ($validated['status'] == 422) {
+            return json_response($validated['data'], 422);
+        }
 
-                for ($i = 0; $i < sizeof($tag); $i++) {
-                    if (empty($tag[$i]) || empty($content[$i])) {
-                        throw new \Exception('No puede enviar campos extra vacios');
-                    }
+        /** VALIDA EL AUTOR DEL EVENTO */
+        if ($event->id_usuario != $auth['id_usuario'] && $auth['rol'] != 'Administrador') {
+            return json_response([
+                'data' => [
+                    'message' => 'No tiene permiso de editar este evento'
+                ]
+            ], 401);
+        }
+
+        /** VALIDA LOS CAMPOS EXTRA */
+        if (isset($_POST['tag'])) {
+            $tag     = $_POST['tag'];
+            $content = $_POST['content'];
+
+            for ($i = 0; $i < sizeof($tag); $i++) {
+                if (empty($tag[$i]) || empty($content[$i])) {
+                    $res['message'] = 'Error en los datos';
+                    $res['errors'] = ['fields' => 'No puede enviar campos extra vacios'];
+                    return json_response($res, 422);
                 }
             }
-        } catch (\Exception $e) {
-            $res['error'] = true;
-            $res['msg']   = $e->getMessage();
-            return $res;
         }
 
-        /** MODIFICA LA ORDEN EN LA DB */
         try {
-            $orden->modificarOrden($_POST['id']);
+            /** MODIFICA LA ORDEN EN LA DB */
+            $orden->modificar($data);
 
-        if (isset($_POST['id_campo']) && isset($_POST['tag'])) {
-            $id_campo = $_POST['id_campo'];
-            $tag      = $_POST['tag'];
-            $content  = $_POST['content'];
+            if (isset($_POST['id_campo']) && isset($_POST['tag'])) {
+                $id_campo = $_POST['id_campo'];
+                $tag      = $_POST['tag'];
+                $content  = $_POST['content'];
 
-            for ($i = 0; $i < sizeof($id_campo); $i++) {
-                $orden->editarCampoExtra($id_campo[$i], $tag[$i], $content[$i]);
+                for ($i = 0; $i < sizeof($id_campo); $i++) {
+                    $orden->editarCampoExtra($id_campo[$i], $tag[$i], $content[$i]);
+                }
             }
-        }
-        $res['error'] = false;
 
         } catch (\PDOException $e) {
-            $res['error'] = true;
-            $res['msg']   = 'No se pudo registrar la orden';
-            $res['code']  = $e->getCode();
+            $res['message'] = 'No se pudo registrar la orden';
+            $res['code']    = $e->getMessage();
+            $res['data']    = $data;
+            return json_response($res, 500);
         }
-        return $res;
+
+        $res['success'] = 'Actualizado correctamente';
+        return json_response($res, 200);
     }
 
-    public function delete()
+    public function destroy()
     {
         $orden = new Orden;
         $not_session = \Utils::validate_session();
+
         // Validar sesión
         if ($not_session) {
             return $not_session;
         }
 
+        $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
+        
         try {
             if (empty($_POST['id'])) {
                 throw new \Exception("No se recibió la información");
             }
-
-            $valido = $orden->validaUsuarioEvento($_POST['id_evento']);
 
             if (!$valido && $_SESSION['usuario']['rol'] != 'Administrador') {
                 throw new \Exception('No tiene permiso de editar esta orden');
             }
 
         } catch (\Exception $e) {
-            $res['error'] = true;
-            $res['msg']   = $e->getMessage();
+            $res['message']   = $e->getMessage();
             return json_response($res, 422);
         }
 
         try {
             $orden->eliminarOrden($_POST['id'], $_POST['id_evento']);
             $res['success'] = 'Eliminado correctamente';
-            return json_response($res);
+            return json_response($res, 200);
 
         } catch (\PDOException $e) {
-            $res['error'] = true;
-            $res['msg']   = 'No se pudo eliminar la orden';
+            $res['message'] = 'No se pudo eliminar la orden';
             $res['log']   = $e->getMessage();
             return json_response($res, 500);
         }

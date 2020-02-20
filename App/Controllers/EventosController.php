@@ -6,6 +6,7 @@ use stdClass;
 use App\Models\Evento;
 use App\Helpers\Validator;
 use App\Models\EventosSql;
+use App\Models\Logistica;
 use App\Models\TablaModel;
 
 class EventosController extends Controller
@@ -34,45 +35,60 @@ class EventosController extends Controller
      * @return boolean
      */
     public function store() {
-        $event = new Evento();
         $not_session = \Utils::validate_session();
+        $data        = $_POST;
+        $data['id_usuario'] = $_SESSION['usuario']['id_usuario'];
+        $validator   = new Validator($data);
+        $event       = new Evento();
         
         // Validar sesión
         if ($not_session) {
             return $not_session;
         }
 
+        // Validamos los datos POST
+        $result = $validator
+        ->validate([
+            'title'       => 'required',
+            'evento'      => 'required',
+            'contacto'    => 'required',
+            'cord_resp'   => 'required',
+            'cord_apoyo'  => 'nullable',
+            'description' => 'nullable',
+            'id_lugar'    => 'required',
+            'start'       => 'required',
+            'end'         => 'required',
+            'personas'    => 'required',
+            'categoria'   => 'required',
+            'folio'       => 'nullable',
+            'color'       => 'required',
+            'id_usuario'  => 'required'
+        ]);
+
+        if ($result['status'] == 422) {
+            return json_response($result['data'], 422);
+        }
         $res['error'] = true;
-        try {
-            // VALIDA LOS DATOS POR POST
-            \ApiEventos::validaDatosAgregar($_POST);
-            
-            // VALIDAR FECHAS
-            $validaFormato = $event->validarFechas($_POST['start'], $_POST['end']);
-            if (!$validaFormato) {
-                throw new \Exeption('<h3>Datos incorrectos</h3><br>No pueden haber fechas vacias');
-            }
-            $validaFecha = \ApiEventos::fechaDisponible($_POST);
 
-            if (!$validaFecha) {
-                throw new \Exception('El salón se encuentra ocupado en esa fecha');
-            }
-
-        } catch (\Exception $e) {
-            $res['error'] = true;
-            $res['msg'] = $e->getMessage();
+        // VALIDAR FECHAS
+        $validacion = $event->validarFechas($data['start'], $data['end']);
+        if (!$validacion) {
+            $errors = new stdClass;
+            $errors->start[] = 'No pueden haber fechas vacias';
+            $res['message'] = 'Datos incorrectos';
+            $res['errors'] = $errors;
             return json_response($res, 422);
         }
 
 		try {
 			// AGREGA EL EVENTO EN LA DB
-            $event->agregarEvento();
-            $res['error'] = false;
-            return json_response($res);
+            $event->agregarEvento($data);
+            $res['message'] = 'Registrado correctamente';
+            return json_response($res, 200);
 
 		} catch (\PDOException $th) {
-            $res['error'] = true;
-            $res['msg'] = $th->getMessage();
+            $res['errors'] = true;
+            $res['message'] = $th->getMessage();
 			return json_response($res, 500);
 		}
     }
@@ -112,20 +128,20 @@ class EventosController extends Controller
         $validator = new Validator($data);
         $result = $validator
         ->validate([
-            'title' => 'required',
-            'evento' => 'required',
-            'contacto' => 'required',
-            'cord_resp' => 'required',
-            'cord_apoyo' => 'nullable',
+            'title'       => 'required',
+            'evento'      => 'required',
+            'contacto'    => 'required',
+            'cord_resp'   => 'required',
+            'cord_apoyo'  => 'nullable',
             'description' => 'nullable',
-            'id_lugar' => 'required',
-            'start' => 'required',
-            'end' => 'required',
-            'personas' => 'required',
-            'categoria' => 'required',
-            'folio' => 'nullable',
-            'color' => 'required',
-            'id' => 'required',
+            'id_lugar'    => 'required',
+            'start'       => 'required',
+            'end'         => 'required',
+            'personas'    => 'required',
+            'categoria'   => 'required',
+            'folio'       => 'nullable',
+            'color'       => 'required',
+            'id'          => 'required',
         ]);
 
         if ($result['status'] == 422) {
@@ -133,19 +149,14 @@ class EventosController extends Controller
         }
 
         // VALIDAR FECHAS
-        try {
-			$validacion = $event->validarFechas($data['start'], $data['end']);
-			if (!$validacion) {
-				throw new \Exception('<h3>Datos incorrectos</h3><br>No pueden haber fechas vacias');
-            }        
-		} catch (\Exception $e) {
+        $validacion = $event->validarFechas($data['start'], $data['end']);
+        if (!$validacion) {
             $errors = new stdClass;
-            $errors->start[] = $e->getMessage();
-
-            $res['message'] = $e->getMessage();
+            $errors->start[] = 'No pueden haber fechas vacias';
+            $res['message'] = 'Datos incorrectos';
             $res['errors'] = $errors;
             return json_response($res, 422);
-		}
+        }
 
         if (
             $data['color'] != '#d7c735'
@@ -190,14 +201,14 @@ class EventosController extends Controller
      * @return boolean
      */
     public function delete() {
-        // Validar sesión
+        $event = new Evento();
         $not_session = \Utils::validate_session();
         
+        // Validar sesión
         if ($not_session) {
             return $not_session;
         }
         
-        $event = new Evento();
         $res['error'] = true;
         
 		try {
@@ -242,7 +253,7 @@ class EventosController extends Controller
     }
 
     public function getLogistica() {
-        $tabla = new TablaModel('sub_evento');
+        $logistic = new Logistica;
         $validator = new Validator($_POST);
 
         $validation = $validator->validate([
@@ -252,7 +263,8 @@ class EventosController extends Controller
         if ($validation['status'] == 422) {   
             return json_response($validation['data']);
         }
-        $res = $tabla->obtener_datos_donde('id_evento', $_POST['id']);
+        $res = $logistic->getByEvent($_POST['id']);
+        
         return json_response($res);
     }
 

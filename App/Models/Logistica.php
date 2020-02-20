@@ -6,21 +6,21 @@ class Logistica extends Model
 {
 	public function getOne($id) {
 		$sql = "SELECT * FROM sub_evento WHERE id_sub_evento = :id";
-		$res = \Conexion::query($sql, $id, true);
+		$res = $this->query($sql, $id, true);
 		return $res;
 	}
 
 	public function getByEvent($id_evento) {
 		
-		$sql = "SELECT * FROM sub_evento WHERE id_evento = :id_evento";
-		$res = \Conexion::query($sql, $id_evento, true);
+		$sql = "SELECT * FROM sub_evento WHERE id_evento = ? ORDER BY start";
+		$res = $this->query($sql, [$id_evento], true);
 		return $res;
 	}
 
 	public function getAll() {
 		
 		$sql = "SELECT * FROM sub_evento";
-		$res = \Conexion::query($sql, [], true);
+		$res = $this->query($sql, [], true);
 		return $res;
 	}
 
@@ -30,7 +30,7 @@ class Logistica extends Model
 		$sql = "INSERT INTO sub_evento VALUES
 		(null, :id_evento, :start, null, :title, :lugar)";
 
-		return \Conexion::query($sql, $datos);
+		return $this->query($sql, $datos);
 	}
 
 	/**--- ELIMINAR LOGISTICA ---*/
@@ -38,7 +38,7 @@ class Logistica extends Model
 	{
 		$sql = "DELETE FROM sub_evento WHERE id_sub_evento = :id";
 		/** ELIMINA EL REGISTRO */
-		\Conexion::query($sql, array('id' => $id));
+		$this->query($sql, array('id' => $id));
 	}
 
 	/**--- MODIFICAR LOGISTICA ---*/
@@ -52,6 +52,6 @@ class Logistica extends Model
 		WHERE id_sub_evento = :id";
 
 		/** ACTUALIZA LA ACTIVIDAD */
-		\Conexion::query($sql, $datos);
+		$this->query($sql, $datos);
 	}
 }

@@ -198,34 +198,6 @@ function limpiarFormEvento(date) {
 	</div>`
 }
 
-/**---- CAMBIA LA FECHA DEL EVENTO AL ARRASTRAR -----*/
-function arrastrarEvento(calEvent) {
-	e_id.value 	       = calEvent.id_evento
-	e_title.value      = calEvent.title
-	e_evento.value     = calEvent.evento
-	e_contacto.value   = calEvent.contacto
-	e_cord_resp.value  = calEvent.cord_resp
-	e_cord_apoyo.value = calEvent.cord_apoyo
-	e_place.innerHTML  = calEvent.lugar
-	id_lugar.value      = calEvent.id_lugar
-	e_description.innerHTML = calEvent.description
-
-
-	fechaHora  = calEvent.start.format().split('T')
-	date.value = fechaHora[0]
-	time.value = fechaHora[1]
-
-	fechaHora_f  = calEvent.end.format().split('T')
-	date_f.value = fechaHora_f[0]
-	time_f.value = fechaHora_f[1]
-
-	categoria.value = calEvent.categoria
-	personas.value  = calEvent.personas
-
-	recolectarDatosGUI()
-	enviarInformacion('modificar', nuevoEvento)
-}
-
 /**----------------- PINTAR TABLA LOGÍSTICA --------------------*/
 function mostrarLogistica(data) {
 	let textHtml = ''
@@ -294,121 +266,125 @@ function mostrarOrdenes(data) {
 }
 
 /**---- PINTA EL MODAL ORDEN DE SERVICIO ---*/
-function printModalOrden(dataOrden) {
+async function printModalOrden(dataOrden) {
 	const ord = dataOrden	
 
 	let mdl = document.getElementById('md_orden'),
 		tabs = mdl.querySelectorAll('.tab')
 
-	let id_orden = mdl.querySelectorAll('.id_orden'),
-		evento = mdl.querySelectorAll('.o_nombre'),
-		place = mdl.querySelectorAll('.o_place'),
-		montaje = mdl.querySelectorAll('.o_montaje'),
-		garantia = mdl.querySelectorAll('.o_garantia'),
-		hora = mdl.querySelectorAll('.o_hora'),
-		canapes = mdl.querySelectorAll('.o_canapes'),
-		entrada = mdl.querySelectorAll('.o_entrada'),
-		fuerte = mdl.querySelectorAll('.o_fuerte'),
-		postre = mdl.querySelectorAll('.o_postre'),
-		torna = mdl.querySelectorAll('.o_torna'),
-		bebidas = mdl.querySelectorAll('.o_bebidas'),
-		aguas = mdl.querySelector('.o_aguas_frescas'),
-		cocteleria = mdl.querySelectorAll('.o_cocteleria'),
-		mezcladores = mdl.querySelectorAll('.o_mezcladores'),
-		dmontaje = mdl.querySelectorAll('.o_dmontaje'),
-		ama_llaves = mdl.querySelectorAll('.o_ama_llaves'),
+	let id_orden 	  = mdl.querySelectorAll('.id_orden'),
+		evento 	 	  = mdl.querySelectorAll('.o_nombre'),
+		place 	 	  = mdl.querySelectorAll('.o_place'),
+		montaje  	  = mdl.querySelectorAll('.o_montaje'),
+		garantia 	  = mdl.querySelectorAll('.o_garantia'),
+		hora 	 	  = mdl.querySelectorAll('.o_hora'),
+		canapes  	  = mdl.querySelectorAll('.o_canapes'),
+		entrada  	  = mdl.querySelectorAll('.o_entrada'),
+		fuerte 	 	  = mdl.querySelectorAll('.o_fuerte'),
+		postre 	 	  = mdl.querySelectorAll('.o_postre'),
+		torna 	 	  = mdl.querySelectorAll('.o_torna'),
+		bebidas  	  = mdl.querySelectorAll('.o_bebidas'),
+		aguas 	 	  = mdl.querySelector('.o_aguas_frescas'),
+		cocteleria    = mdl.querySelectorAll('.o_cocteleria'),
+		mezcladores   = mdl.querySelectorAll('.o_mezcladores'),
+		dmontaje 	  = mdl.querySelectorAll('.o_dmontaje'),
+		ama_llaves    = mdl.querySelectorAll('.o_ama_llaves'),
 		chief_steward = mdl.querySelectorAll('.o_chief_steward'),
 		mantenimiento = mdl.querySelectorAll('.o_mantenimiento'),
-		seguridad = mdl.querySelectorAll('.o_seguridad'),
-		rh = mdl.querySelectorAll('.o_RH'),
-		proveedores = mdl.querySelectorAll('.o_proveedores'),
-		contabilidad = mdl.querySelectorAll('.o_contabilidad'),
-		formularios = mdl.querySelectorAll('form'),
+		seguridad 	  = mdl.querySelectorAll('.o_seguridad'),
+		rh 			  = mdl.querySelectorAll('.o_RH'),
+		proveedores   = mdl.querySelectorAll('.o_proveedores'),
+		contabilidad  = mdl.querySelectorAll('.o_contabilidad'),
+		formularios   = mdl.querySelectorAll('form'),
 		observaciones = mdl.querySelectorAll('.o_observaciones')
 
 	/** Da click a la pestaña con el mismo formato */
 	tabs.forEach(tab => {
 		if (tab.innerHTML.toLowerCase() === ord.tipo_formato)
 			tab.click()
-	});
+	})
 
 	tabs.forEach(tab => {
 		tab.style.pointerEvents = 'none';
 		tab.style.color = '#5f5f5f';
-	});
+	})
 
 	for (let j = 0; j < 4; j++) {
-		let fechahora = ord.fecha.split(' ');
+		let fechahora = ord.fecha.split(' ')
 
-		id_orden[j].value = ord.id_orden;
-		evento[j].value = ord.orden;
-		garantia[j].value = ord.garantia;
-		place[j].value = ord.lugar;
-		montaje[j].value = ord.montaje;
-		hora[j].value = fechahora[1];
-		dmontaje[j].value = ord.detalle_montaje;
-		ama_llaves[j].value = ord.ama_llaves;
-		mantenimiento[j].value = ord.mantenimiento;
+		id_orden[j].value 	= ord.id_orden
+		evento[j].value   	= ord.orden
+		garantia[j].value 	= ord.garantia
+		place[j].value 	 	= ord.lugar
+		montaje[j].value 	= ord.montaje
+		hora[j].value 	 	= fechahora[1]
+		dmontaje[j].value 	= ord.detalle_montaje
+		ama_llaves[j].value = ord.ama_llaves
+		mantenimiento[j].value = ord.mantenimiento
 	}
 
 	switch (ord.tipo_formato) {
 		case 'ceremonia':
 			observaciones[1].value = ord.observaciones;
-			seguridad[0].value = ord.seguridad;
-			rh[0].value = ord.recursos_humanos;
-			proveedores[0].value = ord.proveedores;
+			seguridad[0].value     = ord.seguridad;
+			rh[0].value 		   = ord.recursos_humanos;
+			proveedores[0].value   = ord.proveedores;
 
-			getCamposExtra(ord.id_orden).then(res => {
-				nc_ceremonia = pintarCampos(res, campos_ceremonia, nc_ceremonia)
+			await getCamposExtra(ord.id_orden)
+			.then(res => {
+				nc_ceremonia = pintarCampos(res.data, campos_ceremonia, nc_ceremonia)
 			})
 			break;
 
 		case 'grupo':
-			canapes[0].value = ord.canapes;
+			canapes[0].value 	   = ord.canapes;
 			observaciones[0].value = ord.observaciones;
-			contabilidad[0].value = ord.contabilidad;
+			contabilidad[0].value  = ord.contabilidad;
 			chief_steward[0].value = ord.chief_steward;
-			bebidas[0].value = ord.bebidas;
+			bebidas[0].value 	   = ord.bebidas;
 
-			getCamposExtra(ord.id_orden).then(res => {
-				nc_grupo = pintarCampos(res, campos_grupo, nc_grupo)
+			await getCamposExtra(ord.id_orden)
+			.then(res => {
+				nc_grupo = pintarCampos(res.data, campos_grupo, nc_grupo)
 			})
 			break;
 
 		case 'coctel':
-			canapes[1].value = ord.canapes;
-			cocteleria[0].value = ord.cocteleria;
-			bebidas[1].value = ord.bebidas;
-			aguas.value = ord.aguas_frescas;
-			seguridad[1].value = ord.seguridad;
-			rh[1].value = ord.recursos_humanos;
-			proveedores[1].value = ord.proveedores;
-			contabilidad[1].value = ord.contabilidad;
-			chief_steward[1].value = ord.chief_steward;
-			cocteleria[0].value = ord.cocteleria;
-			mezcladores[0].value = ord.mezcladores;
+			canapes[1].value 	 = ord.canapes
+			cocteleria[0].value  = ord.cocteleria
+			bebidas[1].value 	 = ord.bebidas
+			aguas.value 	 	 = ord.aguas_frescas
+			seguridad[1].value 	 = ord.seguridad
+			rh[1].value 	 	 = ord.recursos_humanos
+			proveedores[1].value = ord.proveedores
+			contabilidad[1].value = ord.contabilidad
+			chief_steward[1].value = ord.chief_steward
+			cocteleria[0].value  = ord.cocteleria
+			mezcladores[0].value = ord.mezcladores
 
-			getCamposExtra(ord.id_orden).then(res => {
-				nc_coctel = pintarCampos(res, campos_coctel, nc_coctel)
+			await getCamposExtra(ord.id_orden)
+			.then(res => {
+				nc_coctel = pintarCampos(res.data, campos_coctel, nc_coctel)
 			})
 			break;
 
 		case 'banquete':
-			entrada[0].value = ord.entrada;
-			fuerte[0].value = ord.fuerte;
-			postre[0].value = ord.postre;
-			torna[0].value = ord.torna;
-			seguridad[2].value = ord.seguridad;
-			rh[2].value = ord.recursos_humanos;
+			entrada[0].value 	= ord.entrada;
+			fuerte[0].value 	= ord.fuerte;
+			postre[0].value 	= ord.postre;
+			torna[0].value 		= ord.torna;
+			seguridad[2].value  = ord.seguridad;
+			rh[2].value 		= ord.recursos_humanos;
 			proveedores[2].value = ord.proveedores;
 			contabilidad[2].value = ord.contabilidad;
 			chief_steward[2].value = ord.chief_steward;
-			bebidas[2].value = ord.bebidas;
+			bebidas[2].value 	= ord.bebidas;
 			mezcladores[1].value = ord.mezcladores;
 			observaciones[2].value = ord.observaciones;
 
-			getCamposExtra(ord.id_orden).then(res => {
-				nc_banquete = pintarCampos(res, campos_banquete, nc_banquete)
+			await getCamposExtra(ord.id_orden)
+			.then(res => {
+				nc_banquete = pintarCampos(res.data, campos_banquete, nc_banquete)
 			})
 			break;
 	}
@@ -426,25 +402,20 @@ function pintarCampos(arrayJson, camposContainer, numeroCampos) {
 				e.innerHTML = `
 				<input type="hidden" name="id_campo[]" value="${item.id_campo}">
         		<input class="o_tag col-xs-7" type="text" name="tag[]" value="${item.tag}"> <br>
-        		<textarea wrap="off" class="o_content col-xs-11" name="content[]" rows="3">${item.content}</textarea>`;
+        		<textarea wrap="off" class="o_content col-xs-11" name="content[]" rows="3">${item.content}</textarea>`
 
 				camposContainer.appendChild(e);
 				numeroCampos++;
 
-			} else { popup.alert({ content: 'Se ha alcanzado el máximo de campos disponibles' }) }
+			} else { swal.fire('Se ha alcanzado el máximo de campos disponibles') }
 		})
 	}
 	return numeroCampos;
 }
 
 /**-----------------------------OBTENER LOS CAMPOS EXTRA ----------------------*/
-async function getCamposExtra(id) {
-	let d = new FormData(); d.append('id_orden', id);
-
-	return res = await fetch('ordenes/get-campos/' + id, {
-		method: 'GET',
-	}).then(response => response.json())
-	.then(dataJson => dataJson);
+function getCamposExtra(id) {
+	return axios.get('ordenes/get-campos/' + id)
 }
 
 /**----------------------LIMPIAR FORMS ORDENES DE SERVICIO --------------*/
