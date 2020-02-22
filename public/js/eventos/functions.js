@@ -276,12 +276,11 @@ async function abrirDetalleEvento() {
 
 function getLogistica(data) {
 	let table_body = document.getElementById('tb_logistica')
-	let textHtml = ''
 
-	return peticionAjax('eventos/logistica', data)
+	return axios.post('eventos/logistica', data)
 	.then(resJson => {
-		if (resJson.length > 0) {
-			table_body.innerHTML = mostrarLogistica(resJson)
+		if (resJson.data.length > 0) {
+			table_body.innerHTML = mostrarLogistica(resJson.data)
 		} else {
 			table_body.innerHTML = ''
 		}
@@ -305,22 +304,22 @@ function abrirAgregarOrden() {
 	const tabs = md_orden.querySelectorAll('.tab'),
 		btns_agregar = md_orden.querySelectorAll('.success'),
 		btns_editar = md_orden.querySelectorAll('.atention'),
-		btns_mas = md_orden.querySelectorAll('.primary');
+		btns_mas = md_orden.querySelectorAll('.primary')
 
 	/** Permite abrir las tabs con la primer pestaña en click */
 	tabs[0].click();
 
 	tabs.forEach(tab => {
-		tab.removeAttribute('style');
-		tab.style.color = '#1b1b1b';
+		tab.removeAttribute('style')
+		tab.style.color = '#1b1b1b'
 	});
 
 	for (let i = 0; i < btns_agregar.length; i++) {
-		btns_agregar[i].style.display = 'block';
-		btns_editar[i].style.display = 'none';
-		btns_mas[i].style.display = 'block';
+		btns_agregar[i].style.display = 'block'
+		btns_editar[i].style.display = 'none'
+		btns_mas[i].style.display = 'block'
 	}
-	md_orden.style.display = 'block';
+	md_orden.style.display = 'block'
 }
 
 /*------------ CARGA EL FORMULARIO ORDEN DE SERVICIO -----------*/
@@ -331,8 +330,8 @@ function openModalOrdenes(id) {
 		printModalOrden(resJson.data.order)
 	})
 	.then(() => {
-		closeLoading();
-		md_orden.style.display = 'block';
+		closeLoading()
+		md_orden.style.display = 'block'
 	})
 }
 
@@ -341,12 +340,12 @@ function abrirAgregarLogistica() {
 	let fecha = document.querySelector('#date_start').value,
 		hora = document.getElementById('time').value;
 
-	btn_edit.style.display = 'none';
-	btn_add.style.display = 'block';
-	md_logistica.style.display = 'block';
-	fecha_edit_log.value = fecha;
-	time_start_log.value = hora;
-	id_evento.value = e_id.value;
+	btn_edit.style.display = 'none'
+	btn_add.style.display = 'block'
+	md_logistica.style.display = 'block'
+	fecha_edit_log.value = fecha
+	time_start_log.value = hora
+	id_evento.value = e_id.value
 }
 
 /**---- ABRIR EDITAR LOGISTICA ----*/
@@ -448,22 +447,22 @@ function obtenerDatosLog(id) {
 	return axios.get('logistica/get-one/' + id)
 	.then(resJson => {
 		let activities = resJson.data
-		let $activ = document.querySelector('#actividad_log')
-		let $lugar = document.querySelector('#lugar_log')
-		let $id_log = document.querySelector('#id_edit_log'),
-			$fecha = document.querySelector('#fecha_edit_log'),
-			$time = document.querySelector('#time_start_log')
+		let $activ  = document.querySelector('#actividad_log')
+		let $lugar  = document.querySelector('#lugar_log')
+		let $id_log = document.querySelector('#id_edit_log')
+		let $fecha  = document.querySelector('#fecha_edit_log')
+		let $time   = document.querySelector('#time_start_log')
 
 		for (let i in activities) {
 			let item = activities[i],
 				date = item.start.split(' ')
 
-			$activ.value = item.title
-			$lugar.value = item.lugar
+			$activ.value  = item.title
+			$lugar.value  = item.lugar
 			$id_log.value = item.id_sub_evento
 			id_evento.value = item.id_evento
-			$fecha.value = date[0]
-			$time.value = date[1]
+			$fecha.value  = date[0]
+			$time.value   = date[1]
 		}
 	})
 }
@@ -474,18 +473,14 @@ function cloneOrden(orderId) {
 
 	data.append('orden_id', orderId)
 
-	ajaxRequest(url, data)
-	.then(dataJson => {
-		if (dataJson.error) {
-			throw dataJson;
-		}
-
+	axios.post(url, data)
+	.then(resJson => {
 		let ord = new FormData()
 		ord.append('id', e_id.value)
 		getOrdenes(ord)
 	})
 	.catch(error => {
-		popup.alert({ content: 'Error: ' + error.msg })
+		popup.alert({ content: 'Error: ' + error.response.data.message })
 	})
 }
 
@@ -494,9 +489,9 @@ function openEditOrden(orderId) {
 	btns_edit = md_orden.querySelectorAll('.atention'),
 	btns_ext = md_orden.querySelectorAll('.primary')
 
-	btns_add.forEach(b => b.style.display = 'none')
+	btns_add.forEach(b  => b.style.display = 'none')
 	btns_edit.forEach(b => b.style.display = 'block')
-	btns_ext.forEach(b => b.style.display = 'none')
+	btns_ext.forEach(b  => b.style.display = 'none')
 	openModalOrdenes(orderId)
 }
 

@@ -325,10 +325,10 @@ async function printModalOrden(dataOrden) {
 
 	switch (ord.tipo_formato) {
 		case 'ceremonia':
-			observaciones[1].value = ord.observaciones;
-			seguridad[0].value     = ord.seguridad;
-			rh[0].value 		   = ord.recursos_humanos;
-			proveedores[0].value   = ord.proveedores;
+			observaciones[1].value = ord.observaciones
+			seguridad[0].value     = ord.seguridad
+			rh[0].value 		   = ord.recursos_humanos
+			proveedores[0].value   = ord.proveedores
 
 			await getCamposExtra(ord.id_orden)
 			.then(res => {
@@ -337,11 +337,11 @@ async function printModalOrden(dataOrden) {
 			break;
 
 		case 'grupo':
-			canapes[0].value 	   = ord.canapes;
-			observaciones[0].value = ord.observaciones;
-			contabilidad[0].value  = ord.contabilidad;
-			chief_steward[0].value = ord.chief_steward;
-			bebidas[0].value 	   = ord.bebidas;
+			canapes[0].value 	   = ord.canapes
+			observaciones[0].value = ord.observaciones
+			contabilidad[0].value  = ord.contabilidad
+			chief_steward[0].value = ord.chief_steward
+			bebidas[0].value 	   = ord.bebidas
 
 			await getCamposExtra(ord.id_orden)
 			.then(res => {
@@ -361,6 +361,7 @@ async function printModalOrden(dataOrden) {
 			chief_steward[1].value = ord.chief_steward
 			cocteleria[0].value  = ord.cocteleria
 			mezcladores[0].value = ord.mezcladores
+			observaciones[2].value = ord.observaciones
 
 			await getCamposExtra(ord.id_orden)
 			.then(res => {
@@ -369,18 +370,18 @@ async function printModalOrden(dataOrden) {
 			break;
 
 		case 'banquete':
-			entrada[0].value 	= ord.entrada;
-			fuerte[0].value 	= ord.fuerte;
-			postre[0].value 	= ord.postre;
-			torna[0].value 		= ord.torna;
-			seguridad[2].value  = ord.seguridad;
-			rh[2].value 		= ord.recursos_humanos;
-			proveedores[2].value = ord.proveedores;
-			contabilidad[2].value = ord.contabilidad;
-			chief_steward[2].value = ord.chief_steward;
-			bebidas[2].value 	= ord.bebidas;
-			mezcladores[1].value = ord.mezcladores;
-			observaciones[2].value = ord.observaciones;
+			entrada[0].value 	= ord.entrada
+			fuerte[0].value 	= ord.fuerte
+			postre[0].value 	= ord.postre
+			torna[0].value 		= ord.torna
+			seguridad[2].value  = ord.seguridad
+			rh[2].value 		= ord.recursos_humanos
+			proveedores[2].value = ord.proveedores
+			contabilidad[2].value = ord.contabilidad
+			chief_steward[2].value = ord.chief_steward
+			bebidas[2].value 	= ord.bebidas
+			mezcladores[1].value = ord.mezcladores
+			observaciones[3].value = ord.observaciones
 
 			await getCamposExtra(ord.id_orden)
 			.then(res => {
@@ -393,6 +394,8 @@ async function printModalOrden(dataOrden) {
 /** MODAL DETALLE DE LA ORDEN DE SEVICIO */
 /**-----------------------------PINTAR CAMPOS EXTRA FORM -----------------------*/
 function pintarCampos(arrayJson, camposContainer, numeroCampos) {
+	camposContainer.innerHTML = ''
+	numeroCampos = 0
 	if (arrayJson != 'no_data') {
 
 		arrayJson.forEach(item => {
