@@ -269,7 +269,7 @@ class OrdenesController extends Controller
         $html      = new \Smarty();
         $html2pdf  = new Html2Pdf('L', 'A4', 'es', 'true', 'UTF-8', [3, 8, 3, 8]);
         $orden     = new Orden;
-        $orden  = $orden->find($id['id']);
+        $orden     = $orden->find($id['id']);
         $logistica = new Logistica();
         $html2pdf->pdf->SetTitle('Orden de servicio');
 
@@ -281,7 +281,7 @@ class OrdenesController extends Controller
         $campos_dinamicos = $orden->getExtraInputs(['id_orden' => $id['id']]);
 
         // Obtener logística
-        $actividades = $logistica->getByEvent(['id_evento' => $id_evento]);
+        $actividades = $logistica->getByEvent($id_evento);
 
         /**------------- FECHAS EN ESPAÑOL Y CON LETRAS ------------*/
         $fecha = strftime('%A %d %B %Y', strtotime($fecha_hora[0]));

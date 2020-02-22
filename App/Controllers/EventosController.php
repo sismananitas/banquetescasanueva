@@ -260,7 +260,7 @@ class EventosController extends Controller
             'id' => 'required'
         ]);
 
-        if ($validation['status'] == 422) {   
+        if ($validation['status'] == 422) {
             return json_response($validation['data']);
         }
         $res = $logistic->getByEvent($_POST['id']);
