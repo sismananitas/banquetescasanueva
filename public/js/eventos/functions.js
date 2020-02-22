@@ -525,8 +525,10 @@ function destroyOrden(orderId) {
 				data = new FormData()
 				data.append('id', e_id.value)
 				// Actualizo las ordenes
-				showToast(resJson.data.success)
-				getOrdenes(data).then(() => closeLoading())
+				getOrdenes(data).then(() => {
+					closeLoading()
+					showToast(resJson.data.success)
+				})
 			})
 			.catch(error => {
 				swal.fire({
