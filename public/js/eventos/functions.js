@@ -99,21 +99,21 @@ function enviarInformacion(accion, form_id) {
 		$('#calendar').fullCalendar('refetchEvents')
 		cerrarModal('', 'M_evento')
 	})
-	.catch(err => {		
-		if (err.response.status == 401) {
+	.catch(thrownError => {		
+		if (thrownError.response.status == 401) {
 			swal.fire({
 				icon: 'error',
-				title: err.response.data.message
+				title: thrownError.response.data.message
 			})
 		}
-		if (err.response.status == 422) {
+		if (thrownError.response.status == 422) {
 			let textHtml = ''
-			for (let i in err.response.data.errors) {
-				textHtml += err.response.data.errors[i] + '<br>'
+			for (let i in thrownError.response.data.errors) {
+				textHtml += thrownError.response.data.errors[i] + '<br>'
 			}
 			swal.fire({
 				icon: 'error',
-				title: err.response.data.message,
+				title: thrownError.response.data.message,
 				html: textHtml
 			})
 		}
@@ -258,10 +258,10 @@ function destroyLogistica(logisticaId) {
 /**-----------------ABRE MODAL DETALLE EVENTO ----------------*/
 async function abrirDetalleEvento() {
 	let modal = document.getElementById('MD_evento')
-	let id_evento = e_id.value
+	let evento_id = e_id.value
 	let data = new FormData()
 
-	data.append('id', id_evento) // Se agrega el id del evento clickeado
+	data.append('id', evento_id) // Se agrega el id del evento clickeado
 
 	// Muestra los datos en el formulario
 	openLoading()
@@ -551,8 +551,8 @@ function createOrden(e) {
 			ok: 'SÍ', cancel: 'NO'
 		}
 	},
-	(clck) => {
-		if (clck.proceed) {
+	(click) => {
+		if (click.proceed) {
 			openLoading()
 			addOrden(form, forms)
 			.then(() => {
