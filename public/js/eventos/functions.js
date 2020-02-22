@@ -314,6 +314,15 @@ function abrirAgregarOrden() {
 		tab.style.color = '#1b1b1b'
 	});
 
+	campos_coctel.innerHTML = ''
+	nc_coctel = 0
+	campos_grupo.innerHTML = ''
+	nc_grupo = 0
+	campos_ceremonia.innerHTML = ''
+	nc_ceremonia = 0
+	campos_banquete.innerHTML = ''
+	nc_banquete = 0
+
 	for (let i = 0; i < btns_agregar.length; i++) {
 		btns_agregar[i].style.display = 'block'
 		btns_editar[i].style.display = 'none'
@@ -641,4 +650,14 @@ function updateOrden(frm, forms) {
 			html: textHtml
 		})
 	})
+}
+
+function closeModalOrden(e, modalName) {
+	let forms = md_orden.querySelectorAll('.form')
+	let modal = document.getElementById(modalName)
+	
+	modal.style.display = 'none'
+	for (let i = 0; i < forms.length; i++) {
+		forms[i].reset()
+	}
 }
