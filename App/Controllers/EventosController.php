@@ -68,7 +68,9 @@ class EventosController extends Controller
         if ($result['status'] == 422) {
             return json_response($result['data'], 422);
         }
-        $res['error'] = true;
+
+        $data['status'] = 'tentativo';
+        unset($data['id']);
 
         // VALIDAR FECHAS
         $validacion = $event->validarFechas($data['start'], $data['end']);
@@ -82,7 +84,7 @@ class EventosController extends Controller
 
 		try {
 			// AGREGA EL EVENTO EN LA DB
-            $event->agregarEvento($data);
+            $event->agregar($data);
             $res['message'] = 'Registrado correctamente';
             return json_response($res, 200);
 
@@ -185,7 +187,7 @@ class EventosController extends Controller
         
 		try {
             // ACTUALIZA EL EVENTO
-            $event->modificarEvento($data);
+            $event->modificar($data);
             $res['message'] = 'Actualizado correctamente.';
             return json_response($res);
 

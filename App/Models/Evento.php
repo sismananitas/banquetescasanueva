@@ -30,7 +30,7 @@ class Evento extends Model
 	}
 
 	/**------ INSERTA EL EVENTO ---------*/
-	public function agregarEvento($data)
+	public function agregar($data)
 	{
 		$sql = "INSERT INTO eventos VALUES (
 		null, :title, :evento, :folio, :contacto, :cord_resp,
@@ -38,7 +38,7 @@ class Evento extends Model
 		:categoria, :color, :id_usuario, :status
 		)";
 
-		return \Conexion::query($sql, $data);
+		return $this->query($sql, $data);
 	}
 
 	/**---------- ELIMINA EL EVENTO ---------*/
@@ -49,7 +49,7 @@ class Evento extends Model
 	}
 
 	/**------ MODIFICA EL EVENTO --------*/
-	public function modificarEvento($data)
+	public function modificar($data)
 	{
 		$sql = "UPDATE eventos SET
 		title = :title,
