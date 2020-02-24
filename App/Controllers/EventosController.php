@@ -36,6 +36,7 @@ class EventosController extends Controller
      */
     public function store() {
         $not_session = \Utils::validate_session();
+        $auth        = $_SESSION['usuario'];
         $data        = $_POST;
         $data['id_usuario'] = $_SESSION['usuario']['id_usuario'];
         $validator   = new Validator($data);
@@ -67,6 +68,13 @@ class EventosController extends Controller
 
         if ($result['status'] == 422) {
             return json_response($result['data'], 422);
+        }
+
+        if (
+            $data['color'] != '#d7c735'
+            && strtolower($auth['rol']) != 'administrador'
+        ) {
+            $data['color'] = '#d7c735';
         }
 
         $data['status'] = 'tentativo';
