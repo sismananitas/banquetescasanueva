@@ -89,7 +89,7 @@ function newPrintModalEvento(event) {
 			<input id="e_contacto" class="col-xs-12" type="text" name="contacto" value="${event.contacto}">
 			<div class="row-between">
 				<div class="col-xs-6">
-					Responsable *<br>
+					<label id="cord_resp">Responsable *</label><br>
 					<input id="e_cord_resp" class="col-xs-12 col-sm-11" type="text" name="cord_resp" value="${event.cord_resp}">
 				</div>
 				<div class="col-xs-6">
@@ -158,7 +158,7 @@ function limpiarFormEvento(date) {
 					Categoria
 					<a id="txtcategoria" class="pill"></a><br>
 					<select id="categoria" class="col-xs-12" name="categoria">
-						<option id="idcategoria" value="Privado">- Seleccionar -</option>
+						<option value="">- Seleccionar -</option>
 						<option value="Social"> Social </option>
 						<option value="Empresarial"> Empresarial </option>
 						<option value="Casa"> Casa </option>

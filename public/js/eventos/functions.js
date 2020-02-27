@@ -195,14 +195,14 @@ function getSelectLugares(selectId) {
 		.then(resJson => {
 			let res = resJson.data
 			
-			rowHTML = `<option value="${res[0].id_lugar}"> - Elegir - </option>`
+			rowHTML = `<option value="">- Elegir -</option>`
 			if (res != 'fail') {
 				for (let i in res) {
 					let item = res[i]
-					rowHTML += `<option value="${item.id_lugar}"> ${item.lugar} </option>`
-				}            
+					rowHTML += `<option value="${item.id_lugar}">${item.lugar}</option>`
+				}
 			} else {
-				rowHTML = `<option value="2"> No se han registrado lugares </option>`
+				rowHTML = `<option value=""> No se han registrado lugares </option>`
 			}
 			select.innerHTML = rowHTML
 			resolve()
