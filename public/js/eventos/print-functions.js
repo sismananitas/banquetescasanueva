@@ -67,7 +67,7 @@ function newPrintModalEvento(event) {
 						<option
 							value="#54b33d" `
 
-		templateForm +=	event.color == "#54b33d" ? `selected` : ``
+		templateForm +=	event.color == "#54b33d" || event.color == '#E56285' ? `selected` : ``
 
 		templateForm += `>Cerrado</option>
 					</select>
@@ -312,14 +312,14 @@ async function printModalOrden(dataOrden) {
 	for (let j = 0; j < 4; j++) {
 		let fechahora = ord.fecha.split(' ')
 
-		id_orden[j].value 	= ord.id_orden
-		evento[j].value   	= ord.orden
-		garantia[j].value 	= ord.garantia
-		place[j].value 	 	= ord.lugar
-		montaje[j].value 	= ord.montaje
-		hora[j].value 	 	= fechahora[1]
-		dmontaje[j].value 	= ord.detalle_montaje
-		ama_llaves[j].value = ord.ama_llaves
+		id_orden[j].value 	   = ord.id_orden
+		evento[j].value   	   = ord.orden
+		garantia[j].value 	   = ord.garantia
+		place[j].value 	 	   = ord.lugar
+		montaje[j].value 	   = ord.montaje
+		hora[j].value 	 	   = fechahora[1]
+		dmontaje[j].value 	   = ord.detalle_montaje
+		ama_llaves[j].value    = ord.ama_llaves
 		mantenimiento[j].value = ord.mantenimiento
 	}
 
@@ -350,17 +350,17 @@ async function printModalOrden(dataOrden) {
 			break;
 
 		case 'coctel':
-			canapes[1].value 	 = ord.canapes
-			cocteleria[0].value  = ord.cocteleria
-			bebidas[1].value 	 = ord.bebidas
-			aguas.value 	 	 = ord.aguas_frescas
-			seguridad[1].value 	 = ord.seguridad
-			rh[1].value 	 	 = ord.recursos_humanos
-			proveedores[1].value = ord.proveedores
-			contabilidad[1].value = ord.contabilidad
+			canapes[1].value 	   = ord.canapes
+			cocteleria[0].value    = ord.cocteleria
+			bebidas[1].value 	   = ord.bebidas
+			aguas.value 	 	   = ord.aguas_frescas
+			seguridad[1].value 	   = ord.seguridad
+			rh[1].value 	 	   = ord.recursos_humanos
+			proveedores[1].value   = ord.proveedores
+			contabilidad[1].value  = ord.contabilidad
 			chief_steward[1].value = ord.chief_steward
-			cocteleria[0].value  = ord.cocteleria
-			mezcladores[0].value = ord.mezcladores
+			cocteleria[0].value    = ord.cocteleria
+			mezcladores[0].value   = ord.mezcladores
 			observaciones[2].value = ord.observaciones
 
 			await getCamposExtra(ord.id_orden)
@@ -370,17 +370,17 @@ async function printModalOrden(dataOrden) {
 			break;
 
 		case 'banquete':
-			entrada[0].value 	= ord.entrada
-			fuerte[0].value 	= ord.fuerte
-			postre[0].value 	= ord.postre
-			torna[0].value 		= ord.torna
-			seguridad[2].value  = ord.seguridad
-			rh[2].value 		= ord.recursos_humanos
-			proveedores[2].value = ord.proveedores
-			contabilidad[2].value = ord.contabilidad
+			entrada[0].value 	   = ord.entrada
+			fuerte[0].value 	   = ord.fuerte
+			postre[0].value 	   = ord.postre
+			torna[0].value 		   = ord.torna
+			seguridad[2].value     = ord.seguridad
+			rh[2].value 		   = ord.recursos_humanos
+			proveedores[2].value   = ord.proveedores
+			contabilidad[2].value  = ord.contabilidad
 			chief_steward[2].value = ord.chief_steward
-			bebidas[2].value 	= ord.bebidas
-			mezcladores[1].value = ord.mezcladores
+			bebidas[2].value 	   = ord.bebidas
+			mezcladores[1].value   = ord.mezcladores
 			observaciones[3].value = ord.observaciones
 
 			await getCamposExtra(ord.id_orden)
@@ -404,7 +404,7 @@ function pintarCampos(arrayJson, camposContainer, numeroCampos) {
 				e.className = 'col-xs-6';
 				e.innerHTML = `
 				<input type="hidden" name="id_campo[]" value="${item.id_campo}">
-        		<input class="o_tag col-xs-7" type="text" name="tag[]" value="${item.tag}"> <br>
+        		<input class="o_tag col-xs-7" type="text" name="tag[]" value="${item.tag}"><br>
         		<textarea wrap="off" class="o_content col-xs-11" name="content[]" rows="3">${item.content}</textarea>`
 
 				camposContainer.appendChild(e);

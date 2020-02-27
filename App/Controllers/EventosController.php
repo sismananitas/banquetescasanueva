@@ -177,7 +177,7 @@ class EventosController extends Controller
         }
 
         // Consigue el status
-        switch ($_POST['color']) {
+        switch ($data['color']) {
 			case '#54b33d':
 				$color =  '#54b33d';
 				$status = 'cerrado';
@@ -190,6 +190,10 @@ class EventosController extends Controller
 				$color = '#d7c735';
 				$status = 'tentativo';
 				break;
+        }
+        
+        if ($data['color'] == '#54b33d' && $data['id_lugar'] == 4) {
+            $data['color'] = '#E56285';
         }
         $data['status'] = $status;
         
