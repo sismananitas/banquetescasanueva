@@ -192,7 +192,7 @@ class EventosController extends Controller
 				break;
         }
         
-        if ($data['color'] == '#54b33d' && $data['id_lugar'] == 4) {
+        if ($data['color'] == '#54b33d' && $data['lugar'] == 4) {
             $data['color'] = '#E56285';
         }
         $data['status'] = $status;
