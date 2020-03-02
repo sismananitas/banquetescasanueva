@@ -76,10 +76,21 @@ function newPrintModalEvento(event) {
 					Categoria
 					<a id="txtcategoria" class="pill">${event.categoria}</a><br>
 					<select id="categoria" class="col-xs-12" name="categoria" value="${event.categoria}">
-						<option id="idcategoria" value="Privado">- Seleccionar -</option>
-						<option value="Social"> Social </option>
-						<option value="Empresarial"> Empresarial </option>
-						<option value="Casa"> Casa </option>
+						<option id="idcategoria" value="">- Seleccionar -</option>
+						<option
+							value="Social"`
+		templateForm += event.categoria == 'Social' ? `selected` : ''
+		templateForm += `> Social </option>`
+
+		templateForm += `<option
+							value="Empresarial"`
+		templateForm += event.categoria == 'Empresarial' ? `selected` : ''
+		templateForm += `> Empresarial </option>`
+
+		templateForm += `<option
+							value="Casa"`
+		templateForm += event.categoria == 'Casa' ? `selected` : ''
+		templateForm += `> Casa </option>
 					</select>
 				</div>
 			</div>
@@ -101,7 +112,7 @@ function newPrintModalEvento(event) {
 				<div class="col-xs-6">
 					<label for="id_lugar">Salón</label>
 					<a id="e_place" class="pill">${event.lugar}</a>
-					<select id="id_lugar" class="col-xs-12 col-sm-11" name="id_lugar" value="${event.id_lugar}">
+					<select id="id_lugar" class="col-xs-12 col-sm-11" name="lugar" value="${event.id_lugar}">
 					</select>
 				</div>
 				<div class="col-xs-6">
@@ -183,7 +194,7 @@ function limpiarFormEvento(date) {
 				<div class="col-xs-6">
 					<label for="id_lugar">Salón</label>
 					<a id="e_place" class="pill"></a>
-					<select id="id_lugar" class="col-xs-12 col-sm-11" name="id_lugar">
+					<select id="id_lugar" class="col-xs-12 col-sm-11" name="lugar">
 						<!-- js -->
 					</select>
 				</div>

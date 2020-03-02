@@ -34,7 +34,7 @@ class Evento extends Model
 	{
 		$sql = "INSERT INTO eventos VALUES (
 		null, :title, :evento, :folio, :contacto, :cord_resp,
-		:cord_apoyo, :description, :id_lugar, :start, :end, :personas,
+		:cord_apoyo, :description, :lugar, :start, :end, :personas,
 		:categoria, :color, :id_usuario, :status
 		)";
 
@@ -58,7 +58,7 @@ class Evento extends Model
 		cord_resp = :cord_resp,
 		cord_apoyo = :cord_apoyo,
 		description = :description,
-		id_lugar = :id_lugar,
+		id_lugar = :lugar,
 		start = :start,
 		end = :end,
 		personas = :personas,

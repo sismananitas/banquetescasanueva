@@ -34,7 +34,7 @@ function handlerEventClick(calEvent, jsEvent, view) {
 		let formHtml = newPrintModalEvento(calEvent)
 		form_evento.innerHTML = formHtml
 		openLoading()
-		getSelectLugares('id_lugar')
+		getSelectedPlaces('id_lugar', calEvent.id_lugar)
 		.then(() => {
 			closeLoading()
 			openModal('M_evento')
@@ -200,6 +200,37 @@ function getSelectLugares(selectId) {
 				for (let i in res) {
 					let item = res[i]
 					rowHTML += `<option value="${item.id_lugar}">${item.lugar}</option>`
+				}
+			} else {
+				rowHTML = `<option value=""> No se han registrado lugares </option>`
+			}
+			select.innerHTML = rowHTML
+			resolve()
+		})
+		.catch(error => {
+			console.log(`Surgió un error: ${error.response.data.message}`)
+			reject()
+		})
+	})
+}
+
+function getSelectedPlaces(selectId, placeId) {
+	let select = document.getElementById(selectId)
+	let rowHTML = ''
+
+	return new Promise((resolve, reject) => {
+		axios.get('lugares/todos')
+		.then(resJson => {
+			let res = resJson.data
+			
+			rowHTML = `<option value="">- Elegir -</option>`
+			if (res != 'fail') {
+				for (let i in res) {
+					let item = res[i]
+					rowHTML += `<option
+					value="${item.id_lugar}"`
+					rowHTML += item.id_lugar == placeId ? 'selected' : ''
+					rowHTML += `>${item.lugar}</option>`
 				}
 			} else {
 				rowHTML = `<option value=""> No se han registrado lugares </option>`
