@@ -7,7 +7,6 @@ use App\Models\Evento;
 use App\Helpers\Validator;
 use App\Models\EventosSql;
 use App\Models\Logistica;
-use App\Models\TablaModel;
 
 class EventosController extends Controller
 {
@@ -191,9 +190,17 @@ class EventosController extends Controller
 				$status = 'tentativo';
 				break;
         }
-        
+        // ACTUALIZA EL COLOR DEPENDIENDO EL LUGAR
         if ($data['color'] == '#54b33d' && $data['lugar'] == 4) {
             $data['color'] = '#E56285';
+        }
+
+        if (
+            $data['color'] == '#54b33d' &&
+            ($data['lugar'] == 11 || $data['lugar'] == 6 || $data['lugar'] == 12
+            || $data['lugar'] == 10 || $data['lugar'] == 9 || $data['lugar'] == 7)
+        ) {
+            $data['color'] = '#933112';
         }
         $data['status'] = $status;
         
