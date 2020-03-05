@@ -67,7 +67,7 @@ function newPrintModalEvento(event) {
 						<option
 							value="#54b33d" `
 
-		templateForm +=	event.color == "#54b33d" || event.color == '#E56285' ? `selected` : ``
+		templateForm +=	event.color == "#54b33d" || event.color == '#E56285' ? `selected` : `` || event.color == '#a35018' ? 'selected' : ''
 
 		templateForm += `>Cerrado</option>
 					</select>

@@ -200,7 +200,7 @@ class EventosController extends Controller
             ($data['lugar'] == 11 || $data['lugar'] == 6 || $data['lugar'] == 12
             || $data['lugar'] == 10 || $data['lugar'] == 9 || $data['lugar'] == 7)
         ) {
-            $data['color'] = '#933112';
+            $data['color'] = '#a35018';
         }
         $data['status'] = $status;
         
