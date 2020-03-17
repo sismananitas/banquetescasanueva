@@ -9,7 +9,7 @@ class LugaresController extends Controller
     
     public function index() {
         \Utils::isUser();
-        return view('lugares');
+        return view('lugares.lugares');
     }
 
     public function getLugares() {
