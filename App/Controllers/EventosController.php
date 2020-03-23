@@ -111,6 +111,7 @@ class EventosController extends Controller
         $not_session  = \Utils::validate_session();
         $auth         = $_SESSION['usuario'];
         $event        = new Evento();
+        $errors       = new stdClass;
         $data         = $_POST;
         $res          = [];
         $color        = '';
@@ -127,9 +128,7 @@ class EventosController extends Controller
             && strtolower($auth['rol']) != 'administrador'
         ) {
             return json_response([
-                'data' => [
-                    'message' => 'No tiene permiso de editar este evento'
-                ]
+                'message' => 'No tiene permiso de editar este evento'
             ], 401);
         }
         
@@ -160,39 +159,45 @@ class EventosController extends Controller
         // VALIDAR FECHAS
         $validacion = $event->validarFechas($data['start'], $data['end']);
         if (!$validacion) {
-            $errors = new stdClass;
             $errors->start[] = 'No pueden haber fechas vacias';
             $res['message'] = 'Datos incorrectos';
             $res['errors'] = $errors;
             return json_response($res, 422);
         }
 
+        // Asegura que sólo los administradores puedan cerrar eventos
         if (
             $data['color'] != '#d7c735'
             && $editable->color == '#d7c735'
             && strtolower($auth['rol']) != 'administrador'
         ) {
-            $data['color'] = '#d7c735';
+            $data['color'] = '#d7c735'; // Amarillo
+        }
+
+        // Evita que puedan actualizar eventos cerrados si no son administradores
+        if ($editable->status == 'cerrado') {
+            $res['message'] = 'No puede actualizar un evento cerrado';
+            return json_response($res, 401);
         }
 
         // Consigue el status
         switch ($data['color']) {
 			case '#54b33d':
-				$color =  '#54b33d';
+				$color =  '#54b33d'; // Verde
 				$status = 'cerrado';
 				break;
 			case '#f98710':
-				$color =  '#f98710';
+				$color =  '#f98710'; // Naranja
 				$status = 'apartado';
 				break;
 			case '#d7c735':
-				$color = '#d7c735';
+				$color = '#d7c735'; // Amarillo
 				$status = 'tentativo';
 				break;
         }
         // ACTUALIZA EL COLOR DEPENDIENDO EL LUGAR
         if ($data['color'] == '#54b33d' && $data['lugar'] == 4) {
-            $data['color'] = '#E56285';
+            $data['color'] = '#E56285'; // Rosa
         }
 
         if (
@@ -200,7 +205,7 @@ class EventosController extends Controller
             ($data['lugar'] == 11 || $data['lugar'] == 6 || $data['lugar'] == 12
             || $data['lugar'] == 10 || $data['lugar'] == 9 || $data['lugar'] == 7)
         ) {
-            $data['color'] = '#a35018';
+            $data['color'] = '#a35018'; // Cafe
         }
         $data['status'] = $status;
         
