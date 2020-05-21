@@ -13,6 +13,7 @@ function newPrintModalEvento(event) {
 
 	templateForm = `
 	<input id="e_id" type="hidden" name="id" value="${event.id_evento}">
+	<input id="e_folio" class="col-xs-12" type="hidden" name="folio" placeholder="Agregar" value="${event.folio}">
 	<div class="row-between">
 		<div class="col-xs-12 col-sm-6">
 			Titulo *<br>
@@ -116,8 +117,8 @@ function newPrintModalEvento(event) {
 					</select>
 				</div>
 				<div class="col-xs-6">
-					Folio Front2Go <br>
-					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar" value="${event.folio}">
+					ID SISTEMA <br>
+					<input id="" class="col-xs-12" type="text" name="" value="${event.id_evento}" disabled>
 				</div>
 			</div>
 			Observaciones<br>
@@ -134,6 +135,7 @@ function limpiarFormEvento(date) {
 		<div class="col-xs-12 col-sm-6">
 			Titulo *<br>
 			<input id="e_title" class="col-xs-12 col-sm-11" type="text" name="title" required>
+			<input id="e_folio" class="col-xs-12" type="hidden" name="folio" placeholder="Agregar" value="">
 			<div class="row-between col-xs-12 col-sm-11">
 				<div class="col-xs-6">
 					Evento *<br>
@@ -199,8 +201,8 @@ function limpiarFormEvento(date) {
 					</select>
 				</div>
 				<div class="col-xs-6">
-					Folio Front2Go <br>
-					<input id="e_folio" class="col-xs-12" type="text" name="folio" placeholder="Agregar">
+					ID SISTEMA <br>
+					<input class="col-xs-12" type="text" name="" placeholder="" disabled>
 				</div>
 			</div>
 			Observaciones<br>
