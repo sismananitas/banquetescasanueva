@@ -7,7 +7,12 @@
 				<th class="col-xs-2">Estado</th>
 				<th class="col-xs-2">Roles</th>
 				<th class="col-xs-3 col-md-2">
-					<button id="btn_add_usuarios" class="btn primary" type="button">
+					<button
+						id="btn_add_usuarios"
+						class="btn primary"
+						type="button"
+						onclick="showModalUser(event)"
+					>
 						<i class="fas fa-plus-circle"></i> Agregar
 					</button>
 				</th>
@@ -22,10 +27,20 @@
 					<td>{$user->nivel}</td>
 					<td>
 						<div class="row-around">                
-							<button class="btn atention" type="button" name="button">
+							<button
+								class="btn atention"
+								type="button"
+								name="button"
+								onclick="showModalEditUser(event)"
+							>
 								<i class="fas fa-pen-alt"></i>
 							</button>
-							<button class="btn danger" type="button" name="button">
+							<button
+								class="btn danger"
+								type="button"
+								name="button"
+								onclick="showAlertDeleteUser(event)"
+							>
 								<i class="fas fa-trash-alt"></i>
 							</button>
 						</div>

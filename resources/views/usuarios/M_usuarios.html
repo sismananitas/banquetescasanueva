@@ -6,7 +6,13 @@
 				<a class="close">&times;</a>
 			</div>
 			<div class="modal-body">
-				<form id="form_usuario" class="form col-xs-12" action="usuarios/edit" method="post">
+				<form
+					id="form_usuario"
+					class="form col-xs-12"
+					action="usuarios/edit"
+					method="post"
+					onsubmit="sendFormStoreUser(event)"
+				>
 					<input type="hidden" name="id" value="">
 					Nombre de usuario:<br>
 					<input type="text" class="col-xs-12" name="usuario"><br>
@@ -39,7 +45,7 @@
 					<br>
 					<div class="row-left">
 						<button id="btn_reg" type="submit" class="btn success">Registrar</button>
-						<button id="btn_act" type="button" class="btn atention">Actualizar</button>
+						<button id="btn_act" type="button" class="btn atention" onclick="sendFormUpdateUser(event)">Actualizar</button>
 					</div>
 				</form>
 			</div>

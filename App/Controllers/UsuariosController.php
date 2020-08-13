@@ -6,41 +6,55 @@ use App\Models\Usuario;
 
 class UsuariosController extends Controller
 {
-    public function index() {
+    /**
+     * Muestra la página de administración de usuarios
+     */
+    public function index()
+    {
         \Utils::isAdmin();
         $usu = new Usuario();
         $usuarios = $usu->all();
         return view('usuarios.usuarios', ['usuarios' => $usuarios, 'view_url' => 'usuarios']);
     }
 
-    public function getOne($id) {
+    /**
+     * Obtiene un usuario de la base de datos
+     */
+    public function getOne($id)
+    {
         $usu = new Usuario();
         $res = $usu->getOne($id);
         return json_response($res, 200);
     }
 
-    public function add() {
+    /**
+     * Registra un usuario en la base de datos
+     */
+    public function add()
+    {
         $usu = new Usuario();
-         /** VALIDA LOS DATOS POR POST */
+        $res = [];
+
+         // VALIDA LOS DATOS POR POST
          if (empty($_POST['usuario']) || empty($_POST['pass']) || empty($_POST['pass2'])) {
             $res['msg']   = 'Debes llenar todos los campos';
             $res['error'] = true;
-            return $res;
+            return json_response($res, 422);
         }
 
-        /** VALIDA LAS CONTRASEÑAS */
+        // VALIDA LAS CONTRASEÑAS
         if ($_POST['pass'] != $_POST['pass2']) {
             $res['msg']   = 'Las contraseñas no coinciden';
             $res['error'] = true;
-            return $res;
+            return json_response($res, 422);
 
         } else if (strlen($_POST['pass']) < 6) {
             $res['msg']   = 'Las contraseñas deben contener al menos 6 caracteres';
             $res['error'] = true;
-            return $res;
+            return json_response($res, 422);
         }
 
-        /** SETEA EL USUARIO */
+        // SETEA EL USUARIO
         $usu->setName($_POST['usuario']);
         $pass = sha1($_POST['pass']);
         $usu->setPass($pass);
@@ -57,18 +71,25 @@ class UsuariosController extends Controller
             $res['msg']   = 'Ya existe un registro con ese nombre de usuario';
             $res['error'] = true;
         }
-        return $res;
+        return json_response($res, 200);
     }
 
-    public function editar() {
+    /**
+     * Actualiza un usuario en la base de datos
+     */
+    public function editar()
+    {
+        $usu = new Usuario();
+        $usu->setName($_POST['usuario']);
+        $res = [];
+        $res['error'] = false;
+
         if (empty($_POST['usuario']) || empty($_POST['id'])) {
             $res['msg']   = 'Debes llenar todos los campos';
             $res['error'] = true;
-            return $res;
+            return json_response($res, 422);
         }
 
-        $usu = new Usuario();
-        $usu->setName($_POST['usuario']);
         /** EDITA EL USUARIO */
         $edit = $usu->editarUsuario($_POST['id'], $_POST['nivel'], $_POST['estado']);
 
@@ -76,21 +97,26 @@ class UsuariosController extends Controller
         if (!$edit) {
             $res['error'] = true;
             $res['msg']   = 'No se pudo editar';
-            return $res;
+            return json_response($res, 422);
         }
-        $res['error'] = false;
-        return $res;
+        return json_response($res, 200);
 
     }
 
-    public function delete() {
+    /**
+     * Elimina un usuario de la base de datos
+     */
+    public function delete()
+    {
+        $usu = new Usuario();
+        $res['error'] = false;
+
         if (empty($_POST['id'])) {
             $res['error'] = true;
             $res['msg']   = 'Debes llenar todos los campos';
-            return $res;
+            return json_response($res, 422);
         }
 
-        $usu = new Usuario();
         // BORRAR EL USUARIO
         $delete = $usu->borrarUsuario($_POST['id']);
 
@@ -100,8 +126,7 @@ class UsuariosController extends Controller
             $res['error'] = true;
             return $res;
         }
-        $res['error'] = false;
-        return $res;
+        return json_response($res, 200);
     }
 }
 
