@@ -15,7 +15,7 @@ class OrdenesController extends Controller
         $orden = new Orden;
         $o = $orden->find($request['id']);
         $res['order'] = $o->showWithEvent();
-        return $res;
+        return json_response($res);
     }
 
     public function getCampos($id)
@@ -89,11 +89,7 @@ class OrdenesController extends Controller
 
         /** VALIDA EL AUTOR DEL EVENTO */
         if ($event->id_usuario != $auth['id_usuario'] && $auth['rol'] != 'Administrador') {
-            return json_response([
-                'data' => [
-                    'message' => 'No tiene permiso de editar este evento'
-                ]
-            ], 401);
+            return json_response(['message' => 'No tiene permiso de editar este evento'], 401);
         }
         
         try {
@@ -176,11 +172,7 @@ class OrdenesController extends Controller
 
         /** VALIDA EL AUTOR DEL EVENTO */
         if ($event->id_usuario != $auth['id_usuario'] && $auth['rol'] != 'Administrador') {
-            return json_response([
-                'data' => [
-                    'message' => 'No tiene permiso de editar este evento'
-                ]
-            ], 401);
+            return json_response(['message' => 'No tiene permiso de editar este evento'], 401);
         }
 
         /** VALIDA LOS CAMPOS EXTRA */
@@ -244,7 +236,7 @@ class OrdenesController extends Controller
             }
 
         } catch (\Exception $e) {
-            $res['message']   = $e->getMessage();
+            $res['message'] = $e->getMessage();
             return json_response($res, 422);
         }
 
@@ -311,12 +303,12 @@ class OrdenesController extends Controller
     {
         $orden     = new Orden;
         $not_session = \Utils::validate_session();
+        $res['error'] = true;
         // Validar sesión
         if ($not_session) {
             return $not_session;
         }
         $orden_id     = $_POST['orden_id'];
-        $res['error'] = true;
 
         if ($orden_id) {
             $evento_id = $orden->getEventoId($orden_id);

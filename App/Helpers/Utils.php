@@ -65,5 +65,3 @@
             $smarty_obj->assign('js', JS_PATH);
         }
     } // FIN DE LA CLASE
-
-?>
